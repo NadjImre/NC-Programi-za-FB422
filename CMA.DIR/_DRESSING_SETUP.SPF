@@ -1,0 +1,60 @@
+PROC _DRESSING_SETUP(STRING[32] BRTOC,INT DBROJTOC,STRING[32] BrAbriht,Int DbrojAbriht,Int DbrojAbriht2,Int NacinAbriht,String[32] ProgAbrihtL, String[32] ProgAbrihtD ,Int BrojMaRpossCiklusA,Int Zaokret,Real TackaX,Real TackaZ,Real UgaoB,Int Komadavar,Int Preostalovar,Int HLAD_A,Int Status,INT SMERABRIHT, REAL KORPOZ,  Real PodhodXVar, Real PodhodZVar,String[100] KOMENT)
+
+
+ds_tool=brtoc
+ds_tool_num=gett(brtoc)
+ds_tool_dnum=dbrojtoc
+ds_dresser=brabriht
+ds_dresser_num=gett(brabriht)
+ds_dresser_dnum1=DBrojAbriht
+ds_dresser_dnum2=DBrojAbriht2
+
+
+ds_profile=NacinAbriht
+ds_conture1=ProgAbrihtL
+ds_conture2=ProgAbrihtD
+ds_marposs=(brojMarpossCiklusa mod 10)+80
+ds_swivelpointX=TackaX
+ds_swivelpointZ=TackaZ
+ds_approach=zaokret
+ds_BAxisAngle=UgaoB
+DS_WORKPIECES=komadavar
+ds_workpieces_left=preostalovar
+ds_coolant=hlad_a
+ds_type=Status B_and 01
+ds_comment=koment
+ds_podhodX=PODHODXVAR
+ds_podhodZ=PODHODZVAR
+ds_direction=SMERABRIHT
+ds_poscorrection=KORPOZ
+
+IF(DS_TOOL_NUM<=0) GOTOF NEMA_KAMENA
+IF(DS_DRESSER_NUM<=0) GOTOF NEMA_ABRIHTER
+IF ($TC_DP3[DS_TOOL_NUM,DS_TOOL_DNUM]<=0) GOTOF PRECNIKNULA
+IF ($TC_TPG5[DS_TOOL_NUM]<=0) GOTOF SIRINANULA
+IF ($TC_TPG1[DS_TOOL_NUM]<=1) GOTOF NEMAVRETENA
+stopre
+
+M17
+
+NEMA_KAMENA:
+   SETAL(65105,BRTOC)
+   GOTOF KRAJ
+NEMA_ABRIHTER:
+   SETAL(65106,brabriht)
+   GOTOF KRAJ
+PRECNIKNULA:
+   SETAL(65107,BRTOC)
+   GOTOF KRAJ
+SIRINANULA:
+   SETAL(65108,BRTOC)
+   GOTOF KRAJ
+NEMAVRETENA:
+   SETAL(65109,BRTOC)
+KRAJ:
+M00
+STOPRE
+M96
+M1
+M96
+

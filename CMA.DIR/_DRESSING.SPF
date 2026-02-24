@@ -1,0 +1,194 @@
+PROC _DRESSING(Int BrzKam, Int BrojProlaza, Real KorakX, Real KorakZ, Int BrzAbriht,Int BrObRolne)
+;poravnavanje korisnickog profila
+;prvi put na masini 422, februar 2026
+;M broj za vodu
+DEF INT shp=11
+;M broj za rolnu
+DEF INT mROLNA=M_ROLIK_STOP
+;T broj za tocilo
+DEF INT BRTOC
+;brojac za broj prolaza
+DEF INT BROJAC
+;naziv ciklusa za poravnavanje dvosecno levo ili jednosecno
+DEF STRING[100] PROGRAM1
+;naziv ciklusa za poravnavanje dvosecno desno
+DEF STRING[100] PROGRAM2
+;broj obrtaja kamena
+DEF INT BROBKAM
+;T broj dijamnanta - abrihtera
+DEF INT BRDIA
+;Z pozicija za pocetak poravnavanja
+DEF REAL POCETAKZ
+;precnik za pocetak poravnavanja
+def real prekidxa
+;sirina kamena
+DEF REAL SIRINA
+;broj vretena na kojem je kamen
+DEF INT SPINU
+;unutrasnje ili spoljno abrihtovanje
+DEF REAL UNUT   
+;smer poravnavanja
+def int smer_por
+;preuzimanje T broja tocila - nedostaje provera
+BRTOC = DS_TOOL_NUM
+;preuzimanje T broja dijamanta - nedostaje provera
+BRDIA = DS_DRESSER_NUM
+;proračun broja obrtaja kamena
+BROBKAM = ABS(19099*BrzKam/$TC_DP3[BRTOC,1])
+;start Z za korisnicki profil
+POCETAKZ=Ds_PodhodZ
+;preuzimanje sirine kamena
+SIRINA = $TC_TPG5[BRTOC]
+;preuzimanje broja vretena kamena
+SPINU = $TC_TPG1[BRTOC]
+;reset marposa
+MarpossRESET
+;ukidanje transformacija
+TRANS
+stopre
+;provera da li je testiranje
+if (TEST<>0)
+;ako nije testiranje preuzeti m funkciju i GUDa
+   shp=ds_coolant
+;provera da li je abrihter rolna 
+   IF (($TC_DP1[BRDIA,1]==494) OR ($TC_DP1[BRDIA,1]==496))
+;ako jeste m za start rolne
+      R69=BrObRolne
+      M_SMER_ROLNE
+      mRolna=M_ROLIK_START
+   ENDIF
+;start kamena
+   M[SPINU]=3 S[SPINU]=BroBKam
+ENDIF
+;preuzimane spoljno/unutarnje
+UNUT=1
+if (ds_type<>0)
+   UNUT=-1
+ENDIF
+;preuzimanje levo/desno
+smer_por=1
+if(ds_direction<>0)
+  smer_por=-1
+endif
+
+;bezbedna udaljenos od tocila i start X za korisnicki profil
+prekidxa=DS_PODHODZ
+;programi za poravnavanje
+PROGRAM1 = "/_N_DRS_DIR/_N_"<<DS_CONTURE1<<"_DRS"
+PROGRAM2 = "/_N_DRS_DIR/_N_"<<DS_CONTURE2<<"_DRS"
+;prilaz abrihteru 
+; alat out, U na nulu
+T0D0 G500U0G0
+STOPRE
+;Xu poziciju za zaokret
+If (ds_approach==0)
+   G53G0X=ds_swivelpointX
+Endif
+;Z u poziciju za zaokret
+If (ds_approach==1)
+   G53G0Z=ds_swivelpointZ
+Endif
+;prvo X pa onda Z u poziciju za zaokret
+If (ds_approach==2)
+   G53G0X=ds_swivelpointX
+   G53G0Z=ds_swivelpointZ
+Endif
+;prvo Z pa onda X u poziciju za zaokret
+If (ds_approach==3)
+   G53G0Z=ds_swivelpointZ
+   G53G0X=ds_swivelpointX
+Endif
+;OPREZ ako ds_approach ima vredonst manju od nule ili vecunod tri
+;zaokret se obavlja u tacki u kojoj se masina nalazi na pocetku programa
+;provera ugla B se radi da se izbegne greska kod kompenzacije
+IF (ds_BAxisAngle<90)
+   G0G53B=ds_BAxisAngle A=0
+Else
+   G0G53B=ds_BAxisAngle A=-0.151
+Endif
+
+;Start Marposs ciklusa
+M=ds_marposs
+;pocetne postavke
+DIAMOF
+G18
+STOPRE
+IF ((DS_PROFILE==300) OR (DS_PROFILE==320))
+; ako se ne abrihtuje sa sa dve ostrice onda se koristi D1
+   T=DS_DRESSER D1 
+ELSE
+;ako se radi sa dve pocinje sa D2
+   T=DS_DRESSER D2
+ENDIF
+;Translacija za precnik kamena
+   Trans X=$TC_DP3[BRTOC,1]/2 Z=$TC_DP4[BRTOC,1]+DS_POSCORRECTION
+;prekid
+SETINT(8) PRIO=1 AL600
+;prilaz zavisno da li je spoljni ili unutrasnji
+IF(unut>0)
+;ako je spoljni pocetak po Z
+   G0 Z=POCETAKZ 
+;pa pocetak po X
+   G0 X=prekidxa M=shp M=mROLNA
+ELSE
+;ako je unutrasnji pocetak po X
+   G0 X=prekidxa 
+;pa po Z
+   G0 Z=POCETAKZ M=shp M=mROLNA
+ENDIF
+;petlja za prolaz
+FOR BROJAC=1 TO BrojProlaza
+;poruka
+   MSG(DS_COMMENT<<": PROLAZ "<<BROJAC<<"/"<<BrojProlaza)
+IF (ds_profile==310)
+;ako se radi sa dve ostrice prebaci na D2
+   T=DS_DRESSER D2
+ENDIF
+;pocetak jos jednom
+   G0 Z=POCETAKZ
+;spanovanje
+   $TC_DP3[BRTOC,1]=$TC_DP3[BRTOC,1]-unut*korakx
+;prebacivanje na drugu ostricu alata
+;   $TC_DP3[BRTOC,2]=-$TC_DP3[BRTOC,1]
+   STOPRE
+;spanovanje stupa na snagu
+   Trans X=$TC_DP3[BRTOC,1]/2 Z=$TC_DP4[BRTOC,1]+ds_poscorrection
+;postavka brzine brusenja
+   G1 X0 G42 F=BrzAbriht
+;poziv programa za abriht
+   CALL PROGRAM1
+;povalcenje na visinu kamena
+   DIAMOF
+   G0 G40 X=prekidxa
+   If (ds_profile==310)
+;ako se radi sa dve ostrice prebaci na D-
+      T=ds_dresser D1
+;predji na pocetak za drugi profil
+      G0 Z=-SIRINA-ds_podhodZ
+;postavka brzine brusenja za svaki slucaj
+      G1 F=BrzAbriht X0 G41
+;poziv programa za abriht
+      CALL PROGRAM2
+;povalcenje na visinu kamena
+      DIAMOF
+      G0 G40 X=prekidxa
+   Endif
+ENDFOR
+;kraj abrihtovanja
+T0 D0 G0 G53 G90 M11 M20
+;provera da li je spoljno
+IF (ds_type==0)
+;ako jeste nazad po X
+   G75X0
+ELSE
+;ako nije prvo nazad po z
+  G75Z0
+;pa po X
+   G75X0
+ENDIF
+
+CLRINT(8)
+STOPRE
+kraj:
+
+M17

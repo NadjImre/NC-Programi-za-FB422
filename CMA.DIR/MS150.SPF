@@ -1,0 +1,117 @@
+proc ms150(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int broj_tacaka, int msonde,int broj_sonde,real doz_greska)
+def real start_x,start_z
+def int brsonde;broj alata koja se koristi za pipak sonde
+
+def real zakretanje_c
+def real stepen_c
+def real merenja[10]
+def int brojac
+def real maksimalan_udar
+def real minimalan_udar
+
+zakretanje_c=360/broj_tacaka
+stepen_c=360/broj_tacaka
+brojac=0
+maksimalan_udar=merenja[0]
+minimalan_udar=merenja[0]
+
+;parametri za dekodiranje korekcije
+;Def int TrebaKorekcija, Vracanje, Dizanje
+;TrebaKorekcija=Korekcija b_and 3
+;Vracanje = Korekcija b_and 12
+;Dizanje = Korekcija b_and 16
+
+brsonde=gett(alat)
+g18g500 t=alat d=ivica
+start_x=$aa_iw[x] start_z=$aa_iw[z]
+stopre
+msg("$66020")
+
+m=msonde
+F2G4
+
+if(broj_tacaka>1)
+  m70
+  ; postavljanje C ose u nulu
+  G0 z=poz_mer meas=1 C=ACP(0)
+else
+  G0 z=poz_mer meas=1
+endif
+;ako je doslo do kontakta sa sondom - greska
+IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+
+;prilaz X na duzinu merenja
+g0 x=prec_mer+duz_mer meas=1
+;ako je doslo do kontakta sa sondom - greska
+IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+STOPRE
+
+MERENJE:
+;merenje
+g1 x=prec_mer-duz_mer f=brz_mer meas=1
+;ako je doslo do kontakta sa sondom - greska
+IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
+;razlika između nominalne i izmerene tačke
+RAZLIKA=prec_mer-$aa_mw[X]
+;upisivanje rezultata u niz
+merenja[brojac]=prec_mer-$aa_mw[X]
+;poruka
+msg("$66021 "<<$aa_mw[X]<<" $66022 "<<RAZLIKa)
+
+;vracanje na pocetnu tacku
+g1 x=prec_mer+duz_mer F=brz_mer
+
+brojac=brojac+1
+
+if(broj_tacaka>1)
+    while stepen_c < 360
+      G0 C=ACP(stepen_c) MEAS=1
+      IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+      stepen_c=stepen_c+zakretanje_c
+      msg("$66020")
+      GOTOB MERENJE
+    endwhile
+endif
+maksimalan_udar=merenja[0]
+minimalan_udar=merenja[0]
+FOR brojac=1 TO broj_tacaka-1
+    if merenja[brojac] > maksimalan_udar
+      maksimalan_udar=merenja[brojac] 
+    endif
+    if merenja[brojac] < minimalan_udar
+      minimalan_udar=merenja[brojac] 
+    endif
+ENDFOR
+
+msg("Udar: "<<maksimalan_udar-minimalan_udar)
+
+
+g0 x=start_x
+g0 z=start_z
+
+msonde=msonde-1
+
+;IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(RAZLIKA))) 
+  ;SETAL(65012)
+  ;M00
+  ;M96
+;ENDIF
+
+;IF(TREBAKOREKCIJA==1)
+  ;$P_UIFR[KORD_SYSTEM-1,X,FI]=-0.5*RAZLIKA
+  ;msg("$66023")
+;ENDIF
+;rekalibracija sonde
+;IF(TREBAKOREKCIJA==2)
+;$tc_dp4[brsonde,ivica]=$tc_dp4[brsonde,ivica]-0.5*Razlika
+;ENDIF
+m17
+
+greska:
+
+SETAL(65002)
+M00
+M96
+
+m17
+

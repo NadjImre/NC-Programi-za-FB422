@@ -1,0 +1,92 @@
+;Parametri brusenja
+Def Chan String[32] Gr_Tool ; naziv tocila koje se koristi za brusenje
+Def Chan Int Gr_DNumber ; broj ivice tocila koje se koristi
+Def Chan Int Gr_Frame ; broj koordinatnog sistema 1-G53(G500), 2-G54,3-G55...
+Def Chan Real Gr_Diameter1, Gr_Diameter2 ; precnici prusenja
+Def Chan Real Gr_Position1, Gr_Position2 ; pozicije brusenja po Z osi
+Def Chan Int Gr_Coolant = 11 ; m funkcija za start vode 
+Def Chan Real Gr_Podhod = 5 ; velicina prilaza kod brusenja
+Def Chan Int Gr_RabHod = 60 ; brzina radnog hoda
+Def Chan Real Gr_DiamCorrection ; korekcija precnika
+Def Chan Real Gr_PosCorrection ; korekcija pozicije
+Def Chan Real Gr_BAxis_angle ; ugao B ose
+Def Chan String[100] Gr_Comment ; komentar na operaciju brusenja
+Def Chan Axis Gr_Oscil_Axis = (Z)
+Def Chan Axis Gr_Feed_Axis = (X)
+Def Chan Axis Gr_Spindle = (C) 
+Def Chan Real Gr_Steps[6] = REP(0.1)
+Def Chan Int Gr_Strokes[6]
+Def Chan Int Gr_StrokesToDress[6]
+Def Chan Int Gr_Feeds[6]
+Def Chan Real Gr_Speeds[6]
+Def Chan Int Gr_Wheel_Speeds[6]
+def chan real Gr_Pause[6]
+;parametri porvanavanja
+Def Chan Int Ds_Strokes[6]
+Def Chan Int Ds_Feeds[6]
+Def Chan Real Ds_Steps[6]
+Def Chan Int Ds_Wheel_Speeds[6]
+Def Chan Real Ds_Roll_Speeds[6]
+Def Chan String[32] Ds_Tool
+Def Chan Int Ds_Tool_Num
+Def Chan Int Ds_Tool_DNum
+Def Chan String[32] Ds_Dresser
+Def Chan Int Ds_Dresser_Num
+Def Chan Int Ds_Dresser_DNum1, Ds_Dresser_DNum2
+Def Chan Int Ds_Coolant
+Def chan real Ds_PodhodX, Ds_PodhodZ ; podhod u smeru x i z ose
+Def chan String[32] Ds_Conture1,Ds_Conture2 ; naziv profila navoja
+Def chan int ds_workpieces; broj komada posle kojeg se abrihtuje
+Def Chan Int ds_workpieces_left ; broj komada preostalo do abrihtovanja
+Def Chan Int ds_type ; tip poravnavanja, 0 iz plusa u minus po precniku, <>0 iz minusa u plus po precniku
+Def Chan Int ds_direction ; smer poravnavanja po z osi, 0 u plus smer
+Def Chan Real ds_PosCorrection ; korekcija pozicije
+Def Chan String[100] Ds_Comment ; komentar na operaciju brusenja
+Def Chan Int Ds_Profile ; abrihtovanje sa jednosecnim (300) dvosecnim (310) ili profilnim alatom (320)
+Def Chan Int Ds_Marposs; broj marpos ciklusa koji je aktivan za poravnavanje moze biti od 80 do 89
+Def chan Int ds_approach ; nacin odlaska u tacku zaokreta 
+Def chan Real Ds_SwivelPointX, Ds_SwivelPointZ
+Def chan Real Ds_BAxisAngle
+
+
+;Parametri navoja
+DEF CHAN INT Th_Type ; tip navoja 0-spoljni, 1-unutrašnji navoj
+Def Chan Real Th_D2 ; Srednji precnik navoja
+Def chan real Th_Pitch ; korak navoja
+Def chan int Th_Hand ; smer navoj 0- desni, 1-Levi 
+Def chan int Th_Starts ; broj početaka navoja
+Def chan String[32] Th_Conture ; naziv profila navoja
+
+;Parametri profila navoja za fabricki definisane profile
+
+Def Chan Real Th_D0 ; Nominalni precnik navoja
+Def Chan Real Th_D1 ; Mali precnik navoja
+Def Chan Real Th_D3 ; Precnik D3 za metricke navoje
+Def chan real Th_Cone ; konus navoja
+Def chan real Th_Alpha, Th_Beta ; uglovi navoja
+Def chan real Th_R,Th_R0, Th_R1, Th_R2, Th_R3, Th_R4, Th_R5 ; radijusi navoja
+Def chan real Th_H, Th_H0, Th_H1, Th_H2, Th_H3 ; visine navoja
+Def chan real Th_B1, Th_B2, Th_B3 ; širine navoja
+
+;Parametri tocila navoja
+Def chan Real Ds_X1 ; parametar X1 sa starog sistema – podizanje podnožja 
+Def chan Real Ds_X2 ; parametar X2 sa starog sistema – podizanje vrha kamena 
+def chan real Ds_X3 ; parametar x3 - položaj prvog zuba od leve ivice kamena
+Def chan real Ds_XB ; korekcija širine kamena
+Def chan real Ds_RibNum ; broj zuba na kamenu ako je višeprofilni kamen
+Def chan int Ds_RibDist ; skaliranje koraka na kamenu,razmak zuba je ovoliko puta veći od koraka navoja
+Def chan real Ds_RibDelta ; smanjenje veličine zuba na višeprofilnom kamenu
+
+;parametri leđne obrade
+Def chan String[32] retab ; naziv tabele za leđno brušenje
+Def chan Int retip ; tip, preko tabele, isključeno ili uključeno spirano
+Def chan Real redub ; dubina leđnog brušenja 
+Def chan Int rezub ; broj zuba alata
+Def chan Real repro ; procenat ugla koji se brusi leđnog
+Def chan Real rekor ; korak spirale kod leđnog brušenje – ne koristi se, za buduća proširenja 
+
+;ostali parametri
+def chan int test; test rezim
+
+
+M30

@@ -1,0 +1,20 @@
+proc ms100(string[32] alat,int ivica, real duz_mer,real brz_mer,real nom_prec)
+
+def int brsonde
+def real xpos
+g18
+stopre
+
+brsonde=gett(alat)
+g500
+xpos=$aa_iw[x]
+G1 X=xpos-duz_mer MEAS=1 F=brz_mer
+IF($AC_MEA[1]==0) GOTOF GRESKA
+$tc_dp3[brsonde,ivica]=2*$AA_MM[x]-nom_prec
+g1 x=xpos
+m17
+
+greska:
+
+m17
+

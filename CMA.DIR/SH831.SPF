@@ -1,0 +1,96 @@
+PROC SH831(INT BROJ, INT SVE, INT SMERB, real UNUT)
+DEF INT PRAVAC
+;potprogram za pritupljenje prve niti navoja 
+;sa masine FB412 , maj 2025
+DEF INT MM,JJ,HODC
+DEF REAL DD,izbrus,DELTAC,DeltaZ,DeltaX,DeltaX1
+;start kamena
+ZV400(broj)
+CLRINT(8)
+;proracun promenljivih za odskok
+STOPRE
+PREKIDX = SVE*PREC[BROJ,0]+2*UNUT*DODB[BROJ,3]
+PREKIDZ = POZZ[BROJ,0]
+;prekid
+SETINT(8) PRIO=1 SH680
+STOPRE
+;Z, X i XV na poziciju za brusenje
+G0 Z=PREKIDZ
+G0 X=PREKIDX XV=UNUT*DODB[BROJ,3]
+
+;start vode
+ZV100(BROJ)
+
+STOPRE
+;podesavanje promenljivih
+HODC=360/thst ;ugao za visehodi navoj
+JJ=2 ; faza brusenja
+DD=0; ; dodatak brusenja
+;ugao C koji se prelazi za jedan hod 
+DELTAC=(abs(prhod)*360/(thpi*thst))-prugao
+if(thha<>0);ako je levi navoj okreni znak
+  DeltaC=-DeltaC
+  prugao = -prugao
+endif
+;duzina Z koja se prelazi do izlazka
+DeltaZ= prhod - (prugao*thpi*thst)/360
+;velicina konusa koji se prelai do izlaska
+DeltaX = thko*DeltaZ/abs(POZZ[broj,1]-POZZ[broj,0])
+;velicina konusa koji se prelazi do kraja
+DeltaX1 = thko*prhod/abs(POZZ[broj,1]-POZZ[broj,0])
+;glavna petlja
+m00
+stopre
+FAZA:
+;broj izbrusavanja za fazu
+    izbrus = izbr[broj,jj];
+;poruka ako je faza grubo brušenje
+    if (JJ==2) 
+	   MSG("$66001"<<"-"<<komentar[broj]) ;grubo brusenje
+	endif
+;petlja za fazu brusenja
+PROLAZ:
+     STOPRE
+     MM=0 ; pocetak navoja koji se brusi
+;spanujemo
+    DD = DD + KORAK[broj,jj]
+;ako dodatak ispod nule
+    if (dd>DODB[broj,2])
+;dodatak veci od dodatka za brusenje 
+	   dd=DODB[broj,2]
+; i smanji broj izbrusavanja
+	   Izbrus = izbrus -1
+	endif
+;ako je broj izbrusavanja pao na nulu kraj brusenja
+    if (izbrus< 0) gotof izlaz
+HOD_NAVOJA:
+    STOPRE
+;spanovanje
+    G1 XV=DD X=PREC[broj,0] Z=POZZ[broj,0]+DD F=BRZU[BROJ,3]
+;pređi na suprotnu stranu sa kamenom
+    G01 X=PREC[broj,0]+DeltaX Z=POZZ[broj,0]-DeltaZ+DD F=BRZO[Broj,jj] C=IC(DELTAC)
+;odmicanje
+    G01 X=(Prec[broj,0]+2*unut*DODB[BROJ,3]+DeltaX1) Z=POZZ[broj,0]-prhod+dd C=IC(prugao) F=BRZO[BROJ,jj]
+;zauzmi pocetnu poziciju
+    if (thha==0) ;ako je desni navoj
+       G00 X=Prec[broj,0]+2*unut*DODB[broj,3] Z=POZZ[broj,0]+dd C=acp(((MM+1) MOD THST)*HODC)
+    else 
+       G00 X=Prec[broj,0]+2*unut*DODB[broj,3] Z=POZZ[broj,0]+dd C=acn(((MM+1) MOD THST)*HODC)
+    endif
+    ;promeni mm - broj hoda koji se brusi
+	MM=MM+1
+    ;ako ima još hodova nazad na hod
+    if (mm<thst) gotoB HOD_NAVOJA
+;sledeći prolaz
+gotob PROLAZ
+IZLAZ:
+KRAJ:
+STOPRE
+G00 X=PREC[broj,0]+UNUT*DODB[BROJ,3]
+;brisemo poruku
+msg("")
+;i kraj
+KRAJ_SKROZ:
+
+M17
+

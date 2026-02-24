@@ -1,0 +1,80 @@
+PROC  MS130(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int msonde,int broj_sonde, int korekcija,int kord_system,real brz_c_mer)
+;merenje orjentacije komada
+;za mašinu FB357
+
+DEF INT Brojac=0
+;ravan , koordinatni sistem i alat
+g18g500 t=alat d=ivica
+stopre
+;poruka
+msg("$66020")
+;podizanje sonde
+m=msonde
+;pun okret komada ako ima kontakta to je greska
+G0 C=IC(360) MEAS=1
+IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+G0 C=ACP(10)
+;zauzimanje pozicije za merenje - ako ima kontakta to je greska
+G0 Z=poz_mer MEAS=1
+IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+;zauzimanje pocetne tacke merenja po X u - ako ima kontakta to je greska
+G0 X=prec_mer+duz_mer ; MEAS=1
+IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+STOPRE
+
+TRAZI_ZLJEB:
+;ulazimo do precnika merenja
+G57 G1 X=prec_mer F=brz_mer MEAS=1
+;ako smo uspeli nasli smo zljeb
+IF($AC_MEA[1]==0) GOTOF ZLJEB
+;ako nismo onda se vracamo nazad
+G57 G0 X=prec_mer+duz_mer F=brz_mer
+;i okrenemo osu za 15 stepeni
+g0 C=IC(15) MEAS=1
+;ako imamo kontak to je greska
+IF($AC_MEA[1]==1) GOTOF GRESKA
+;uvecavamo brojac
+Brojac=Brojac+1
+;ako smo prosli maksimalni broj pokusaja onda je to greska
+IF (BROJAC>24) GOTOF GRESKA
+;ako nismo ide novi pokušaj 
+GOTOB TRAZI_ZLJEB
+
+ZLJEB:
+;pronasli smo žljeb - merimo po C osi
+g1 C=IC(360) F=brz_c_mer MEAS=1
+;ako nemamo kontak za pun krug - greska
+IF($AC_MEA[1]==0) GOTOF GRESKA
+;prepsujemo rezulztat u Mer_C
+RAZLIKA=$AA_MW[C] mod 360
+;svodimo ga na opseg 0-360
+IF (RAZLIKA<0)
+   RAZLIKA=RAZLIKA+360
+ENDIF
+;ispis poruke
+msg("$66021 "<<RAZLIKA)
+;vracanje na pocetnu tacku
+g1 x=prec_mer+duz_mer F=brz_mer
+;podizanje sonde
+msonde=msonde-1
+m=msonde
+;vracanje skroz nazad
+G75X0
+
+;korekcija koordinatnog sistema ako se trazi
+IF(KOREKCIJA>0)
+  $P_UIFR[KORD_SYSTEM-1,C,FI]=-RAZLIKA
+  msg("$66023")
+ENDIF
+
+m17
+
+greska:
+
+SETAL(65002)
+M00
+M96
+
+m17
+
+

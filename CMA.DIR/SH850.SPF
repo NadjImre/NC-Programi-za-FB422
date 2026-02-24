@@ -1,0 +1,206 @@
+PROC SH850
+;pocetne postavke
+Def Real XVKoord =0.5 ;dubina na kojoj se brusi
+Def Real CKoord = 0 ; pocetna tacka C ose
+Def Real DuzinaNavoja
+Def Real BrojOkretaja
+Def Int ProlazaOdAbrihtovanja = 0
+Def Int Kord
+Def Real BrojObrtajaTocila[MaxFaza]
+Def Real UkupniDodatak=0
+Def Int UkupnoProlaza=0
+Def Int Brojac,Indeks
+Def Int IndeksFaze,IndeksProlaza
+Def Int IndeksUkupnogProlaza
+Def Int IndeksHoda
+Def int BrojTocila,BrojVretena
+Def String[100] Poruka
+Def Real UgaoAOse
+Def Int SmerNavoja=-1 ; za desni smer
+Def String [200] Rez
+Def Int Greska
+Def String[32] NazivFajla
+Def Int DaLiJeBioOdskok=0
+
+;naziv fajla za zspisivanje statusa
+NazivFajla="/_N_MPF_DIR/LOG_SH850"
+;obrisem stari ako ga ima
+DELETE(Greska,NazivFajla)
+;pocetna poruka
+WRITE(GReska,NazivFajla,"Start " << GR_COMMENT)
+;prethodni proracun
+;promeni smer ako je levi navoj
+if (Th_HaND<>0)
+   SmerNavoja=1
+endif
+;broj tocila i vretena
+BrojTocila=GETT(GR_TOOL)
+BrojVretena=$TC_TPG1[BrojTocila]
+;dodela vrednosti za koord system jer se clan niza ne moze dodeliti g funkciji
+Kord=GR_FRAME
+;isto za ugao A ose
+UgaoAOse = ATAN2(TH_PITCH*TH_STARTS,3.141*TH_D2)
+;**************** ovo proveriti možda treba obrnuto  **************************
+DuzinaNavoja = GR_POSITION2-GR_POSITION1
+BrojOkretaja = (SmerNavoja*DuzinaNavoja)/(Th_Starts*Th_Pitch)
+Ckoord = 360.0/Th_Starts 
+For Brojac=1 to MaxFaza
+    Indeks = MaxFaza - Brojac
+    UkupniDodatak=UkupniDodatak+Gr_Steps[Indeks]*Gr_Strokes[Indeks]
+    UkupnoProlaza=UkupnoProlaza+Gr_Strokes[Indeks]
+    If (gr_strokes[indeks]>0) 
+       indeksfaze=indeks
+    Endif
+    BrojObrtajaTocila[Brojac-1]=19098*GR_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,GR_DNUMBER ])
+EndFor
+XVKoord = UkupniDodatak IndeksProlaza=0; IndeksFaze=0 
+Write(Greska,NazivFajla,SPRINT("Grinding allowance %7.4f, passes %d",UkupniDodatak, UkupnoProlaza)) 
+STOPRE
+if (GR_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
+Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
+VELIKI_DOSKOK:
+;reset marpos zvucne sonde
+M80
+;pocetak za brušenje
+G0X0G53T0D0U0
+T=GR_TOOL D=GR_DNUMBER 
+G[8]=Kord Diamon
+;aktiviranje korekcija
+TRANS X=gr_diamcorrection/2 Z=gr_poscorrection
+;sinhrona akcija za spanovanje sa osom XV
+ID=1 DO $$SA_LEAD_OFFSET_OUT_POS[X]=$AA_IM[XV]
+;ucitavanje tabele
+TB200(0)
+;odskok - prekida sve i skace na labelu kraj 
+SETINT(8) PRIO=1 SH6201
+;zauzimanje pozicije
+if (BrojOkretaja<0)
+   G0 Z=GR_POSITION1 C=IC(-360) A=SmerNavoja*UgaoAOse
+else
+  G0 Z=GR_POSITION1 C=IC(+360) A=SmerNavoja*UgaoAOse
+endif
+;pocetak prolaza
+DOSKOK:
+;start kamena
+IF (TEST<>0)
+    m[BrojVretena]=3 s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
+    M81 ; zvucna sonda ukljucena
+ENDIF
+
+STOPRE
+;ako je broj prolaza nula treba preći na sledeću fazu
+if (Gr_Strokes[IndeksFaze]==0) gotoF Proracun
+;dubina brusenja
+if (IndeksHoda==0)
+   XVKoord = XVKoord - Gr_Steps[IndeksFaze]
+endif
+;broj prolaza
+IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
+ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
+;poruka
+poruka = GR_COMMENT <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza*Th_Starts)<<", Faza " << (IndeksFaze+1)
+poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]
+poruka = poruka << ",pocetak "<<(IndeksHoda+1)<<"/"<<Th_Starts<<")"
+msg(Poruka)
+;zapis poruke u fajl
+Write(Greska,NazivFajla,SPRINT("   - Pass number %d start number %d",indeksprolaza+1,indekshoda))
+;selekcija alata i koordinatnog sistema 
+T=gr_tool D=gr_dnumber G[8]=KORD M70
+;aktiviranje korekcija
+TRANS X=gr_diamcorrection/2 Z=gr_poscorrection; C=KORC[0]
+;i pozicioniranje na pocetnu tačku
+if (BrojOkretaja<0)
+   G0 Z=gr_position1 C=ACN(CKoord*IndeksHoda)
+else
+  G0 Z=gr_position1 C=ACP(CKoord*IndeksHoda)
+endif
+;start vode
+IF (TEST<>0)
+   waits(BrojVretena)
+   M=gr_coolant
+ENDIF
+;prilaz komadu
+G0 X=gr_diameter1+gr_podhod XV=gr_podhod
+;vezivanje tabele
+LEADON(X,Z,1)      ; vezivanje osa
+FFWON              ; feed fowrvard control
+;brusenje
+JEDAN_PROLAZ:
+G1 G90 XV=XVKoord F=GR_RABHOD
+G1 G91 Z=DuzinaNavoja C=360*BrojOkretaja F=GR_Speeds[IndeksFaze]*th_pitch*th_starts
+G1 G90 XV=GR_PODHOD F=GR_RABHOD
+FFWOF
+LEADOF(X,Z)
+IF ($AA_IW[X]<(gr_diameter1+GR_PODHOD))
+   G1 X=gr_diameter1+GR_PODHOD
+ENDIF
+PRORACUN:
+;broj hodova uvećaj za jedan
+IndeksHoda=IndeksHoda+1
+;ako je veci od broja hodova 
+if (IndeksHoda>=Th_Starts)
+;povecaj proj prolaza
+   IndeksProlaza=IndeksProlaza+1
+;i vrati hodove na nulu
+   IndeksHoda=0
+endif
+;provera da li je kraj faze
+if (IndeksProlaza>=GR_Strokes[IndeksFaze])
+;ako jeste prelazimo na sledeću
+   IndeksFaze=IndeksFaze+1
+;resetujemo broj prolaza
+   IndeksProlaza=0
+endif
+;da li smo dosli do zadnje faze
+Provera: if (IndeksFaze>=MaxFaza) gotof Kraj_Bez_Odskoka
+;proveri  da je faza prazna
+if (GR_Strokes[IndeksFaze]<=0)
+;ako jeste prelazimo na sledeću
+   IndeksFaze=IndeksFaze+1
+;proverimo jesmo li dosli do zadnje
+   gotob provera
+ELSE
+  Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
+endif
+;da li treba abriht
+If (GR_StrokesToDress[IndeksFaze]<>0)
+  if (((indeksprolaza*TH_Starts+indekshoda) mod GR_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
+ENDIF
+stopre
+gotob Doskok
+
+KRAJ:
+DaLiJeBioOdskok=1
+Stopre
+KRAJ_BEZ_ODSKOKA:
+FFWOF
+LEADOF(X,Z)
+TRANS
+G90G53X0G0T0D0M11
+if (DaLiJeBioOdskok==0)
+   msg("Kraj")
+   write(Greska,NazivFajla,"Regular end of program")
+else
+   msg("Odskok")
+   write(Greska, NazivFajla, "End of program with rebound")
+endif
+STOPRE
+M17
+
+TREBAABRIHT:
+FFWOF
+LEADOF(X,Z)
+TRANS
+G53X0G0T0D0M11
+ProlazaOdAbrihtovanja=0
+Write(Greska, NazivFajla, SPrint("Dressing %dx%6.4fmm with %d mm/min",ds_strokes[indeksfaze],ds_steps[indeksfaze],ds_feeds[indeksfaze])) 
+STOPRE
+msg("Abrihtovanje")
+_DRESSING(ds_wheel_speeds[indeksfaze],ds_strokes[indeksfaze],ds_steps[indeksfaze],0,ds_feeds[indeksfaze],ds_roll_speeds[indeksfaze])
+STOPRE
+GotoB Veliki_Doskok
+
+M17
+
+
+
