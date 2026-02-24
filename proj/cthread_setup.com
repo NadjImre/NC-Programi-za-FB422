@@ -1,5 +1,5 @@
 
-//M(ThreadSetup/$89172////300,100,200,200)
+//M(ThreadSetup/$89172////300,100)
 ;FB422
 
 DEF RB0= (S//"RB"/,,,,/WR1///15,,140/6,10,23//"pomoc.html","9218"),
@@ -100,6 +100,7 @@ BRZROL6 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
 BROBRTKOM6 = (R1//10/$89212,,,/////480,,44//"pomoc.html","9218"),
 BRZKAMBRUS6 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
+DEF ZBIR=(R4//0/$89212,,,/wr1////120,,44/10,126/)
 
 VS8=("OK",,se1)
 VS7=($89842,,se1)
@@ -123,12 +124,81 @@ PRESS(VS7)
   EXIT
 END_PRESS
 
+change(Dub1)
+  zbir1=dub1*prol1
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol1)
+  zbir1=dub1*prol1
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub2)
+  zbir2=dub2*prol2
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol2)
+  zbir2=dub2*prol2
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub3)
+  zbir3=dub3*prol3
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol3)
+  zbir3=dub3*prol3
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub4)
+  zbir4=dub4*prol4
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol4)
+  zbir4=dub4*prol4
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub5)
+  zbir5=dub5*prol5
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol5)
+  zbir5=dub5*prol5
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub6)
+  zbir6=dub6*prol6
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol6)
+  zbir6=dub6*prol6
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
 LOAD
-   LA("OffOnNiz","cnizovi.com")
+
    RECT(5,8,565,150,133,130,1)
-  ; line(5,10,570,10,7,1)  
-   ;line(5,30,570,30,7,1)  
-   ;line(5,365,570,365,7,1)  
+   zbir6=dub6*prol6
+   zbir5=dub5*prol5
+   zbir4=dub4*prol4
+   zbir3=dub3*prol3
+   zbir2=dub2*prol2
+   zbir1=dub1*prol1
+   zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
 END_LOAD
 
 //END

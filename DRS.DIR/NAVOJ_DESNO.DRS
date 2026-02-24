@@ -1,0 +1,21 @@
+
+E_LAB_A_LEVA_STRANA_NAVOJA: ;#SM Z:16
+;#7__DlgK contour definition begin - Don't change!;*GP*;*RO*;*HD*
+G18 G90 DIAM90;*GP*
+G0 Z-55 X15 ;*GP*
+G1 Z-52 ;*GP*
+Z-44.25 X15.8123 ;*GP*
+Z-16.25 ;*GP*
+Z-8 X14.9476 ;*GP*
+Z-4 ;*GP*
+;CON,V64,2,0.0000,5,5,MST:3,2,AX:Z,X,K,I,TRANS:0;*GP*;*RO*;*HD*
+;S,EX:-55,EY:15,ASE:90;*GP*;*RO*;*HD*
+;LR,EX:-52;*GP*;*RO*;*HD*
+;LA,DEX:7.75,ASE:3,ATT:APP(ALLPARA);*GP*;*RO*;*HD*
+;LR,DEX:28;*GP*;*RO*;*HD*
+;LA,DEX:8.25,ASE:-3;*GP*;*RO*;*HD*
+;LR,EX:-4,ATT:APP(ALLPARA);*GP*;*RO*;*HD*
+;#End contour definition end - Don't change!;*GP*;*RO*;*HD*
+E_LAB_E_LEVA_STRANA_NAVOJA:
+
+M17
