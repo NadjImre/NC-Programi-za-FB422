@@ -145,7 +145,7 @@ KRAJ_BEZ_ODSKOKA:
 FFWOF
 LEADOF(X,Z)
 TRANS
-G90G53X0G0T0D0M11
+G90G53X0G0T0D0M11M5
 if (DaLiJeBioOdskok==0)
    msg("Kraj")
    write(Greska,NazivFajla,"Regular end of program")
@@ -160,7 +160,7 @@ TREBAABRIHT:
 FFWOF
 LEADOF(X,Z)
 TRANS
-G53X0G0T0D0M11
+G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
 Write(Greska, NazivFajla, SPrint("Dressing %dx%6.4fmm with %d mm/min",ds_strokes[indeksfaze],ds_steps[indeksfaze],ds_feeds[indeksfaze])) 
 STOPRE
