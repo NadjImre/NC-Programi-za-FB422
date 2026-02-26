@@ -74,7 +74,11 @@ TB200(0)
 ;odskok - prekida sve i skace na labelu kraj 
 SETINT(8) PRIO=1 SH6201
 ;zauzimanje pozicije
-G0 Z=GR_POSITION1 A=SmerNavoja*UgaoAOse
+if (BrojOkretaja<0)
+   G0 Z=GR_POSITION1 C=IC(-360) A=SmerNavoja*UgaoAOse
+else
+  G0 Z=GR_POSITION1 C=IC(+360) A=SmerNavoja*UgaoAOse
+endif
 ;pocetak prolaza
 DOSKOK:
 ;start kamena
