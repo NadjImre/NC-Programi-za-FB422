@@ -3,7 +3,7 @@ PROC  _GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Real Prec
 gr_frame=kordsis
 gr_tool=ALAT
 gr_dnumber=dbroj
-
+gr_BAxis_Angle=UgaoBose
 
 gr_position1=pozz1
 gr_position2=pozz2

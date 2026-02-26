@@ -3,7 +3,7 @@ PROC  _THREAD_GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Re
 gr_frame=kordsis
 gr_tool=ALAT
 gr_dnumber=dbroj
-
+gr_BAxis_Angle=UgaoBose
 Th_D2 = _ThD2
 Th_Pitch = _ThPi
 Th_Hand = _ThHa

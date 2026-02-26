@@ -1,6 +1,7 @@
 PROC SH860
 ;pocetne postavke
 Def Real XVKoord =0.5 ;dubina na kojoj se brusi
+Def Real UKoord = 205.4980
 Def Int ProlazaOdAbrihtovanja = 0
 Def Int Kord
 Def Real BrojObrtajaTocila[MaxFaza]
@@ -68,7 +69,7 @@ DOSKOK:
 ;start kamena
 IF (TEST<>0)
     m[BrojVretena]=3 s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
-    M81 ; zvucna sonda ukljucena
+    M82 ; zvucna sonda ukljucena
 ENDIF
 
 STOPRE
@@ -86,7 +87,9 @@ IF (TEST<>0)
    M=gr_coolant
 ENDIF
 ;prilaz komadu
-G0 X=gr_diameter1+gr_podhod XV=gr_podhod M3 S=gr_speeds[indeksfaze]
+G0 X=gr_diameter1+gr_podhod XV=gr_podhod U=UKoord M3 S=gr_speeds[indeksfaze]
+G4F1
+M37
 ;vezivanje tabele
 LEADON(X,Z,1)      ; vezivanje osa
 FFWON              ; feed fowrvard control
@@ -96,7 +99,7 @@ JEDAN_PROLAZ:
 IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
 ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
 ;poruka
-poruka = GR_COMMENT <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza*Th_Starts)<<", Faza " << (IndeksFaze+1)
+poruka = GR_COMMENT <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
 poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
 msg(Poruka)
 ;zapis poruke u fajl
@@ -104,7 +107,7 @@ Write(Greska,NazivFajla,SPRINT("   - Pass number %d",indeksprolaza+1))
 ;dubina brusenja
 XVKoord = XVKoord - Gr_Steps[IndeksFaze]
 ;span
-G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speed[IndeksFaze]
+G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speeds[IndeksFaze]
 ;hod tamo
 G1 G90 Z=Gr_position2 F=GR_Feeds[IndeksFaze]
 ;hod nazad
@@ -146,6 +149,7 @@ FFWOF
 LEADOF(X,Z)
 TRANS
 G90G53X0G0T0D0M11M5
+M36
 if (DaLiJeBioOdskok==0)
    msg("Kraj")
    write(Greska,NazivFajla,"Regular end of program")
@@ -154,6 +158,7 @@ else
    write(Greska, NazivFajla, "End of program with rebound")
 endif
 STOPRE
+U0G0
 M17
 
 TREBAABRIHT:
