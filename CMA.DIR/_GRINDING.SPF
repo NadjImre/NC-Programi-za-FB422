@@ -1,30 +1,36 @@
-PROC  _GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Real Precnik, Real _ThD2, REAL POZZ1 ,REAL POZZ2 ,REAL VAR15 ,REAL VAR16,INT HLADJENJEVAR , Real PodHodVar, Int RabHodVar, STRING[100] KONTURA, STRING[100] KOMENT)
+PROC  _GRINDING(STRING[32] alat ,INT dbroj,Int NacinBrusenja,int Prilaz,real Xsafe,real Zsafe,Real UgaoBose,int Smer,Real PrecnikD1,Real PrecnikD2,REAL Pozz1,REAL Pozz2,int BrojMer,int BrojMerZ, real korekcijaX,real korekcijaZ,Int Kordsis,int TipBrusenja,Int MarpossGC,Int Mvoda,Int NacinOdskoka,Real PrecnikZavrsetka,Real KorekcijaC, STRING[100] KOMENT)
 
-gr_frame=kordsis
+gr_frame=Kordsis
 gr_tool=ALAT
 gr_dnumber=dbroj
-gr_BAxis_Angle=UgaoBose
+Gr_Method = NacinBrusenja
+Gr_Type = TipBrusenja
+Gr_Direction = Smer
+Gr_Diameter1 = PrecnikD1
+Gr_Diameter2 = PrecnikD2
+gr_position1 = Pozz1
+gr_position2 = Pozz2
+gr_DiamCorrection = korekcijaX
+gr_PosCorrection = korekcijaZ
+Gr_CAngleCorrection=KorekcijaC
+gr_Coolant = Mvoda
+gr_Comment = koment
+Gr_BAxis_angle = UgaoBose
+Gr_approach = Prilaz
+Gr_SwivelPointX = Xsafe
+Gr_SwivelPointZ = Zsafe
+Gr_Measure_NumX = BrojMer
+Gr_Measure_NumZ = BrojMerZ
+Gr_TypeOfRebound = NacinOdskoka
+Gr_EndCycleDiameter = PrecnikZavrsetka
+Gr_Marposs = MarpossGC
+;T0D0G53G0X0
 
-gr_position1=pozz1
-gr_position2=pozz2
-gr_DiamCorrection=var15
-gr_PosCorrection=var16
 
-gr_Coolant=hladjenjevar
+SH000
 
-gr_Comment=koment
-
-gr_Diameter1=Precnik
-gr_Diameter2=_ThD2
-gr_podhod=PodHodVar
-gr_rabhod=RabHodVar
-TH_conture=KONTURA
-
-T0D0G53G0X0
-G0G53B=gr_BAxis_Angle
-STOPRE
-SH860
 
 M17
+SH850
 
 

@@ -9,6 +9,7 @@ Def Chan Real Gr_Podhod = 5 ; velicina prilaza kod brusenja
 Def Chan Int Gr_RabHod = 60 ; brzina radnog hoda
 Def Chan Real Gr_DiamCorrection ; korekcija precnika
 Def Chan Real Gr_PosCorrection ; korekcija pozicije
+Def Chan Real Gr_CAngleCorrection;korekcija C
 Def Chan Real Gr_BAxis_angle ; ugao B ose
 Def Chan String[100] Gr_Comment ; komentar na operaciju brusenja
 Def Chan Axis Gr_Oscil_Axis = (Z)
@@ -18,9 +19,30 @@ Def Chan Real Gr_Steps[6] = REP(0.1)
 Def Chan Int Gr_Strokes[6]
 Def Chan Int Gr_StrokesToDress[6]
 Def Chan Int Gr_Feeds[6]
+Def Chan Real Gr_PlungeCut_Feeds[6] ;brzina usecanja
+Def Chan Int Gr_HoldZ1[6] ; Zadrzavanje na kraju Z1 kod oscilacija
+Def Chan Int Gr_HoldZ2[6]  ; Zadrzavanje na kraju Z2 kod oscilacija
+Def Chan Int Gr_Position_Strokes[6] ;Primicanje kod oscilacija Z1,Z2;Z1+Z2
 Def Chan Real Gr_Speeds[6]
 Def Chan Int Gr_Wheel_Speeds[6]
+Def Chan Int  Gr_DirectionZ ; smer brusenja (levo,desno)SMERZ
+Def Chan Real Gr_Oscilacion_Feeds[6] ; Brzina oscilacija
+Def Chan Real Gr_Steps_Oscilation[6] ; špan kod oscilacija
+Def Chan Real Gr_PlungeCut_Oscilation[6] ; oscilacija prilikom brusenja usecanjem
+Def Chan Real Gr_DwellTime[6]; Izbrusavanje
+Def Chan Real Gr_ReturnDiameter[6] ;precnik vracanja sa abrihtovanja
+Def Chan Int Gr_Direction
+Def Chan Real Gr_DirectionX ; -0.5 spolja, 0.5 unutra
+Def Chan Int Gr_Measure_NumX, Gr_Measure_NumZ
 def chan real Gr_Pause[6]
+Def chan Int Gr_approach ; nacin odlaska u tacku zaokreta 
+Def chan Real Gr_SwivelPointX, Gr_SwivelPointZ
+Def Chan Int Gr_Method ; Nacin brusenja
+Def chan Int Gr_Type ; Tip brusenja ( spolja ili unutra)
+Def Chan Int Gr_TypeOfRebound
+Def chan Real Gr_EndCycleDiameter ;precnik odskoka za zavrsetak ciklusa
+Def Chan Int Gr_Marposs; broj marpos ciklusa koji je aktivan za Brusenje moze biti od 80 do 89
+
 ;parametri porvanavanja
 Def Chan Int Ds_Strokes[6]
 Def Chan Int Ds_Feeds[6]
