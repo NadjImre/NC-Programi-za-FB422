@@ -9,6 +9,7 @@ Def Chan Real Gr_Podhod = 5 ; velicina prilaza kod brusenja
 Def Chan Int Gr_RabHod = 60 ; brzina radnog hoda
 Def Chan Real Gr_DiamCorrection ; korekcija precnika
 Def Chan Real Gr_PosCorrection ; korekcija pozicije
+Def Chan Real Gr_Taper_Correction[4]; korekcija konusa u vise tacaka
 Def Chan Real Gr_CAngleCorrection;korekcija C
 Def Chan Real Gr_BAxis_angle ; ugao B ose
 Def Chan String[100] Gr_Comment ; komentar na operaciju brusenja
@@ -30,7 +31,7 @@ Def Chan Real Gr_Oscilacion_Feeds[6] ; Brzina oscilacija
 Def Chan Real Gr_Steps_Oscilation[6] ; špan kod oscilacija
 Def Chan Real Gr_PlungeCut_Oscilation[6] ; oscilacija prilikom brusenja usecanjem
 Def Chan Real Gr_DwellTime[6]; Izbrusavanje
-Def Chan Real Gr_ReturnDiameter[6] ;precnik vracanja sa abrihtovanja
+Def Chan Real Gr_ReturnDistance[6] ;precnik vracanja sa abrihtovanja
 Def Chan Int Gr_Direction
 Def Chan Real Gr_DirectionX ; -0.5 spolja, 0.5 unutra
 Def Chan Int Gr_Measure_NumX, Gr_Measure_NumZ
@@ -42,7 +43,25 @@ Def chan Int Gr_Type ; Tip brusenja ( spolja ili unutra)
 Def Chan Int Gr_TypeOfRebound
 Def chan Real Gr_EndCycleDiameter ;precnik odskoka za zavrsetak ciklusa
 Def Chan Int Gr_Marposs; broj marpos ciklusa koji je aktivan za Brusenje moze biti od 80 do 89
-
+DEF CHAN INT gr_interrupts[6]
+Def Chan Int Gr_Start = 0
+Def Chan Int Gr_All_Starts=1
+Def Chan Int Gr_SteadyRest ; da li se koristi lineta 0 - NE , 1 - DA
+Def Chan Real Gr_UAxis_Position ; pozicija U ose za linetu
+Def Chan Real Gr_Steady_InPos ; pozicija od pocetka hoda gde lineta kreće u komad
+Def Chan Real Gr_Steady_OutPos ; pozicija od kraja hoda gde lineta izlazi
+Def Chan Int Gr_ContureDef ;nacin definicije konture 0-ravno , 3-korisnicka
+Def Chan Real Gr_Taper_Correction1 ; korekcija konusa na kraju 
+Def Chan Real Gr_Taper_Correction2 ; Korekcija konusa u sredini
+Def Chan Real Gr_Contur_Diam
+Def Chan Real Gr_Contur_Pos1
+Def Chan Real Gr_Contur_Pos2
+Def Chan Int Gr_Contur_Start
+Def Chan Real Gr_Contur_StartDist
+Def Chan Real Gr_Contur_StartAngle
+Def Chan Int Gr_Contur_End
+Def Chan Real Gr_Contur_EndDist
+Def Chan Real Gr_Contur_EndAngle
 ;parametri porvanavanja
 Def Chan Int Ds_Strokes[6]
 Def Chan Int Ds_Feeds[6]
@@ -51,12 +70,15 @@ Def Chan Int Ds_Wheel_Speeds[6]
 Def Chan Real Ds_Roll_Speeds[6]
 Def Chan String[32] Ds_Tool
 Def Chan Int Ds_Tool_Num
-Def Chan Int Ds_Tool_DNum
+Def Chan Int Ds_Tool_DNum1, Ds_Tool_DNum2
+Def Chan Real Ds_Tool_Width
 Def Chan String[32] Ds_Dresser
 Def Chan Int Ds_Dresser_Num
 Def Chan Int Ds_Dresser_DNum1, Ds_Dresser_DNum2
 Def Chan Int Ds_Coolant
-Def chan real Ds_PodhodX, Ds_PodhodZ ; podhod u smeru x i z ose
+Def chan real Ds_PodhodXL, Ds_PodhodZL ; podhod u smeru x i z ose za levu konturu abs koordinate
+Def chan real Ds_PodhodXR, Ds_PodhodZR ; podhod u smeru x i z ose za desnu konturu abs koordinate
+Def chan real Ds_PodhodX, Ds_PodhodZ ; podhod u smeru x i z ose za obe konturu inc koordinate
 Def chan String[32] Ds_Conture1,Ds_Conture2 ; naziv profila navoja
 Def chan int ds_workpieces; broj komada posle kojeg se abrihtuje
 Def Chan Int ds_workpieces_left ; broj komada preostalo do abrihtovanja
@@ -67,9 +89,15 @@ Def Chan String[100] Ds_Comment ; komentar na operaciju brusenja
 Def Chan Int Ds_Profile ; abrihtovanje sa jednosecnim (300) dvosecnim (310) ili profilnim alatom (320)
 Def Chan Int Ds_Marposs; broj marpos ciklusa koji je aktivan za poravnavanje moze biti od 80 do 89
 Def chan Int ds_approach ; nacin odlaska u tacku zaokreta 
-Def chan Real Ds_SwivelPointX, Ds_SwivelPointZ
-Def chan Real Ds_BAxisAngle
-
+Def chan Real Ds_SwivelPointX, Ds_SwivelPointZ ;tacka zaokreta tu ce biti zakrenuta B osa
+Def chan Real Ds_BAxisAngle ; ugao B ose kod abrihtovanja
+Def chan Real Ds_Face_Length1,DS_Face_Length2 ; duzina bocne strane komada koji se poravnava
+Def chan Real Ds_Face_Angle1,Ds_Face_Angle2 ; ugao bocne strane koji se poravnava
+Def chan Real Ds_Face_Depth1,Ds_Face_Depth2 ; Dubina bocne strane koja se poravnava - samo kod tipa 2
+Def chan Real Ds_Radius1,Ds_Radius2 ; Radijus prelaza na vrhu kamena
+Def chan Real Ds_Margin1, Ds_Margin2 ; ravna fazeta na bocnoj strani kamena
+Def chan Real Ds_Taper_Length1,Ds_Taper_Length2 ; duzina konusa na precniku kamena
+Def chan Real Ds_Taper_Angle1,Ds_Taper_Angle2 ; ugao konusa na precniku kamena
 
 ;Parametri navoja
 DEF CHAN INT Th_Type ; tip navoja 0-spoljni, 1-unutrašnji navoj

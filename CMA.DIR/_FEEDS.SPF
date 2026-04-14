@@ -12,6 +12,6 @@ Gr_HoldZ1[ii]=ZadrzavanjeZ1
 Gr_HoldZ2[ii]=ZadrzavanjeZ2 
 Gr_DwellTime[ii]=Izbrusavanje
 Gr_PlungeCut_Feeds[ii]=BrzinaUsecanja
-Gr_ReturnDiameter[ii]=PrecnikPovratka
+Gr_ReturnDistance[ii]=PrecnikPovratka
 
 m17

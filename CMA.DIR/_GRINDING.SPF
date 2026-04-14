@@ -24,13 +24,40 @@ Gr_Measure_NumZ = BrojMerZ
 Gr_TypeOfRebound = NacinOdskoka
 Gr_EndCycleDiameter = PrecnikZavrsetka
 Gr_Marposs = MarpossGC
-;T0D0G53G0X0
 
+If (Gr_Method==100)
+SH150
+Endif
 
-SH000
+If (Gr_Method==200)
+SH860
+Endif
 
+IF (GR_method==204)
+msg("Kombinovano brušenje još ne radi")
+M00
+endif
+
+IF (GR_method==214)
+msg("Kombinovano brušenje još ne radi")
+M00
+endif
+
+IF (GR_method==300)
+msg("Brušenje čela još ne radi")
+M00
+endif
+
+IF (GR_method==304)
+msg("Koso usecanje još ne radi")
+M00
+endif
+
+IF (GR_method==304)
+msg("Brušenje dugih čela još ne radi")
+M00
+endif
 
 M17
-SH850
 
 

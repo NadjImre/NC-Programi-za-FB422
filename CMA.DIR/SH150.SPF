@@ -5,6 +5,7 @@ Def Int ProlazaOdAbrihtovanja = 0
 Def Int Kord
 Def Real BrojObrtajaTocila[MaxFaza]
 Def Real UkupniDodatak=0
+Def Real PrecPrilaz
 Def Int UkupnoProlaza=0
 Def Int Brojac,Indeks
 Def Int IndeksFaze,IndeksProlaza
@@ -25,22 +26,33 @@ For Brojac=1 to MaxFaza
     Indeks = MaxFaza - Brojac
     If (gr_strokes[indeks]>0)
        UkupniDodatak=UkupniDodatak+gr_steps[Indeks]
+       indeksfaze=indeks
     endif
     UkupnoProlaza=UkupnoProlaza+Gr_StrokesToDress[Indeks]
     BrojObrtajaTocila[Brojac-1]=19098*gr_wheel_speeds[Brojac-1]/abs($TC_DP3[BrojTocila,gr_DNumber ])
 EndFor
-XVKoord = UkupniDodatak ; DA LI OVO TREBA ?? koliko treba ukupno skinuti materijala
-IndeksFaze=0 ; koja je aktuelna faza
-IndeksProlaza=0 ; koje je aktuelno abrihtovanje u fazai 
+PrecPrilaz = UkupniDodatak ; za prvi put prilaz i dodatak su isti
+XVKoord = UkupniDodatak
+IndeksProlaza=0 ; koje je aktuelno abrihtovanje u fazi 
+if (gr_strokesToDress[IndeksFaze]>0 ) gotoF TrebaAbriht
 STOPRE
 ;prvi prilaz i povratak posle abrihtovanja
-VELIKI_DOSKOK: 
+VELIKI_DOSKOK:
+;podesavanje pocetne tacke oscilacija 
+OSP1[Z]=Gr_Position1
+;podesavanje zadrzavanja u krajnjim tackama
+OST1[Z]=-2 OST2[Z]=-2
+;broj hodova izbrusavanja je nula
+OSNSC[Z]=0
+;iskjucivanje u krajnjoj tacki koja prva naidje
+OSCTRL[Z]=(1+2,16+32+64)
 ;reset marpos zvucne sonde
 M80
 ;pocetak za brušenje
 G0X0G53T0D0
 T=Gr_Tool D=Gr_DNumber 
 G[8]=Kord
+DIAMON
 ;odskok - prekida sve i skace na labelu kraj 
 SETINT(8) PRIO=1 SH6201
 ;aktiviranje korekcija
@@ -60,14 +72,14 @@ IF (TEST<>0)
    M=gr_coolant
 ENDIF
 ;prilaz komadu sporo
-G1 G90 X=gr_Diameter1+UkupniDodatak XV=UkupniDodatak F=Gr_Rabhod 
-; nastavk brušenja po zavrsetku faze bez abrihtovanja
+G1 G90 X=gr_Diameter1+PrecPrilaz XV=PrecPrilaz F=Gr_Rabhod 
+; nastavka brušenja po zavrsetku faze bez abrihtovanja
 DOSKOK: 
-;ako je brzina usecanja nula treba preći na sledeću fazu
+;ako je broj prolaza nula treba preći na sledeću fazu
 if (Gr_Strokes[IndeksFaze]==0) gotoF Proracun
 ;dubina brusenja
 if (gr_StrokesToDress[IndeksFaze]>0)
-   XVKoord = UkupniDodatak - gr_step[IndeksFaze]/gr_strokesToDress[IndeksFaze]
+   XVKoord = UkupniDodatak - gr_steps[IndeksFaze]/gr_strokesToDress[IndeksFaze]
 Else
    XVKoord = UkupniDodatak - gr_steps[IndeksFaze]
 EndIf   
@@ -76,12 +88,34 @@ IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
 ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
 ;poruka
 poruka = GR_Comment <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
-poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]
+poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
 msg(Poruka)
 ;brusenje
 JEDAN_PROLAZ:
-G1 G90 X=gr_Diameter1+XVKoord XV=XVKoord F=Gr_strokes[IndeksFaze] S=gr_speeds[IndeksFaze]
-G4 F=Gr_Pause[indeksfaze]
+;podesavanje prekida
+if ( (gr_interrupts[IndeksFaze]>0) and (gr_interrupts[IndeksFaze]<8) )
+   setint(gr_interrupts[IndeksFaze]) prio=1 Sh6202
+endif
+;podesavanje druge tacke oscilovanja
+OSP2[Z]=Gr_Position1+Gr_PlungeCut_Oscilation[IndeksFaze]
+;brzina oscilovanja
+FA[Z]=Gr_Oscilacion_Feeds[IndeksFaze]
+;ako je duzina oscilovanja razlicita od nule
+if( Gr_PlungeCut_Oscilation[IndeksFaze]<>0 )
+;ukljuci oscilacije
+   OS[Z]=1
+else
+;inace iskljuci 
+   Os[Z]=0
+endif
+;brusenje
+G1 G90 X=gr_Diameter1+XVKoord XV=XVKoord F=Gr_PlungeCut_Feeds[IndeksFaze] S=gr_speeds[IndeksFaze]
+;izbrusavanje
+G4 F=Gr_DWELLTIME[indeksfaze]
+;isklucivanje prekida
+if ( (gr_interrupts[IndeksFaze]>0) and (gr_interrupts[IndeksFaze]<8) )
+   clrint(gr_interrupts[IndeksFaze])
+endif
 PRORACUN:
 ;povecaj proj prolaza
 IndeksProlaza=IndeksProlaza+1
@@ -95,23 +129,43 @@ if (IndeksProlaza>=Gr_StrokesToDress[IndeksFaze])
    IndeksProlaza=0
 endif
 ;da li smo dosli do zadnje faze
-if (IndeksFaze<MaxFaza) gotoB Doskok
+if (IndeksFaze<MaxFaza) 
+;ako nismo proverimo jel treba abriht
+   if((Gr_StrokesToDress[IndeksFaze]>0) and (Gr_Strokes[IndeksFaze]>0)) GotoF TrebaAbriht
+;ako ne treba odmaknemo se ako je programirano
+   X=IC(gr_ReturnDistance[IndeksFaze]) F=Gr_RabHod
+;sledeće brusenje
+   gotoB Doskok
+endif
 
 KRAJ:
-G1 X=gr_diameter1+gr_podhod XV=gr_podhod F=Gr_Rabhod 
+OS[Z]=0
+if ($AA_IW[X]<(gr_diameter1+gr_podhod))
+   G1 X=gr_diameter1+gr_podhod XV=gr_podhod F=Gr_Rabhod 
+endif
+msg("Kraj")
 TRANS
 G90G53X0G0T0D0M11M5
-msg("Kraj")
+WaitP(Z)
 STOPRE
-M00
+
 M17
 
 TREBAABRIHT:
-G53X0G0T0D0
-ProlazaOdAbrihtovanja=0
-STOPRE
+Os[Z]=0
 msg("Abrihtovanje")
-M00
+;G1 X=gr_diameter1+gr_podhod XV=gr_podhod F=Gr_Rabhod
+G53X0G0T0D0M11M5
+ProlazaOdAbrihtovanja=0
+WaitP(Z)
+STOPRE
+_DRESSING(ds_wheel_speeds[indeksfaze],ds_strokes[indeksfaze],ds_steps[indeksfaze],0,ds_feeds[indeksfaze],ds_roll_speeds[indeksfaze])
+
+;M00
+;spustamo ukupni dodatak
+UkupniDodatak = XVKoord
+;podesavamo polozaj povratka
+PrecPrilaz = UkupniDodatak+Gr_ReturnDistance[IndeksFaze]
 GotoB Veliki_Doskok
 
 M17

@@ -1,22 +1,16 @@
 PROC TB200(INT BROJ)
-
+;promenljiva za naviv programa
 DEF STRING[100] PROGRAM1
-PROGRAM1 = "/_N_DRS_DIR/_N_"<<TH_CONTURE<<"_DRS"
-
+;dodajemo .spf na kraj
+PROGRAM1 = TH_CONTURE<<"_SPF"
+;brisemo staru tabelu ako je ima, ako nema ne prijavljuje gresku
 CTABDEL(1)
+;pocetak nove tabele
 CTABDEF(X,Z,1,0,"DRAM")
- 
-  CALL PROGRAM1
-
+;pozivamo konturu
+CALL PROGRAM1
+;karj tabele
 CTABEND
-
-
-KRAJ:
-
+;kraj programa
 M17
-  Z=POZZ[Broj,0] X=PREC[BROJ,0]
- Z=POZZ[Broj,0]+3 X=PREC[BROJ,0]
- Z=POZZ[Broj,0]+3+7.75 X=PREC[BROJ,0]+0.812
- Z=POZZ[Broj,0]+27 ;X=PREC[BROJ,0]+
- Z=POZZ[Broj,0]+35.5 X=PREC[BROJ,0]-2*0.0262
- G3 Z=POZZ[Broj,1] X=PREC[BROJ,0]+2*(0.4062+2.391) CR=2.9
+ 

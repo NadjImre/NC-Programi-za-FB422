@@ -100,17 +100,18 @@ BRZROL6 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
 BROBRTKOM6 = (R1//10/$89212,,,/////480,,44//"pomoc.html","9218"),
 BRZKAMBRUS6 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
+DEF ZBIR=(R4//0/$89212,,,/wr1////120,,44/10,126/)
 
-DEF RB00= (S//"RB"/,,,,/WR1///15,,140/6,180,23//"pomoc.html","9218"),
-BrzOccil0 = (s//"Brzina_Osc"/$89212/wr1////30,180,50//"pomoc.html","9218"),
-Korak0 = (s//"Korak"/$89212,,,/wr1////90,180,50//"pomoc.html","9218"),
-Zadr01 = (s//"Zadr1"/$89212,,,/wr1////150,180,50//"pomoc.html","9218"),
-Zadr02 = (s//"Zadr2"/$89212,,,/wr1////210,180,50//"pomoc.html","9218"),
-Primicanje0=(s//"Prilaz"/$89212,,,/wr1////270,180,50//"pomoc.html","9218"),
-BrzinaUsecanja0 = (s//"BrzUsec"/$89212,,,/wr1////330,180,50//"pomoc.html","9218"),
-Oscil0 = (s//"Oscil lenght"/$89212,,,/wr1////390,180,50//"pomoc.html","9218"),
-Izbrusavanje0 = (s//"Izbrus"/$89212,,,/wr1////450,180,50//"pomoc.html","9218"),
-PrecnikOdskoka0 = (s//"PrecOdskok"/$89212,,,/wr1////510,180,50//"pomoc.html","9218")
+DEF RB00= (S//"RB"/,,,,/WR1///15,,140/30,200,23//"pomoc.html","9218"),
+BrzOccil0 = (s//"Brzina_Osc"/$89212/wr1////90,200,50//"pomoc.html","9218"),
+Korak0 = (s//"Korak"/$89212,,,/wr1////150,200,50//"pomoc.html","9218"),
+Zadr01 = (s//"Zadr1"/$89212,,,/wr1////210,200,50//"pomoc.html","9218"),
+Zadr02 = (s//"Zadr2"/$89212,,,/wr1////270,200,50//"pomoc.html","9218"),
+Primicanje0=(s//"Prilaz"/$89212,,,/wr1////330,200,50//"pomoc.html","9218"),
+BrzinaUsecanja0 = (s//"BrzUsec"/$89212,,,/wr1////390,200,50//"pomoc.html","9218"),
+Oscil0 = (s//"Oscil lenght"/$89212,,,/wr1////450,200,50//"pomoc.html","9218"),
+Izbrusavanje0 = (s//"Izbrus"/$89212,,,/wr1////510,200,50//"pomoc.html","9218"),
+PrecnikOdskoka0 = (s//"PrecOdskok"/$89212,,,/wr1////570,200,50//"pomoc.html","9218")
 
 DEF RB10 = (I//1/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 BrzOscil1 = (R3/0,6000/600//wr2////30,,50//"pomoc.html","9218"),
@@ -206,6 +207,73 @@ PRESS(VS7)
   EXIT
 END_PRESS
 
+
+change(Dub1)
+  zbir1=dub1*prol1
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol1)
+  zbir1=dub1*prol1
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub2)
+  zbir2=dub2*prol2
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol2)
+  zbir2=dub2*prol2
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub3)
+  zbir3=dub3*prol3
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol3)
+  zbir3=dub3*prol3
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub4)
+  zbir4=dub4*prol4
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol4)
+  zbir4=dub4*prol4
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub5)
+  zbir5=dub5*prol5
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol5)
+  zbir5=dub5*prol5
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
+change(Dub6)
+  zbir6=dub6*prol6
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+change(Prol6)
+  zbir6=dub6*prol6
+  zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+end_change
+
+
 LOAD
    LA("OffOnNiz","cnizovi.com")
    RECT(5,8,565,150,133,130,1)
@@ -218,6 +286,13 @@ RB3 = 3
 RB4 = 4
 RB5 = 5
 RB6 = 6
+   zbir6=dub6*prol6
+   zbir5=dub5*prol5
+   zbir4=dub4*prol4
+   zbir3=dub3*prol3
+   zbir2=dub2*prol2
+   zbir1=dub1*prol1
+   zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
 END_LOAD
 
 //END

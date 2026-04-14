@@ -61,7 +61,17 @@ PRESS(VS5)
   LM("brusenjeMG","cbrusenje2.com")
 END_PRESS
 
+;podešavanje linete
+VS6=("Steady rest%nSetup",,se1)
+PRESS(VS6)
+  LM("SteadyRest","csteady.com")
+END_PRESS
 
+;kontura brusenja
+VS7=("Workpiece%nSetup",,se1)
+PRESS(VS7)
+  LM("WorkpieceSetup","cworkpiece.com")
+END_PRESS
 
 VS8=("<<",,se1)
 
@@ -105,6 +115,21 @@ END_PRESS
 
 //END
 
+//S(merenje)
+
+;Podesavanje oblika kamena
+VS1=("Measuring%nHead",,se1)
+PRESS(VS1)
+  LM("MeasurinHead","csonda.com",1)
+END_PRESS
+
+VS8=("<<",,se1)
+
+PRESS(VS8)
+  EXIT
+END_PRESS
+
+//END
 
 //S(navoj)
 

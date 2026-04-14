@@ -7,10 +7,16 @@ gr_BAxis_Angle=UgaoBose
 Th_D2 = _ThD2
 Th_Pitch = _ThPi
 Th_Hand = _ThHa
-Th_Starts = _ThSt
+Th_Starts = _ThSt mod 100
+Gr_Start = (_ThSt div 100) mod 100
+if (Gr_Start==0)
+   Gr_All_Starts=1
+else
+   Gr_All_Starts=0
+endif
 
-gr_position1=pozz1
-gr_position2=pozz2
+;gr_position1=pozz1
+;gr_position2=pozz2
 gr_DiamCorrection=var15
 gr_PosCorrection=var16
 
@@ -18,14 +24,17 @@ gr_Coolant=hladjenjevar
 
 gr_Comment=koment
 
-gr_Diameter1=Precnik
+;gr_Diameter1=Precnik
 gr_podhod=PodHodVar
 gr_rabhod=RabHodVar
-TH_conture=KONTURA
+;TH_conture=KONTURA
 
 T0D0G53G0X0
 G0G53B=gr_BAxis_Angle
 STOPRE
+SH831
+M17
+
 SH850
 
 M17

@@ -1,0 +1,14 @@
+Proc SysContur
+
+Def Int SmerConture=1
+
+if (Gr_Contur_Pos2<Gr_Contur_Pos1)
+   SmerConture=-1
+endif
+
+Z=Gr_Contur_Pos1 X=Gr_Contur_Diam+2*Gr_Contur_StartDist*Tan(Gr_Contur_StartAngle)
+Z=Gr_Contur_Pos1+SmerConture*Gr_Contur_StartDist X=Gr_Contur_Diam
+Z=Gr_Contur_Pos2-SmerConture*Gr_Contur_EndDist
+Z=Gr_Contur_Pos2 X=Gr_Contur_Diam+2*Gr_Contur_EndDist*Tan(Gr_Contur_EndAngle)
+
+M17

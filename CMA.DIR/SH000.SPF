@@ -1,59 +1,28 @@
-PROC SH000
+PROC SH000(INT BROJ)
 
 DEF INT SVE 
-DEF REAL CKON; ZKON,XKON,
-;DEF INT SMERZ
+DEF REAL ZKON,XKON,CKON
+DEF INT SMERZ
 DEF REAL SMERX
-Def int BrojTocila,BrojVretena
 DEF STRING[100] NAZPROG
-Def Int Kord
 
-;broj tocila i vretena
-BrojTocila=GETT(GR_Tool)
-BrojVretena=$TC_TPG1[BrojTocila]
-
-G500
-T0D0
-DIAMOF
-
-
-sTOPRE
-If (Gr_approach==0)
-   G53G0X=Gr_SwivelPointX
-Endif
-If (Gr_approach==1)
-   G53G0Z=Gr_SwivelPointZ
-Endif
-If (Gr_approach==2)
-   G53G0X=Gr_SwivelPointX
-   G53G0Z=Gr_SwivelPointZ
-Endif
-If (Gr_approach==3)
-   G53G0Z=Gr_SwivelPointZ
-   G53G0X=Gr_SwivelPointX
-Endif
-stopre
-G0G53B=gr_BAxis_Angle
-;IF((BROJ<0) OR (BROJ>89))
-;  SETAL(65017,<<(BROJ))
-;  M17
-;ENDIF
-;BEZBEDNIX=$AA_IM[X]
-;BEZBEDNIZ=$AA_IM[Z]
-;r4=0 R2=0 R5=BROJ
+IF((BROJ<0) OR (BROJ>89))
+  SETAL(65017,<<(BROJ))
+  M17
+ENDIF
+BEZBEDNIX=$AA_IM[X]
+BEZBEDNIZ=$AA_IM[Z]
+r4=0 R2=0 R5=BROJ
 STOPRE
 M97
 ; *** da li je spoljno brusenje ***
-
-if (Gr_Type<>0)
-   Gr_DirectionX=-0.5
- ;  SVE=1
+if (OBLIKAM[BROJ]<>0)
+   SMERX=-0.5
+   SVE=1
 else
-  Gr_DirectionX=0.5
-  ; SVE=1
+   SMERX=0.5
+   SVE=1
 endif
-
-Kord=gr_frame
 ;osnovne postavke
 DIAMON    
 G60       
@@ -61,37 +30,33 @@ G90
 G18
 SOFT
 ;poruka
-msg("$66012"<<"-"<<Gr_Comment)
+msg("$66012"<<"-"<<komentar[broj])
 ;kraj ako nema brusenja
-IF (Gr_Method==0) GOTOF KRAJ
+IF (BRUS[BROJ]==0) GOTOF KRAJ
 ;standardni odskok              
 SETINT(8) PRIO=2 SH600
 STOPRE
 ;korekcija precnika i pozicije 
-;CKON=KORC[BROJ] ;fali GUD
-;XKON=Gr_DiamCorrection/2
-;ZKON=Gr_PosCorrection
-
+CKON=KORC[BROJ]
+XKON=KORX[BROJ]/2
+ZKON=KORZ[BROJ]
 STOPRE
-
 ; *** da li je levo ili desno celo *** 
-if (Gr_Direction<>0)
-   Gr_DirectionZ=-1
-   TRANS Z=Gr_PosCorrection C=Gr_CAngleCorrection X=Gr_DiamCorrection/2  ;korecija C je samo GUD nema prenosa parametra
+if (BRUSSMER[BROJ] <>0 )
+   SMERZ=-1
+   TRANS Z=ZKON C=CKON X=XKON
 else
-   Gr_DirectionZ=1
-   TRANS Z=Gr_PosCorrection C=Gr_CAngleCorrection X=Gr_DiamCorrection/2 ;korecija C je samo GUD nema prenosa parametra
+   SMERZ=1
+   TRANS Z=ZKON C=CKON X=XKON
 endif
-T=GR_Tool D=Gr_DNumber
-G[8]=Kord
+T=NazivToc[Broj] D=BrojIviceToc[Broj]
 ;izbor nacina brusenja
 STOPRE
-NAZPROG = "SH"<< Gr_Method <<""
+NAZPROG = "SH" << BRUS[BROJ] << "(" << BROJ << "," << SVE << "," << smerz << "," << smerx << ")"
 STOPRE
-m00
+
 EXECSTRING( NAZPROG )
-m00
-M17
+
 ;kraj programa
 IF(ODSKOK_SKROZ[BROJ]<=0)
   DIAMOF
@@ -124,7 +89,7 @@ STOPRE
 
 CLRINT(8)
 KRAJ:
-;OPERACIJA_BROJ=OPERACIJA_BROJ+1
+OPERACIJA_BROJ=OPERACIJA_BROJ+1
 M98
 ;M2=5 
 ;M3=5
