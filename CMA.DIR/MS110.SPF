@@ -1,4 +1,5 @@
 proc ms110(string[32] alat,int ivica,real duz_mer,real brz_mer,real nom_poz)
+;Kalibracija sonde po Z osi
 
 def int brsonde
 def real zpos
@@ -10,11 +11,14 @@ g500
 zpos=$aa_iw[z]
 G1 z=zpos+duz_mer MEAS=1 F=brz_mer
 IF($AC_MEA[1]==0) GOTOF GRESKA
-$tc_dp4[brsonde,ivica]=$AA_MM[z]-nom_poz
+$tc_dp5[brsonde,ivica]=$AA_MM[z]-nom_poz
+MSG("$66019")
 g1 z=zpos
 m17
 
 greska:
-
+  SETAL(66028)
+  M00
+  M96
 m17
 

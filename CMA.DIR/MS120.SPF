@@ -1,8 +1,19 @@
 proc ms120(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int msonde,int broj_sonde, int korekcija,int kord_system,real doz_greska,int poz_c,real c_mer)
-
+def real start_x,start_z
+def int brsonde;broj alata koja se koristi za pipak sonde
+def real razlika[MaxBrojMerenja,MaxBrojPonavljanja]
+def int errno
+def string[32] fname
+def int brojacmerenja,brojmerenja=1
+def int brojacpon,brojponavljanja=2
+def real ugaozaokreta
+;naziv fajla za zspisivanje statusa
+fname="/_N_MPF_DIR/LOG_MS120"
 ;ravan , koordinatni sistem i alat
+brsonde=gett(alat)
 g18g500 t=alat d=ivica
-
+start_x=$aa_iw[x] start_z=$aa_iw[z]
+ugaozaokreta=360/brojmerenja
 stopre
 ;poruka
 msg("$66020")
@@ -32,34 +43,55 @@ g0 x=prec_mer meas=1
 ;ako je bilo kontakta greska
 IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
 STOPRE
-;merenje
-g1 z=poz_mer+duz_mer f=brz_mer meas=1
-;ako NIJE bilo kontakta - greska
-IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
-;razlika između nominalne i izmerene tačke
-RAZLIKA=poz_mer-$aa_mw[Z]
-;ispis poruke
-msg("$66021 "<<$aa_mw[Z]<<" $66022 "<<RAZLIKa)
-;vracanje na pocetnu tacku
-g1 z=poz_mer-duz_mer F=brz_mer
+;petlja za pomeranje po uglu 
+for brojacmerenja=1 to brojmerenja
+  ;petlja za ponavljanje merenje
+  for brojacpon=1 to brojponavljanja
+    ;merenje
+    g1 z=poz_mer+duz_mer f=brz_mer meas=1
+    ;ako NIJE bilo kontakta - greska
+    IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
+    ;razlika između nominalne i izmerene tačke
+    RAZLIKA[brojacmerenja,brojacpon]=poz_mer-$aa_mw[Z]
+    ;ispis poruke
+    msg("$66021 "<<$aa_mw[Z]<<" $66022 "<<RAZLIKa[brojacmerenja,brojacpon])   
+    ;zapis u fajl
+    Write(errno,fname,SPRINT("Merenje %d ponavljanje %d mera %7.4F greska %7.4F",brojacmerenja,brojacpon,$aa_mw[Z],razlika[brojacmerenja,brojacpon])) 
+    ;vracanje na pocetnu tacku
+    g1 z=poz_mer-duz_mer F=brz_mer
+  ;Kraj petlje za ponavljanje merenja
+  endfor
+  If( (poz_c<>0) and (brojmerenja>1) and (brojmerenja>brojacmerenja) )
+    ;zakreni komad na ugao
+    G0 C=ACP(C_MER+brojacmerenja*ugaozaokreta) MEAS=1
+    ;ako je doslo do kontakta sa sondom - greska
+    IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+  endif 
+;kraj petlje za merenje po uglu
+endfor
+g0 x=start_x
+g0 z=start_z
 ;podizanje sonde
 msonde=msonde-1
-m=msonde
-;vracanje skroz nazad
 G75X0
+m=msonde
+
 ;ako je razlika veća od dozvoljene prijavi grešku
-IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(RAZLIKA))) 
+IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(RAZLIKA[brojacmerenja,brojacpon]))) 
   SETAL(65012)
   M00
   M96
 ENDIF
 
 ;korekcija koordinatnog sistema ako se trazi
-IF(KOREKCIJA>0)
-  $P_UIFR[KORD_SYSTEM-1,Z,FI]=-RAZLIKA
+IF(KOREKCIJA==1)
+  $P_UIFR[KORD_SYSTEM-1,Z,FI]=-RAZLIKA[brojacmerenja,brojacpon]
   msg("$66023")
 ENDIF
-
+;rekalibracija sonde
+IF(KOREKCIJA==2)
+$tc_dp5[brsonde,ivica]=$tc_dp5[brsonde,ivica]-Razlika[brojacmerenja,brojacpon]
+ENDIF
 m17
 
 greska:

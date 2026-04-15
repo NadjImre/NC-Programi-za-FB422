@@ -107,6 +107,13 @@ Def chan int Th_Hand ; smer navoj 0- desni, 1-Levi
 Def chan int Th_Starts ; broj početaka navoja
 Def chan String[32] Th_Conture ; naziv profila navoja
 
+;parametri merenja
+def chan real me_result[16,16]
+def chan real me_max
+def chan real me_min
+def chan real me_avg
+def chan real me_span
+
 ;Parametri profila navoja za fabricki definisane profile
 
 Def Chan Real Th_D0 ; Nominalni precnik navoja

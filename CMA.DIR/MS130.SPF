@@ -1,10 +1,11 @@
 PROC  MS130(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int msonde,int broj_sonde, int korekcija,int kord_system,real brz_c_mer)
 ;merenje orjentacije komada
 ;za mašinu FB357
-
+def real start_x,start_z
 DEF INT Brojac=0
 ;ravan , koordinatni sistem i alat
 g18g500 t=alat d=ivica
+start_x=$aa_iw[x] start_z=$aa_iw[z]
 stopre
 ;poruka
 msg("$66020")
@@ -55,6 +56,8 @@ ENDIF
 msg("$66021 "<<RAZLIKA)
 ;vracanje na pocetnu tacku
 g1 x=prec_mer+duz_mer F=brz_mer
+g0 x=start_x
+g0 z=start_z
 ;podizanje sonde
 msonde=msonde-1
 m=msonde

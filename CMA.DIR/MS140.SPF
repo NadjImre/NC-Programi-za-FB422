@@ -1,26 +1,21 @@
 proc ms140(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int msonde,int broj_sonde, int korekcija,int kord_system,real doz_greska,int poz_c,real c_mer)
 def real start_x,start_z
 def int brsonde;broj alata koja se koristi za pipak sonde
-
-Def real merenja[8]
-Def int brojac
-Def real zbir_merenja
-Def real prosek_merenja
-
-;parametri za dekodiranje korekcije
-Def int TrebaKorekcija, Vracanje, Dizanje,BrojMer
-TrebaKorekcija=Korekcija b_and 3
-Vracanje = Korekcija b_and 12
-Dizanje = Korekcija b_and 16
-BrojMer = ((Korekcija b_and 224)/32)+1
-
+def int errno
+def string[32] fname
+def string[128] poruka
+def int brojacmerenja,brojmerenja=8
+def int brojacpon,brojponavljanja=2
+def real ugaozaokreta
+;naziv fajla za zspisivanje statusa
+fname="/_N_MPF_DIR/LOG_MS140"
 brsonde=gett(alat)
 g18g500 t=alat d=ivica
 start_x=$aa_iw[x] start_z=$aa_iw[z]
+ugaozaokreta=360/brojmerenja
 stopre
 msg("$66020")
 m=msonde
-F2G4
 if(poz_c<>0)
   m70
   G0 z=poz_mer meas=1 C=IC(360)
@@ -35,63 +30,75 @@ endif
 g0 x=prec_mer+duz_mer meas=1
 IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
 STOPRE
-
-
-;merenje
-brojac=0
-zbir_merenja=0
-
-WHILE brojac < BrojMer
-    g1 x=prec_mer-duz_mer f=brz_mer meas=1
-;ako NIJE bilo kontakta - greska
-    IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
-;razlika između nominalne i izmerene tačke
-    RAZLIKA=prec_mer-$aa_mw[X]
-;upisivanje rezultata u niz
-    merenja[brojac]=prec_mer-$aa_mw[X]
-;dodavanje novog merenja zbiru
-    zbir_merenja=zbir_merenja+merenja[brojac]
-;ispis poruke
-    msg("$66021 "<<$aa_mw[X]<<" $66022 "<<RAZLIKa)
-;vracanje na pocetnu tacku
-    g1 x=prec_mer+duz_mer F=brz_mer
-    brojac=brojac+1
-    G4F.5
-    msg()
-ENDWHILE
-
-prosek_merenja=zbir_merenja/BrojMer
-msg("Prosek:"<<prosek_merenja)
-Razlika=prosek_merenja
-If (Vracanje==0)
-   g0 x=start_x
-   g0 z=start_z
-Endif
-If (Vracanje==8)
-   g0 x=start_x
-Endif
-If (Vracanje==12)
-   g0 z=start_z
-Endif
-
+;petlja za pomeranje po uglu 
+for brojacmerenja=1 to brojmerenja
+  ;ako se komad moze okretati po c
+  If(poz_c<>0)
+    ;zakreni komad na ugao
+    G0 C=ACP(C_MER+(brojacmerenja-1)*ugaozaokreta) MEAS=1
+    ;ako je doslo do kontakta sa sondom - greska
+    IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+  endif 
+  ;petlja za ponavljanje merenje
+  for brojacpon=1 to brojponavljanja
+     ;merenje
+     g1 x=prec_mer-duz_mer f=brz_mer meas=1
+     ;u slucaju da nije bilo kontakta prijavi gresku
+     IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
+     ;zapisujemo rezultat
+     me_result[brojacmerenja-1,brojacpon-1]=prec_mer-$aa_mw[X]
+     ;ispis poruke
+     msg("$66021 "<<$aa_mw[X]<<" $66022 "<<me_result[brojacmerenja-1,brojacpon-1])
+     ;zapis u fajl
+     poruka = SPRINT("Merenje %d ponavljanje %d mera %7.4F greska %7.4F",brojacmerenja,brojacpon,$aa_mw[X],me_result[brojacmerenja-1,brojacpon-1])
+     Write(errno,fname,poruka)
+     ;idemo nazad
+     g1 x=prec_mer+duz_mer F=brz_mer
+  ;kraj petlje za ponavljanje
+  endfor
+;kraj petlje za merenje po uglu
+endfor
+g0 x=start_x
+g0 z=start_z
 msonde=msonde-1
-If (Dizanje==0)
-   m=msonde
-Endif
+G75X0
+;proracun
+me_min=me_result[0,0]
+me_max=me_result[0,0]
+me_avg=0
+;petlja za matematiku 
+for brojacmerenja=0 to brojmerenja-1
+  for brojacpon=0 to brojponavljanja-1
+      if(me_min>me_result[brojacmerenja,brojacpon])
+        me_min=me_result[brojacmerenja,brojacpon]
+      endif
+      if(me_max<me_result[brojacmerenja,brojacpon])
+        me_max=me_result[brojacmerenja,brojacpon]
+      endif
+      me_avg=me_avg+me_result[brojacmerenja,brojacpon]
+  endfor
+endfor
+me_avg=me_avg/(brojmerenja*brojponavljanja)
+me_span=abs(me_max-me_min)
+;kraj proracuna
 
-IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(RAZLIKA))) 
+IF (KOREKCIJA<>2)
+   m=msonde
+ENDIF
+
+IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(me_avg))) 
   SETAL(65012)
   M00
   M96
 ENDIF
 
-IF(TREBAKOREKCIJA==1)
-  $P_UIFR[KORD_SYSTEM-1,X,FI]=-0.5*prosek_merenja
+IF(KOREKCIJA==1)
+  $P_UIFR[KORD_SYSTEM-1,X,FI]=-0.5*me_avg
   msg("$66023")
 ENDIF
 ;rekalibracija sonde
-IF(TREBAKOREKCIJA==2)
-$tc_dp4[brsonde,ivica]=$tc_dp4[brsonde,ivica]-0.5*prosek_merenja
+IF(KOREKCIJA==2)
+$tc_dp4[brsonde,ivica]=$tc_dp4[brsonde,ivica]-0.5*me_avg
 ENDIF
 m17
 

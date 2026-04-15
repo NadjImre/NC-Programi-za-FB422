@@ -1,20 +1,25 @@
 proc ms100(string[32] alat,int ivica, real duz_mer,real brz_mer,real nom_prec)
+;Kalibracija sonde po X osi
 
-def int brsonde
-def real xpos
+def int brsonde;broj alata koja se koristi za pipak sonde
+def real xpos;pocetna pozicija
+def int broj_sonde=1; broj sonde koja se koristi za merenje
 g18
 stopre
 
 brsonde=gett(alat)
 g500
 xpos=$aa_iw[x]
-G1 X=xpos-duz_mer MEAS=1 F=brz_mer
-IF($AC_MEA[1]==0) GOTOF GRESKA
-$tc_dp3[brsonde,ivica]=2*$AA_MM[x]-nom_prec
+G1 X=xpos-duz_mer MEAS=broj_sonde F=brz_mer
+IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
+MSG("$66019")
+$tc_dp4[brsonde,ivica]=$AA_MM[x]-nom_prec/2
 g1 x=xpos
 m17
 
 greska:
-
+  SETAL(66028)
+  M00
+  M96
 m17
 
