@@ -3,7 +3,7 @@ PROC SH831
 Def Real XVKoord =0.5 ;dubina na kojoj se brusi
 Def Real CKoord = 0 ; pocetna tacka C ose
 Def Real ZKoord = 0
-Def Real DuzinaNavoja=-2
+Def Real DuzinaNavoja=-1.6
 Def Real BrojOkretaja
 Def Int ProlazaOdAbrihtovanja = 0
 Def Int Kord

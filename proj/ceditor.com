@@ -123,6 +123,39 @@ PRESS(VS1)
   LM("MeasurinHead","csonda.com",1)
 END_PRESS
 
+
+;aksialno pozicioniranje
+VS3=($89078,,se1)
+Press(Vs3)
+    LM("merenje120","csonda.com",1) 
+End_Press
+
+;kalibracija po X
+VS4=($89544,,se1)
+PRESS(VS4)
+    LM("merenje100","csonda.com",1)
+END_PRESS
+
+;kalibracija po Z
+VS5=($89543,,se1)
+PRESS(VS5)
+    LM("merenje110","csonda.com",1)
+END_PRESS
+
+;Orjentacjia po C
+VS6=($89551,,se1)
+PRESS(VS6)
+    LM("merenje130","csonda.com",1)
+END_PRESS
+
+
+;merenje precnika
+VS7=("Merenje%nX",,se1)
+Press(Vs7)
+    LM("merenje140","csonda.com",1) 
+End_Press
+
+
 VS8=("<<",,se1)
 
 PRESS(VS8)
