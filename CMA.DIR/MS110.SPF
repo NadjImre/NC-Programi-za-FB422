@@ -1,17 +1,17 @@
-proc ms110(string[32] alat,int ivica,real duz_mer,real brz_mer,real nom_poz)
+proc ms110
 ;Kalibracija sonde po Z osi
+;sa masine FB422 
+;april 2026
 
-def int brsonde
 def real zpos
 g18
 stopre
 
-brsonde=gett(alat)
 g500
 zpos=$aa_iw[z]
-G1 z=zpos+duz_mer MEAS=1 F=brz_mer
-IF($AC_MEA[1]==0) GOTOF GRESKA
-$tc_dp5[brsonde,ivica]=$AA_MM[z]-nom_poz
+G1 z=zpos+me_distanc MEAS=me_probe_number F=me_feed
+IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+$tc_dp5[me_tool_number,me_tool_Dnumber]=$AA_MM[z]-me_target
 MSG("$66019")
 g1 z=zpos
 m17

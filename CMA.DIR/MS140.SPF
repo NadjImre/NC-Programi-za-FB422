@@ -1,73 +1,74 @@
-proc ms140(string[32] alat,int ivica,real prec_mer,real poz_mer,real duz_mer,real brz_mer,int msonde,int broj_sonde, int korekcija,int kord_system,real doz_greska,int poz_c,real c_mer)
+proc ms140(string[32] me_tool,int me_tool_dnumber,real me_diameter,real me_position,real me_distance,real me_feed,int me_probeup,int me_probe_number, int me_correction,int me_frame,real me_tolerance,int me_with_caxis,real me_caxis_position)
+
 def real start_x,start_z
-def int brsonde;broj alata koja se koristi za pipak sonde
 def int errno;broj greske koja se vraca prilikom snimanja
 def string[32] fname;naziv fajla za snimanje
 def string[128] poruka ; pomocna promenljiva za ispis poruke
-def int brojacmerenja,brojmerenja=8
-def int brojacpon,brojponavljanja=2
+def int brojacmerenja
+def int brojacpon
 def real ugaozaokreta
+
 ;naziv fajla za zspisivanje statusa
 fname="/_N_MPF_DIR/LOG_MS140"
+
 ;ravan korrdinatni sistem i alat
-brsonde=gett(alat)
-g18g500 t=alat d=ivica
+g18g500 t=me_tool d=me_tool_dnumber
 ;pocetne vrednosti promenljivih
 start_x=$aa_iw[x] start_z=$aa_iw[z]
-ugaozaokreta=360/brojmerenja
+ugaozaokreta=360/me_measurecount
 stopre
 ;poruka
 msg("$66020")
 ;podizanje sonde
-m=msonde
+m=me_probeup
 ;zauzimanje ugla ako se traži i dolazak u poziciju C 
-if(poz_c<>0)
+if(me_with_caxis<>0)
   ;ako se traži ugao C za merenje onda menjac je osa  
   m70
   ;pozicija merenja po Z i pun krug sa komadom
-  G0 z=poz_mer meas=1 C=IC(360)
+  G0 z=me_position meas=1 C=IC(360)
 else
   ;ako se ne traži ugao C samo pozicija Z bez okretanja C
-  G0 z=poz_mer meas=1
+  G0 z=me_position meas=1
 endif
 ;ako je doslo do kontakta sa sondom u toku pozicioniranja - greska
-IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
 ;ako se traz ugao C
-if(poz_c<>0)
+if(me_with_caxis<>0)
   ;zakreni komad na ugao
-  G0 C=ACP(C_MER) MEAS=1
+  G0 C=ACP(me_caxis_position) MEAS=1
   ;ako je doslo do kontakta sa sondom - greska
-  IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+  IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
 endif
 ;dolazak na precnik merenja
-g0 x=prec_mer+duz_mer meas=1
+g0 x=me_diameter+me_distance meas=1
 ;ako je bilo kontakta greska
-IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
 STOPRE
 ;petlja za pomeranje po uglu 
-for brojacmerenja=1 to brojmerenja
+for brojacmerenja=1 to me_measurecount
   ;ako se komad moze okretati po c
-  If(poz_c<>0)
+  If(me_with_caxis<>0)
     ;zakreni komad na ugao
-    G0 C=ACP(C_MER+(brojacmerenja-1)*ugaozaokreta) MEAS=1
+    G0 C=ACP(me_caxis_position+(brojacmerenja-1)*ugaozaokreta) MEAS=1
     ;ako je doslo do kontakta sa sondom - greska
-    IF($AC_MEA[broj_sonde]==1) GOTOF GRESKA
+    IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
   endif 
   ;petlja za ponavljanje merenje
-  for brojacpon=1 to brojponavljanja
+  for brojacpon=1 to me_repetitioncount
      ;merenje
-     g1 x=prec_mer-duz_mer f=brz_mer meas=1
+     g1 x=me_diameter-me_distance f=me_feed meas=1
      ;u slucaju da nije bilo kontakta prijavi gresku
-     IF($AC_MEA[broj_sonde]==0) GOTOF GRESKA
+     IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
      ;zapisujemo rezultat
-     me_result[brojacmerenja-1,brojacpon-1]=prec_mer-$aa_mw[X]
+     me_result[brojacmerenja-1,brojacpon-1]=me_diameter-$aa_mw[X]
      ;ispis poruke
      msg("$66021 "<<$aa_mw[X]<<" $66022 "<<me_result[brojacmerenja-1,brojacpon-1])
      ;zapis u fajl
      poruka = SPRINT("Merenje %d ponavljanje %d mera %7.4F greska %7.4F",brojacmerenja,brojacpon,$aa_mw[X],me_result[brojacmerenja-1,brojacpon-1])
      Write(errno,fname,poruka)
      ;idemo nazad
-     g1 x=prec_mer+duz_mer F=brz_mer
+     g1 x=me_diameter+me_distance F=me_feed
   ;kraj petlje za ponavljanje
   endfor
 ;kraj petlje za merenje po uglu
@@ -75,15 +76,15 @@ endfor
 g0 x=start_x
 g0 z=start_z
 ;podizanje sonde
-msonde=msonde-1
+me_probeup=me_probeup-1
 G75X0
 ;proracun
 me_min=me_result[0,0]
 me_max=me_result[0,0]
 me_avg=0
 ;petlja za matematiku 
-for brojacmerenja=0 to brojmerenja-1
-  for brojacpon=0 to brojponavljanja-1
+for brojacmerenja=0 to me_measurecount-1
+  for brojacpon=0 to me_repetitioncount-1
       if(me_min>me_result[brojacmerenja,brojacpon])
         me_min=me_result[brojacmerenja,brojacpon]
       endif
@@ -93,27 +94,27 @@ for brojacmerenja=0 to brojmerenja-1
       me_avg=me_avg+me_result[brojacmerenja,brojacpon]
   endfor
 endfor
-me_avg=me_avg/(brojmerenja*brojponavljanja)
+me_avg=me_avg/(me_measurecount*me_repetitioncount)
 me_span=abs(me_max-me_min)
 ;kraj proracuna
 
-IF (KOREKCIJA<>2)
-   m=msonde
+IF (me_correction<>2)
+   m=me_probeup
 ENDIF
 
-IF( (DOZ_GRESKA>0) AND (DOZ_GRESKA<ABS(me_avg))) 
+IF( (me_tolerance>0) AND (me_tolerance<ABS(me_avg))) 
   SETAL(65012)
   M00
   M96
 ENDIF
 
-IF(KOREKCIJA==1)
-  $P_UIFR[KORD_SYSTEM-1,X,FI]=-0.5*me_avg
+IF(me_correction==1)
+  $P_UIFR[me_frame-1,X,FI]=-0.5*me_avg
   msg("$66023")
 ENDIF
 ;rekalibracija sonde
-IF(KOREKCIJA==2)
-$tc_dp4[brsonde,ivica]=$tc_dp4[brsonde,ivica]-0.5*me_avg
+IF(me_correction==2)
+$tc_dp4[me_tool_number,me_tool_dnumber]=$tc_dp4[me_tool_number,me_tool_dnumber]-0.5*me_avg
 ENDIF
 m17
 
