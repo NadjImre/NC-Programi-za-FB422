@@ -9,7 +9,7 @@ stopre
 
 g500
 zpos=$aa_iw[z]
-G1 z=zpos+me_distanc MEAS=me_probe_number F=me_feed
+G1 z=zpos+me_distance MEAS=me_probe_number F=me_feed
 IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
 $tc_dp5[me_tool_number,me_tool_Dnumber]=$AA_MM[z]-me_target
 MSG("$66019")

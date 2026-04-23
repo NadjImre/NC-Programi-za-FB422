@@ -106,16 +106,38 @@ Def chan real Th_Pitch ; korak navoja
 Def chan int Th_Hand ; smer navoj 0- desni, 1-Levi 
 Def chan int Th_Starts ; broj početaka navoja
 Def chan String[32] Th_Conture ; naziv profila navoja
-
+;******************
 ;parametri merenja
-def chan real me_result[16,16]
-def chan real me_max
-def chan real me_min
-def chan real me_avg
-def chan real me_span
-
+;******************
+def chan real me_result[16,16] ; rezultati merenja maks. 16 ponavljanja sa 16 merenja po krugu
+def chan real me_max ; maksimum rezultata
+def chan real me_min ; minimum rezultata
+def chan real me_avg ; prosek rezultata
+def chan real me_span ; razlika izmedju maksimuma i minimuma
+def chan string[32] me_tool ; naziv alata za merenje
+def chan int me_tool_number ; broj alata za merenje
+def chan int me_tool_dnumber ; D broj alata za merenje
+def chan real me_distance ; duzina merenja 
+def chan real me_feed ; brzina pomaka pri merenju
+def chan real me_target ; ciljna kordinata pri kalibraciji
+def chan int me_probe_number ; broj sonde koji se koristi (1 ili 2)
+def chan real me_diameter ;precnik merenja
+def chan real  me_position ; pozicija merenja po Z osi
+def chan int me_probeUP ; M funkcija za podizanje sonde
+def chan int me_probeDown ; M funkcija za spuštanje sonde
+def chan int me_status ; Status - bit kodirano
+def chan int me_frame ; koord. system koji se koriguje sa rezultatima merenja
+def chan real me_tolerance ; tolerancija odstupanja od nominalne mere
+def chan int me_with_Caxis ; <>0 treba okrenuti C osu po zadati ugao za merenje
+def chan real me_Caxis_Position ; ugao na koji treba okrenuti C osu za merenje
+def chan int me_RepetitionCount ; broj ponavljanja merenja u istoj tački
+def chan int me_MeasureCount ; broj merenja po krugu
+def chan int me_Correction ; 0 samo ispis rezultata, 1 - korekcija koors systema, 2 - rekalibracija
+def chan int me_Probe_AutoUp ; 0 - automatsko dizanje i spuštanje sonde 
+def chan int me_ReturnMode ; nacin povrtaka osa posle merenja
+;*******************************************************
 ;Parametri profila navoja za fabricki definisane profile
-
+;*******************************************************
 Def Chan Real Th_D0 ; Nominalni precnik navoja
 Def Chan Real Th_D1 ; Mali precnik navoja
 Def Chan Real Th_D3 ; Precnik D3 za metricke navoje

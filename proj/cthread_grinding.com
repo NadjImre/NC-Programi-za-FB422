@@ -4,6 +4,7 @@
 
 DEF BRTOC = (S//"krug1"/,$89095////270,25,155/375,25,95//"pomoc.html","9007"),
 DBROJTOC = (I/1,9/1/,,"D"////500,25,20/490,25,40)
+Def NacinBrusenja= (IDD/*0="Off", 1="Navoj", 2="Navoj usecanjem", 3="Pritupljene 1", 4="Pritupljenje 2"/0/,"Nacin brusenja",,"-"/wr2///270,,130/375,,145)
 DEF KORDSYS = (IDD/*1="G53", 2="G54",3="G55",4="G56",5="G57",6="G505",7="G506",8="G507",9="G508",10="G509",11="G510",12="G511",13="G512",14="G513",15="G514",16="G515",17="G515"/2/,$89454,""/WR2///270,,150/375,,95)
 DEF UGAOZ = (R3/-180,180/0/,$89453,"B",$89072/LI3,///270,,130/375,,145//"pomoc.html","9044")
 DEF PRECD2 = (R3/-450,450/9.026/,,"D2",$89068////270,,130/375,,145//"pom.html","M006")
@@ -18,7 +19,6 @@ DEF VAR15 = (R4/,/0/$89065,$89065,,$89068/LI3,///270,,130/375,,145)
 DEF VAR16 = (R4/,/0/$89066,$89066,,$89068/LI3,///270,,130/375,,145)
 DEF HLADJENJE = (IDD/10,15/12/,$89452,,$89067/WR2,ac2///270,,130/375,,145//"pomoc.html","9009")
 DEF KOMENT = (S///$89660,"Komentar:",////270,,80/330,,210//"pomoc.html","9024")
-DEF Rezerva1 = (R3/-450,450/8.1/,,"D1",$89068/wr4///270,,130/375,,145//"pom.html","M005")
 DEF Rezerva2 = (R4/,/0/$89102,$89103,"Z1",$89068/wr4///270,,130/375,,145//"pomoc.html","9012")
 DEF Rezerva3 = (R4/,/0/$89104,,"Z2",$89068/wr4///270,,130/375,,145//"pomoc.html","9013")
 def kombinovani1=(Idd///,"Kombinovani parametar",,"-"/wr1///270,,80/330,,210)
@@ -29,7 +29,6 @@ VS7=("Cancel",,SE1)
 
 PRESS(VS8)
   kombinovani1=brojpocet+100*StaBrusimo*KojiPocetak
-  Rezerva1=0
   Rezerva2=0
   Rezerva3=0
   RezervaStr=""
@@ -57,7 +56,7 @@ CHANGE(SMER)
 END_CHANGE
 
 OUTPUT(NCCODE3)
-  "_THREAD_GRINDING(""" BRTOC """," DBROJTOC "," UGAOZ "," KORDSYS "," Rezerva1 ","  PRECD2 "," KORAK "," SMER "," Kombinovani1 "," Rezerva2 "," Rezerva3 "," VAR15 "," VAR16 "," HLADJENJE "," PODHOD "," RABHOD ","""RezervaStr""","""KOMENT""")"
+  "_THREAD_GRINDING(""" BRTOC """," DBROJTOC "," UGAOZ "," KORDSYS "," NacinBrusenja ","  PRECD2 "," KORAK "," SMER "," Kombinovani1 "," Rezerva2 "," Rezerva3 "," VAR15 "," VAR16 "," HLADJENJE "," PODHOD "," RABHOD ","""RezervaStr""","""KOMENT""")"
 END_OUTPUT
 
 

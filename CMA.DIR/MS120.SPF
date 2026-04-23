@@ -17,19 +17,13 @@ fname="/_N_MPF_DIR/LOG_MS120"
 ;ravan , koordinatni sistem i alat
 g18g500 t= me_tool d= me_tool_Dnumber
 start_x=$aa_iw[x] start_z=$aa_iw[z]
-;dekodiranje
- me_Correction = status b_and 3
- me_ReturnMode = status b_and 12
-me_Probe_AutoUp = status b_and 16
-me_RepetitionCount = ((status b_and 480) / 32) + 1
-me_MeasureCount = ((status b_and 7680) / 512) + 1
 ugaozaokreta=360/ me_MeasureCount
 ;kraj dekodiranja
 stopre
 ;poruka
 msg("$66020")
 ;podizanje sonde
-m=me_Probe_Up
+m=me_ProbeUp
 ;zauzimanje ugla ako se traži i dolazak u poziciju merenja
 if( me_with_Caxis<>0)
   ;ako se traži ugao C za merenje onda menjac je osa

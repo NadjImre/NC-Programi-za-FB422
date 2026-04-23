@@ -1,4 +1,4 @@
-proc ms140(string[32] me_tool,int me_tool_dnumber,real me_diameter,real me_position,real me_distance,real me_feed,int me_probeup,int me_probe_number, int me_correction,int me_frame,real me_tolerance,int me_with_caxis,real me_caxis_position)
+proc ms140
 
 def real start_x,start_z
 def int errno;broj greske koja se vraca prilikom snimanja

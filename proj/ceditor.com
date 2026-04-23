@@ -10,10 +10,10 @@ END_PRESS
 HS4=($89151,,se1)
 ;aktivira vertikalni meni za poravanavnje
 PRESS(HS4)
-  LS("poravnavanje","ceditor.COM",1)
+  LS("poravnavanje","ceditor.com",1)
 END_PRESS
 
-HS5=($83534,,se1)
+HS5=($89786,,se1)
 ;aktivira vertikalni meni za merenje
 PRESS(HS5)
   LS("merenje","ceditor.com",1)
@@ -125,19 +125,20 @@ END_PRESS
 
 
 ;aksialno pozicioniranje
-VS3=($89078,,se1)
+VS3=("Measuring%nwith probe",,se1)
 Press(Vs3)
-    LM("merenje120","csonda.com",1) 
+    LM("probe_measuring","cprobe_measuring.com",1) 
 End_Press
 
-;kalibracija po X
-VS4=($89544,,se1)
+;kalibracija po obe ose
+;tekstovi ne odgovaraju
+VS4=("Probe%nCalibration",,se1)
 PRESS(VS4)
-    LM("merenje100","csonda.com",1)
+    LM("probe_calibration","cprobe_calibration.com",1)
 END_PRESS
 
-;kalibracija po Z
-VS5=($89543,,se1)
+;merenje sirine
+VS5=("Width%nMeasurment",,se1)
 PRESS(VS5)
     LM("merenje110","csonda.com",1)
 END_PRESS
@@ -149,8 +150,8 @@ PRESS(VS6)
 END_PRESS
 
 
-;merenje precnika
-VS7=("Merenje%nX",,se1)
+;merenje navoja
+VS7=("Thread%nmeasurment",,se1)
 Press(Vs7)
     LM("merenje140","csonda.com",1) 
 End_Press
