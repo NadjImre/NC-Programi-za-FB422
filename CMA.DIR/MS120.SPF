@@ -4,28 +4,30 @@ proc ms120
 ;sa masine FB422
 ;april 2026
 
-def real start_x,start_z
+def real start_x,start_z;pocetne tacke sa koje ciklus krece, tu se vraćamo na kraju
 def int errno ;broj greske koja se vraca prilikom snimanja
 def string[32] fname ;naziv fajla za snimanje
 def string[128] poruka ; pomocna promenljiva za ispis poruke
-def int brojacmerenja
-def int brojacpon
-def real ugaozaokreta
+def int brojacmerenja ;brojac za broj merenja
+def int brojacpon ; brojac za broj ponavljanja
+def real ugaozaokreta ; ugao zaokreta izmedju dva merenja
+
 ;naziv fajla za zspisivanje statusa
 fname="/_N_MPF_DIR/LOG_MS120"
 
 ;ravan , koordinatni sistem i alat
 g18g500 t= me_tool d= me_tool_Dnumber
+;pamtimo pocetnu tacku
 start_x=$aa_iw[x] start_z=$aa_iw[z]
+;racunamo ugao zaokreta
 ugaozaokreta=360/ me_MeasureCount
-;kraj dekodiranja
 stopre
 ;poruka
 msg("$66020")
 ;podizanje sonde
 m=me_ProbeUp
-;zauzimanje ugla ako se traži i dolazak u poziciju merenja
-if( me_with_Caxis<>0)
+;zauzimanje ugla ako se traži i dolazak u poziciju C
+if(me_with_Caxis<>0)
   ;ako se traži ugao C za merenje onda menjac je osa
   m70
   ;pozicija merenja po Z i pun krug sa komadom
@@ -77,15 +79,18 @@ for brojacmerenja=1 to  me_MeasureCount
  ;kraj petlje za merenje po uglu
 endfor
 ;da li se vracamo po x 
-if (( me_ReturnMode==0) or ( me_ReturnMode==8))
+if (( me_ReturnMode==0) or ( me_ReturnMode==32))
    g0 x=start_x
 endif
 ;da li se vracamo p Z
-if(( me_ReturnMode==0) or ( me_ReturnMode==12))
+if(( me_ReturnMode==0) or ( me_ReturnMode==48))
    g0 z=start_z
 endif
-;podizanje sonde
- me_probeUP= me_probeUP-1
+
+;proracun
+me_min=me_result[0,0]
+me_max=me_result[0,0]
+me_avg=0
 ;petlja za matematiku 
 for brojacmerenja=0 to  me_MeasureCount-1
   for brojacpon=0 to  me_RepetitionCount-1
@@ -103,26 +108,9 @@ me_span=abs(me_max-me_min)
 ;kraj proracuna
 
 IF (me_Probe_AutoUp==0)
-   m= me_probeUP
+   m= me_probeDown
 ENDIF
 
-;ako je razlika veća od dozvoljene prijavi grešku
-IF( ( me_tolerance>0) AND ( me_tolerance<ABS(me_avg))) 
-  SETAL(65012)
-  M00
-  M96
-ENDIF
-
-;korekcija koordinatnog sistema ako se trazi
-IF( me_Correction==1)
-  $P_UIFR[ me_frame-1,Z,FI]=-me_avg
-  msg("$66023")
-ENDIF
-
-;rekalibracija sonde
-IF( me_Correction==2)
-$tc_dp5[ me_tool_number, me_tool-Dnumber]=$tc_dp5[ me_tool_number, me_tool-Dnumber]-me_avg
-ENDIF
 m17
 
 greska:

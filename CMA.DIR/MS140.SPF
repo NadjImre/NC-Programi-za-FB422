@@ -1,20 +1,25 @@
 proc ms140
+;merenje po X osi u više tačaka sa više ponavljanja
+;meri precnik i radijalni udar
+;sa masine FB422
+;april 2026
 
-def real start_x,start_z
+def real start_x,start_z;pocetne tacke sa koje ciklus krece, tu se vraćamo na kraju
 def int errno;broj greske koja se vraca prilikom snimanja
 def string[32] fname;naziv fajla za snimanje
 def string[128] poruka ; pomocna promenljiva za ispis poruke
-def int brojacmerenja
-def int brojacpon
-def real ugaozaokreta
+def int brojacmerenja ;brojac za broj merenja
+def int brojacpon ; brojac za broj ponavljanja
+def real ugaozaokreta ; ugao zaokreta izmedju dva merenja
 
 ;naziv fajla za zspisivanje statusa
 fname="/_N_MPF_DIR/LOG_MS140"
 
-;ravan korrdinatni sistem i alat
+;ravan, koordinatni sistem i alat
 g18g500 t=me_tool d=me_tool_dnumber
-;pocetne vrednosti promenljivih
+;pamtimo pocetnu tacku
 start_x=$aa_iw[x] start_z=$aa_iw[z]
+;racunamo ugao zaokreta
 ugaozaokreta=360/me_measurecount
 stopre
 ;poruka
@@ -63,7 +68,7 @@ for brojacmerenja=1 to me_measurecount
      ;zapisujemo rezultat
      me_result[brojacmerenja-1,brojacpon-1]=me_diameter-$aa_mw[X]
      ;ispis poruke
-     msg("$66021 "<<$aa_mw[X]<<" $66022 "<<me_result[brojacmerenja-1,brojacpon-1])
+     msg("Meas. point " << brojacmerenja << " rep. " << brojacpon << " $66021 "<<$aa_mw[X]<<" $66022 "<<me_result[brojacmerenja-1,brojacpon-1])   
      ;zapis u fajl
      poruka = SPRINT("Merenje %d ponavljanje %d mera %7.4F greska %7.4F",brojacmerenja,brojacpon,$aa_mw[X],me_result[brojacmerenja-1,brojacpon-1])
      Write(errno,fname,poruka)
@@ -73,11 +78,15 @@ for brojacmerenja=1 to me_measurecount
   endfor
 ;kraj petlje za merenje po uglu
 endfor
-g0 x=start_x
-g0 z=start_z
-;podizanje sonde
-me_probeup=me_probeup-1
-G75X0
+;da li se vracamo po x 
+if (( me_ReturnMode==0) or ( me_ReturnMode==8))
+   g0 x=start_x
+endif
+;da li se vracamo p Z
+if(( me_ReturnMode==0) or ( me_ReturnMode==12))
+   g0 z=start_z
+endif
+
 ;proracun
 me_min=me_result[0,0]
 me_max=me_result[0,0]
@@ -98,25 +107,11 @@ me_avg=me_avg/(me_measurecount*me_repetitioncount)
 me_span=abs(me_max-me_min)
 ;kraj proracuna
 
-IF (me_correction<>2)
-   m=me_probeup
+IF (me_ProbeAutoUP<>2)
+   m=me_probeDown
 ENDIF
 
-IF( (me_tolerance>0) AND (me_tolerance<ABS(me_avg))) 
-  SETAL(65012)
-  M00
-  M96
-ENDIF
-
-IF(me_correction==1)
-  $P_UIFR[me_frame-1,X,FI]=-0.5*me_avg
-  msg("$66023")
-ENDIF
-;rekalibracija sonde
-IF(me_correction==2)
-$tc_dp4[me_tool_number,me_tool_dnumber]=$tc_dp4[me_tool_number,me_tool_dnumber]-0.5*me_avg
-ENDIF
-m17
+M17
 
 greska:
 
