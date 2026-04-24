@@ -4,6 +4,8 @@ Def Real XVKoord =0.5 ;dubina na kojoj se brusi
 Def Real CKoord = 0 ; pocetna tacka C ose
 Def Real ZKoord = 0
 Def Real DuzinaNavoja=-1.6
+Def Real DuzinaIzlaza
+Def Real UgaoIzlaza
 Def Real BrojOkretaja
 Def Int ProlazaOdAbrihtovanja = 0
 Def Int Kord
@@ -24,7 +26,7 @@ Def String[32] NazivFajla
 Def Int DaLiJeBioOdskok=0
 
 ;naziv fajla za zspisivanje statusa
-NazivFajla="/_N_MPF_DIR/LOG_SH850"
+NazivFajla="/_N_MPF_DIR/LOG_SH831"
 ;obrisem stari ako ga ima
 DELETE(Greska,NazivFajla)
 ;pocetna poruka
@@ -42,8 +44,15 @@ Kord=GR_FRAME
 ;isto za ugao A ose
 UgaoAOse = ATAN2(TH_PITCH*TH_STARTS,3.141*TH_D2)
 ;**************** ovo proveriti možda treba obrnuto  **************************
-;DuzinaNavoja = GR_POSITION2-GR_POSITION1
+if (GR_POSITION2<GR_POSITION1)
+   DuzinaNavoja = -th_angle1*Th_Starts*Th_Pitch / 360
+   DuzinaIzlaza = -th_angle2*Th_Starts*Th_Pitch / 360
+else
+   DuzinaNavoja = th_angle1*Th_Starts*Th_Pitch / 360
+   DuzinaIzlaza = th_angle2*Th_Starts*Th_Pitch / 360
+endif
 BrojOkretaja = (SmerNavoja*DuzinaNavoja)/(Th_Starts*Th_Pitch)
+UgaoIzlaza = (360*SmerNavoja*DuzinaIzlaza)/(Th_Starts*Th_Pitch)
 Ckoord = 360.0/Th_Starts 
 If(DuzinaNavoja<0)
   R11=Gr_position1-Gr_Steady_InPos
@@ -162,7 +171,7 @@ Endif
 JEDAN_PROLAZ:
 G1 G90 XV=0 F=GR_RABHOD 
 G1 G91 G64 Z=DuzinaNavoja C=360*BrojOkretaja F=GR_Speeds[IndeksFaze]*th_pitch*th_starts
-G1 G90 XV=GR_PODHOD F=GR_RABHOD
+G1 G90 XV=GR_PODHOD Z=IC(DuzinaIzlaza) C=IC(UgaoIzlaza) ; F=GR_RABHOD
 CANCEL(3,2)
 FFWOF
 LEADOF(X,Z)

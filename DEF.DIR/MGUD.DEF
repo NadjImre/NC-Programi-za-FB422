@@ -106,6 +106,7 @@ Def chan real Th_Pitch ; korak navoja
 Def chan int Th_Hand ; smer navoj 0- desni, 1-Levi 
 Def chan int Th_Starts ; broj početaka navoja
 Def chan String[32] Th_Conture ; naziv profila navoja
+Def chan real th_angle1,th_angle2
 ;******************
 ;parametri merenja
 ;******************
