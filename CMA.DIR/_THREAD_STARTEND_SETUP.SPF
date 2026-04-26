@@ -1,0 +1,23 @@
+PROC _THREAD_STARTEND_SETUP(Int Funkcija, Real UgaoPritupljenja, Real UgaoIzlaska, Real UgaoUlaskaUsec, Real UgaoBrusenjaUsec, Real UgaoIzlaskaUsec, Real BrojObrtaja, Real BrzinaKamena) 
+
+
+if (funkcija==0)
+   thread_angle1 = UgaoPritupljena
+   thread_angle2 = UgaoIzlaska
+else
+   
+
+Gr_Steps[ii]=DubProlaza
+Gr_Strokes[ii]=ProlazaBrus
+Gr_StrokesToDress[ii]=ProlazaDoAbriht
+Ds_Strokes[ii]=ProlazaAbriht
+Ds_Steps[ii]=DubAbriht
+Ds_Feeds[ii]=BrzAbriht
+Ds_Wheel_Speeds[ii]=BrzKamAbriht
+Ds_Roll_Speeds[ii]=BrzRolne
+Gr_Speeds[ii]=BrojObrtaKomada
+Gr_Wheel_Speeds[ii]=BrzKamBrus
+Gr_Pause[ii]=Pauza
+Stopre
+
+M17

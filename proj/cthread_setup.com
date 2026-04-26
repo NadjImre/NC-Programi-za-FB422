@@ -102,6 +102,7 @@ BRZKAMBRUS6 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
 DEF ZBIR=(R4//0/$89212,,,/wr1////120,,44/10,126/)
 
+
 VS8=("OK",,se1)
 VS7=($89842,,se1)
 
@@ -199,6 +200,7 @@ LOAD
    zbir2=dub2*prol2
    zbir1=dub1*prol1
    zbir=zbir1+zbir2+zbir3+zbir4+zbir5+zbir6
+ 
 END_LOAD
 
 //END

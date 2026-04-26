@@ -107,6 +107,12 @@ Def chan int Th_Hand ; smer navoj 0- desni, 1-Levi
 Def chan int Th_Starts ; broj početaka navoja
 Def chan String[32] Th_Conture ; naziv profila navoja
 Def chan real th_angle1,th_angle2
+Def chan real th_plunge_angle1 ; ugao ulaska kod usecanja navoja
+Def chan real th_plunge_angle2 ; ugao brusenja kod usecanja navoja
+Def chan real th_plunge_angle3 ; Ugao Izlsaka kod Usecanja navoja
+Def chan real th_plunge_feed ; Broj Obrtaja komada kod usecanja navoja
+Def chan real th_plunge_wheel_speed ; Brzina Kamena kod usecanja navoja
+
 ;******************
 ;parametri merenja
 ;******************
