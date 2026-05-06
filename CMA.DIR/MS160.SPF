@@ -1,0 +1,159 @@
+PROC  MS160
+;merenje srednjeg precnika navoja
+;za mašinu FB422, maj 2026
+;PROMENLJIVE
+;pocetna pozicija pre merenja
+Def Real start_x,start_z
+;mesto gde je pronađen ulaz u navoj
+Def Real ulaz_Z
+;brojac merenja
+Def Int Brojac=0, Brojac2=0
+;ravan , koordinatni sistem i alat
+g18g500 t=me_tool d=me_tool_dnumber
+;zapamti pocetnu poziciju
+start_x=$aa_iw[x] start_z=$aa_iw[z]
+stopre
+;da li je podesavanje ili kalibracija
+if (me_th_type==2) gotof Kalibracija
+;poruka
+msg("$66020")
+;podizanje sonde
+m=me_ProbeUp
+;zaokret komada da bi se prislonio na povlakac
+C=ACP(0) G0
+C=IC(360) G0
+;zauzimanje pozicije za merenje - ako ima kontakta to je greska
+G0 Z=me_th_position MEAS=me_probenumber
+IF($AC_MEA[me_probenumber]==1) GOTOF GRESKA
+;zauzimanje pocetne tacke merenja po X u - ako ima kontakta to je greska
+G0 X=me_th_startdia MEAS=me_probenumber
+IF($AC_MEA[me_probenumber]==1) GOTOF GRESKA
+STOPRE
+;trazenje ulaza u navoj
+TRAZI_ZLJEB:
+;pokusamo odlazak na precnik za merenje
+G1 X=me_th_diameter F=me_feed MEAS=me_probenumber
+;ako ako ima kontakta pokusaj ponovo
+IF($AC_MEA[me_probenumber]==1) 
+  ;povrataka na pocetni precnik 
+  X=me_th_startdia
+  ;pomeri malo Z osu
+  Z=IC(me_th_step)
+  ;vrati se na pocetak
+  GOTOF TRAZI_ZLJEB
+ENDIF
+;ako dodjemo dovde nasli smo ulaz, pamtimo polozaj po Z
+ulaz_Z = $AA_IW[Z]
+;trazimo kontakt po Z osi u plus smeru
+g1 Z=IC(me_pitch) F=me_feed MEAS=me_probenumber
+;ako nemamo kontak  - greska
+IF(($AC_MEA[me_probenumber]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
+;ako ima onda belezimo rezultat
+me_th_result[0,0]=$AA_MW[Z]
+;i vracamo se nazad
+G0 Z=ulaz_Z
+;i merimo u suprotnom smeru
+G1 Z=IC(-me_pitch) F=me_feed MEAS=me_probenumber
+;ako nemamo kontakt to je greska
+IF($AC_MEA[me_probenumber]==0) GOTOF GRESKA
+;ako ima onda belezimo rezultat
+me_th_result[0,1]=$AA_MW[Z]
+;i vracamo se nazad
+G0 Z=ulaz_Z
+;proracun sredine
+me_th_Zerror = me_th_position - 0.5*(me_th_result[0,0] + me_th_result[0,1])
+;proracun ugla korekcije
+me_th_Cerror = (me_th_Zerror*360/me_th_pitch) mod 360
+if (me_th_Cerror<0)
+   me_th_Cerror = me_th_Cerror+360
+endif
+;greska sirine zljeba
+me_th_Werror = abs(me_th_result[0,0] - me_th_result[0,1])-me_th_width[0]
+;proracun greske precnika
+me_th_Xerror = 0.1*me_th_Werror/(me_th_width[1]-me_th_width[0])
+;ispis poruke
+msg("$66021 "<<me_th_result)
+;vracanje na pocetnu tacku
+g0 x=start_x
+g0 z=start_z
+;podizanje sonde
+m=me_probeDown
+
+;korekcija koordinatnog sistema ako se trazi
+IF(KOREKCIJA==1)
+  $P_UIFR[me_frame,Z,FI]=-me_W_result
+  msg("$66023")
+ENDIF
+
+;rekalibracija ako se trazi
+IF(KOREKCIJA==3)
+  me_W_Position=me_W_result
+  msg("$66023")
+ENDIF
+
+m17
+
+greska:
+
+SETAL(65002)
+M00
+M96
+
+m17
+
+;pocetak kalibracije
+KALIBRACIJA:
+;sonda mora biti rucno podignuta i dovedena u  žljeb navoja
+;prva petlja
+Brojac=0
+PETLJA_KALIBRACIJE:
+;trazimo kontakt po Z osi u plus smeru
+g1 Z=IC(me_distance) F=me_feed MEAS=me_probenumber
+;ako nemamo kontak  - greska
+IF(($AC_MEA[me_probenumber]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
+;u slucaju kontakta ako brojac nije prepunjen prepisujemo rezultat
+if (Brojac<10)
+   Me_Th_Result[Brojac,0]=$AA_MW[Z]
+endif
+;vracamo se nazad
+G0 Z=Start_Z
+;i merimo u suprotnu stranu
+g1 Z=IC(-me_distance) F=me_feed MEAS=me_probenumber
+;ako nemamo kontak  - greska
+IF(($AC_MEA[me_probenumber]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
+;u slucaju kontakta ako brojac nije pun prepisujemo rezultat
+if (Brojac<10>)
+   Me_TH_Result[Brojac,1]=$AA_MW[Z]
+endif
+;podesavanje ostalih promenljivih
+me_W_diameter = start_X
+me_W_position = 0.5*(me_W_result1 + me_W_result2)
+;ispis poruke
+msg("$66021 "<<Me_W_Position)
+;podizemo se za 0.1 mm
+X=IC(0.1)
+Brojac=Brojac+1
+GOTOB PETLJA_KALIBRACIJE
+GotoB 
+M17
+
+
+GRESKA_KALIBRACIJE:
+;ako je bilo manje od dva merenja - greska
+if (Brojac<2)
+   SETAL(66028)
+   M00
+   M96
+Else
+;ako je bilo bar dva merenja - proračun
+   me_th_startdia = $AA_IW[X]
+   me_th_diameter = start_x
+   me_th_position = 0
+   for Brojac2=0 to Brojac 
+       me_th_width[Brojac2] = abs(me_th_result[Brojac2,0]-me_th_result[Brojac2,1])
+       me_th_position = me_th_position + 0.5*(me_th_result[Brojac2,0]+me_th_result[Brojac2,1])
+   endfor
+   me_th_position = me_th_position / (Brojac+1)
+Endif
+
+M17

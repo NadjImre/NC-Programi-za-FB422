@@ -142,6 +142,13 @@ def chan int me_MeasureCount ; broj merenja po krugu
 def chan int me_Correction ; 0 samo ispis rezultata, 1 - korekcija koors systema, 2 - rekalibracija
 def chan int me_Probe_AutoUp ; 0 - automatsko dizanje i spuštanje sonde 
 def chan int me_ReturnMode ; nacin povrtaka osa posle merenja
+def chan int me_w_type ; nacin merenja širinie ili pozicioniranja po sredini
+def chan real me_w_diameter ; precnik merenja širine, definisan kalibracijom
+def chan real me_w_position ; pozicija sredine žljeba, određuje se kalibracijom
+def chan real me_w_width ; nominalna širina žljeba, upisuje kalibracija
+def chan real me_w_results[10,10,2] ; rezultati merenja, tačke dodira sa sondom
+def chan real me_w_result ; rezultat merenja, izmerena pozicija sredine žljeba
+
 ;*******************************************************
 ;Parametri profila navoja za fabricki definisane profile
 ;*******************************************************
