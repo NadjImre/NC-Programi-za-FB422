@@ -56,9 +56,9 @@ PRESS(VS4)
 END_PRESS
 
 ;brušenje sa mernom glavom
-VS5=($89783,,se1)
+VS5=("Thread%nStart-End",,se1)
 PRESS(VS5)
-  LM("brusenjeMG","cbrusenje2.com")
+  LM("Thread_StartEnd_Setup","cthread_startend_setup.com")
 END_PRESS
 
 ;podešavanje linete
@@ -140,20 +140,20 @@ END_PRESS
 ;merenje sirine
 VS5=("Width%nMeasurment",,se1)
 PRESS(VS5)
-    LM("merenje110","csonda.com",1)
+    LM("probe_width","cprobe_width.com",1)
 END_PRESS
 
 ;Orjentacjia po C
-VS6=($89551,,se1)
+VS6=("C axis%nPosition,,se1)
 PRESS(VS6)
-    LM("merenje130","csonda.com",1)
+    LM("probe_caxis_position","cprobe_caxis_position.com",1)
 END_PRESS
 
 
 ;merenje navoja
 VS7=("Thread%nmeasurment",,se1)
 Press(Vs7)
-    LM("merenje140","csonda.com",1) 
+    LM("probe_thread","cprobe_thread.com",1) 
 End_Press
 
 
