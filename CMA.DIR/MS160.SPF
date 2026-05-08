@@ -14,7 +14,7 @@ g18g500 t=me_tool d=me_tool_dnumber
 start_x=$aa_iw[x] start_z=$aa_iw[z]
 stopre
 ;da li je podesavanje ili kalibracija
-if (me_th_type==2) gotof Kalibracija
+if (me_th_type==4) gotof Kalibracija
 ;poruka
 msg("$66020")
 ;podizanje sonde
@@ -108,7 +108,7 @@ KALIBRACIJA:
 Brojac=0
 PETLJA_KALIBRACIJE:
 ;trazimo kontakt po Z osi u plus smeru
-g1 Z=IC(me_distance) F=me_feed MEAS=me_probenumber
+g1 Z=IC(me_pitch) F=me_feed MEAS=me_probenumber
 ;ako nemamo kontak  - greska
 IF(($AC_MEA[me_probenumber]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
 ;u slucaju kontakta ako brojac nije prepunjen prepisujemo rezultat
@@ -118,18 +118,13 @@ endif
 ;vracamo se nazad
 G0 Z=Start_Z
 ;i merimo u suprotnu stranu
-g1 Z=IC(-me_distance) F=me_feed MEAS=me_probenumber
+g1 Z=IC(-me_pitch) F=me_feed MEAS=me_probenumber
 ;ako nemamo kontak  - greska
 IF(($AC_MEA[me_probenumber]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
 ;u slucaju kontakta ako brojac nije pun prepisujemo rezultat
 if (Brojac<10>)
    Me_TH_Result[Brojac,1]=$AA_MW[Z]
 endif
-;podesavanje ostalih promenljivih
-me_W_diameter = start_X
-me_W_position = 0.5*(me_W_result1 + me_W_result2)
-;ispis poruke
-msg("$66021 "<<Me_W_Position)
 ;podizemo se za 0.1 mm
 X=IC(0.1)
 Brojac=Brojac+1

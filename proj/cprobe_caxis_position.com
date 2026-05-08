@@ -10,9 +10,15 @@ DEF xNOM = (R3/-1000,1000/0/$89766,$89545,"X",$89068////235,,185/395,,160//"pomo
 
 DEF zNOM = (R3/-1000,1000/0/$89768,$89546,"Z",$89068////235,,185/395,,160//"pomoc.html","9706")
 
+Def cCalib = (R3/0,360/0/$89768,"","C",$89072////235,,185/395,,160//"pomoc.html","9706")
+
 DEF DuzMer = (R1/-100,100/10/$89762,$89486,"B",$89068/LI3,///235,,185/395,,160//"pomoc.html","9703")
 
+DEF DuzMerC = (R1/0,180/30/$89762,"","Fi",$89072/LI3,///235,,185/395,,160//"pomoc.html","9703")
+
 DEF BrzMer = (I/1,1500/60/$89764,$89484,"V",$89070/WR2///235,,185/395,,160//"pomoc.html","9704")
+
+DEF BrzMerC = (I/1,1800/360/$89764,"","Vc","-"/WR2///235,,185/395,,160//"pomoc.html","9704")
 
 DEF MSonde = (I/21,25/23/$89770,$89769,"-","."/WR2///235,,185/395,,160//"pomoc.html","9707")
 
@@ -34,7 +40,7 @@ VS8=("OK",,se1)
 VS7=($89842,,se1)
 
 OUTPUT(NCCODE3)
-  "_PROBE_WIDTH(""" SONDA """," DBROJSONDE "," xnom "," znom "," DUZMER "," BRZMER "," Msonde "," BRojsonde "," STATUS "," kordsys "," DOZRAZ " , " TREBAC " , " CNOM ")"
+  "_PROBE_CAXIS(""" SONDA """," DBROJSONDE "," xnom "," znom "," cCalib "," DUZMER "," DuzMerC "," BRZMER "," BrzMerC "," Msonde "," BRojsonde "," STATUS "," kordsys "," DOZRAZ " , " TREBAC " , " CNOM ")"
 END_OUTPUT
 
 PRESS(VS8)
@@ -55,6 +61,9 @@ LOAD
   DIZANJE = STATUS BAND 64
   BROJPONAVLJANJA = ((STATUS SHR 7) band 15)+1
   BROJUGAONO = ((STATUS SHR 11) band 15)+1
+  xNom=RNP("me_c_diameter")
+  zNom=RNP("me_c_position")
+  cCalib = RNP("me_c_calibration")
 END_LOAD
 
 //END

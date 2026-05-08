@@ -1,4 +1,4 @@
-//M(probe_width)
+//M(probe_thread)
 ;maska za merenje sredine zljeba
 ;prvi put na FB422
 ;maj 2026
@@ -8,9 +8,13 @@ DBROJSonde = (I/1,9/1/$89760,,"D"////500,,20/500,,40//"pomoc.html","9702")
 
 DEF xNOM = (R3/-1000,1000/0/$89766,$89545,"X",$89068////235,,185/395,,160//"pomoc.html","9705")
 
+DEF xStart = (R3/-1000,1000/0/$89766,$89545,"X",$89068////235,,185/395,,160//"pomoc.html","9705")
+
 DEF zNOM = (R3/-1000,1000/0/$89768,$89546,"Z",$89068////235,,185/395,,160//"pomoc.html","9706")
 
 DEF DuzMer = (R1/-100,100/10/$89762,$89486,"B",$89068/LI3,///235,,185/395,,160//"pomoc.html","9703")
+
+DEF KorakMer = (R1/-99,99/10/$89762,$89486,"B",$89068/LI3,///235,,185/395,,160//"pomoc.html","9703")
 
 DEF BrzMer = (I/1,1500/60/$89764,$89484,"V",$89070/WR2///235,,185/395,,160//"pomoc.html","9704")
 
@@ -34,7 +38,7 @@ VS8=("OK",,se1)
 VS7=($89842,,se1)
 
 OUTPUT(NCCODE3)
-  "_PROBE_WIDTH(""" SONDA """," DBROJSONDE "," xnom "," znom "," DUZMER "," BRZMER "," Msonde "," BRojsonde "," STATUS "," kordsys "," DOZRAZ " , " TREBAC " , " CNOM ")"
+  "_PROBE_THREAD(""" SONDA """," DBROJSONDE "," xnom "," xstart "," znom "," DUZMER "," KorakMer "," BRZMER "," Msonde "," BRojsonde "," STATUS "," kordsys "," DOZRAZ " , " TREBAC " , " CNOM ")"
 END_OUTPUT
 
 PRESS(VS8)
@@ -55,9 +59,9 @@ LOAD
   DIZANJE = STATUS BAND 64
   BROJPONAVLJANJA = ((STATUS SHR 7) band 15)+1
   BROJUGAONO = ((STATUS SHR 11) band 15)+1
-  xNom=RNP("me_w_diameter")
-  zNom=RNP("me_w_position")
-  DuzMer = RNP("me_w_width")
+  xNom=RNP("me_th_diameter")
+  zNom=RNP("me_th_position")
+  xStart = RNP("me_th_startdia")
 END_LOAD
 
 //END

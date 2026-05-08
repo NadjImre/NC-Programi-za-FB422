@@ -1,7 +1,6 @@
 PROC  MS130
 ;merenje orjentacije komada
 ;za mašinu FB357
-;korekcija - 0 samo merenje, 1 merenje sa korekcijom , 2 podesavanje/kalibracija, 3 rekalibracija
 ;PROMENLJIVE
 ;pocetna pozicija pre merenja
 Def Real start_x,start_z
@@ -13,7 +12,7 @@ g18g500 t=me_tool d=me_tool_dnumber
 start_x=$aa_iw[x] start_z=$aa_iw[z]
 stopre
 ;da li je podesavanje ili kalibracija
-if (me_c_type==2) gotof Kalibracija
+if (me_c_type==4) gotof Kalibracija
 ;poruka
 msg("$66020")
 ;podizanje sonde

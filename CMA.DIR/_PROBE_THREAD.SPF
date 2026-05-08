@@ -1,21 +1,18 @@
-PROC _PROBE_CAXIS(String[32] Sonda,int DBrojSonde ,real Xnom ,real Znom ,real Ccalib, real DuzMer, real DuzMerC, real BrzMer, real BrzMerC ,int MSonde ,int BrojSonde ,int Status ,int kordsys ,real DOZRAZ ,int TrebaC ,real Cnom)
+PROC _PROBE_THREAD(String[32] Sonda,int DBrojSonde ,real Xnom ,real Znom ,real DuzMer, real BrzMer ,int MSonde ,int BrojSonde ,int Status ,int kordsys ,real DOZRAZ ,int TrebaC ,real Cnom)
 
 def int mode
 
-me_c_type = Status b_and 15
+me_w_type = Status b_and 15
 
-if (me_c_type == 0) gotof kraj
+if (me_w_type == 0) gotof kraj
 
 me_tool=Sonda
 me_tool_number = gett(sonda)
 me_tool_Dnumber = DBrojSonde
-me_c_diameter = Xnom
-me_c_position = Znom
-me_c_calibration = Ccalib
-me_distance = DuzMer
-me_c_span = DuzMerC
+me_w_diameter = Xnom
+me_w_position = Znom
+me_w_width = DuzMer
 me_feed = BrzMer
-me_c_feed = BrzMerC
 me_ProbeUp = MSonde
 me_ProbeDown = MSonde-1
 me_probe_number = BrojSonde
@@ -32,8 +29,8 @@ me_Probe_AutoUP = (Status b_and 64)
 ms150
 
 ;merenje  bez korekcije,samo provera rezultata i ispis greske ako ima
-if (me_c_type==1)
-   If( ( me_tolerance>0) AND ( me_tolerance<ABS(me_c_result))) gotof greska
+if (me_w_type==1)
+   If( ( me_tolerance>0) AND ( me_tolerance<ABS(me_w_result))) gotof greska
    gotof kraj
 endif
 
@@ -41,8 +38,8 @@ endif
 ;na bazi ,merenja unosi se korekcija u koord sistem
 ;ako je greska veće od dozvoljene ispisuje alarm
 if (mode==2)
-   If( ( me_tolerance>0) AND ( me_tolerance<ABS(me_c_result))) gotof greska
-   $P_UIFR[ me_frame-1,C,FI]=-me_c_result
+   If( ( me_tolerance>0) AND ( me_tolerance<ABS(me_w_result))) gotof greska
+   $P_UIFR[ me_frame-1,Z,FI]=-me_w_result
    msg("$66023")
    gotof kraj
 endif
@@ -52,7 +49,7 @@ endif
 ;ako je greska veće od dozvoljene ispisuje alarm
 if (mode==3)
    If( ( me_tolerance>0) AND ( me_tolerance<ABS(me_w_result))) gotof greska
-   me_c_position=me_c_position-me_c_result
+   me_w_position=me_w_position-me_w_result
 gotof kraj
 endif
 

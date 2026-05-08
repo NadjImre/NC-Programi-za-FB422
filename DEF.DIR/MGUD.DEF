@@ -148,6 +148,26 @@ def chan real me_w_position ; pozicija sredine žljeba, određuje se kalibracijo
 def chan real me_w_width ; nominalna širina žljeba, upisuje kalibracija
 def chan real me_w_results[10,10,2] ; rezultati merenja, tačke dodira sa sondom
 def chan real me_w_result ; rezultat merenja, izmerena pozicija sredine žljeba
+def chan int me_c_type ; tip merenja 
+def chan real me_c_diameter ; precnik merenja širine, definisan kalibracijom
+def chan real me_c_position ; pozicija sredine žljeba, određuje se kalibracijom
+def chan real me_c_calibration ; pozicija c sa calibracije
+def chan real me_c_result ; rezultat merenja, izmerena pozicija sredine žljeba
+def chan real me_c_span ; korak sa kojim se trazi zljeb
+def chan real me_c_feed ; brzina sa kojom se merei u c pravcu
+def chan int me_th_type ; tip merenja 
+def chan real me_th_diameter ; precnik merenja navoja, definisan kalibracijom
+def chan real me_th_position ; pocetna pozicija merenja, određuje se kalibracijom
+def chan real me_th_startdia ; startni precnik merenja navoja
+def chan real me_th_result ; rezultat merenja, izmerena pozicija sredine žljeba
+def chan real me_th_pitch ; korak navoja koji se meri
+def chan real me_th_step ; korak sa kojim se traži ulazak u navoj
+def chan real me_th_results[10,10] ; rezulatati merenja , tačke dodira levo ili desno
+def chan real me_th_Zerror ; greška odstupanja sredine žljeba navoja po Z osi
+def chan real me_th_Cerror ; vrednost za koju treba korigovati C osu da bi pogodili ulazak u nit
+def chan real me_th_Werror ; greska sirine zljeban navoja na visini merenja
+def chan real me_th_Xerror ; greska srednjeg prečnika navoja (racunska)
+def chan real me_th_width[10] ; izmerena širina žljeba navoja 
 
 ;*******************************************************
 ;Parametri profila navoja za fabricki definisane profile
