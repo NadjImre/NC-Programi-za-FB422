@@ -4,127 +4,127 @@
     <name>slaeconv</name>
     <message>
       <source>700000/PLC/PMC</source>
-      <translation>UKLJUCITI HIDRAULIKU ZA POKRETANJE X OSE          </translation>
+      <translation>TURN ON HYDRAULICS FOR X-AXIS MOVEMENT          </translation>
     </message>
     <message>
       <source>700001/PLC/PMC</source>
-      <translation>UKLJUCITI HIDRAULIKU ZA POKRETANJE C OSE          </translation>
+      <translation>TURN ON HYDRAULICS FOR C-AXIS MOVEMENT          </translation>
     </message>
     <message>
       <source>700002/PLC/PMC</source>
-      <translation>UKLJUCITI HIDRAULIKU ZA POKRETANJE Z OSE          </translation>
+      <translation>TURN ON HYDRAULICS FOR Z-AXIS MOVEMENT          </translation>
     </message>
     <message>
       <source>700003/PLC/PMC</source>
-      <translation>NIJE UKLJUCEN MOTOR HIDRAULIKE                    </translation>
+      <translation>HYDRAULICS MOTOR SWITCHED OFF                    </translation>
     </message>
     <message>
       <source>700004/PLC/PMC</source>
-      <translation>NIJE UKLJUCEN MOTOR KAMENA                        </translation>
+      <translation>WHEEL MOTOR SWITCHED OF                        </translation>
     </message>
     <message>
       <source>700005/PLC/PMC</source>
-      <translation>REGULATOR MOTORA KAMENA NIJE SPREMAN              </translation>
+      <translation>WHEEL MOTOR REGULATOR NOT READY              </translation>
     </message>
     <message>
       <source>700006/PLC/PMC</source>
-      <translation>VAZDUH KOCNICE B OSE</translation>
+      <translation>WORKHEAD MOTOR SWITCHED ON                     </translation>
     </message>
     <message>
       <source>700007/PLC/PMC</source>
-      <translation>MAGNET KONJICA                                    </translation>
+      <translation>TAILSTOCK MAGNET                                    </translation>
     </message>
     <message>
       <source>700008/PLC/PMC</source>
-      <translation>MAGNET MERNE GLAVE                                </translation>
+      <translation>DIAMETER GAUGE (MARPOSS) MAGNET                                </translation>
     </message>
     <message>
       <source>700009/PLC/PMC</source>
-      <translation>MAGNET ABRIHTERA                               </translation>
+      <translation>POSITIONING GAUGE (RENISHAW) MAGNET                                </translation>
     </message>
     <message>
       <source>700010/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA HIDRAULIKE)</translation>
+      <translation>HYDRAULICS MOTOR SWITCH</translation>
     </message>
     <message>
       <source>700011/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA RASHLADNE TECNOSTI</translation>
+      <translation>WATER PUMP MOTOR SWITCH 1                     </translation>
     </message>
     <message>
       <source>700012/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA PRECISTACA</translation>
+      <translation>COOLANT UNIT MOTOR SWITCH          </translation>
     </message>
     <message>
       <source>700013/PLC/PMC</source>
-      <translation>REGULATOR MOTORA VRETENISTA NIJE SPREMAN          </translation>
+      <translation>WHEELHEAD MOTOR REGULATOR NOT READY          </translation>
     </message>
     <message>
       <source>700014/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA SIMENSOVOG REGULATORA OSA       </translation>
+      <translation>SIEMENS AXES REGULATOR VOLTAGE SWITCH       </translation>
     </message>
     <message>
       <source>700015/PLC/PMC</source>
-      <translation>CELIJE ASPIRATORA ZAPRLJANE</translation>
+      <translation>HF REGULATOR VOLTAGE SWITCH                   </translation>
     </message>
     <message>
       <source>700016/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA HLADNJKA</translation>
+      <translation>HF SPINDLE COOLER VOLTAGE SWITCH             </translation>
     </message>
     <message>
       <source>700017/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA REGULATORA ROLNE                </translation>
+      <translation>DIAMOND ROLL REGULATOR VOLTAGE SWITCH               </translation>
     </message>
     <message>
       <source>700018/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA HLADNJKA RASHLADNE TECNOSTI</translation>
+      <translation>HF SPINDLE LUBRICATION VOLTAGE SWITCH        </translation>
     </message>
     <message>
       <source>700019/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA ASPIRATORA</translation>
+      <translation>OIL MIST EXTRACTOR MOTOR SWITCH                         </translation>
     </message>
     <message>
       <source>700020/PLC/PMC</source>
-      <translation>CRASH</translation>
+      <translation>CENTRAL LUBRICATION SYSTEM OIL LEVEL                 </translation>
     </message>
     <message>
       <source>700021/PLC/PMC</source>
-      <translation>TEMPERATURA MOTORA HIDRAULIKE</translation>
+      <translation>HF SPINDLE MOTOR SWITCHED OFF                    </translation>
     </message>
     <message>
       <source>700022/PLC/PMC</source>
-      <translation>REGULATOR MOTORA KAMENA NIJE SPREMAN</translation>
+      <translation>HF SPINDLE REGULATOR NOT READY           </translation>
     </message>
     <message>
       <source>700023/PLC/PMC</source>
-      <translation>VF REGULATOR MOTORA KAMENA NIJE SPREMAN                  </translation>
+      <translation>DIAMOND ROLL REGULATOR NOT READY                      </translation>
     </message>
     <message>
       <source>700024/PLC/PMC</source>
-      <translation>REGULATOR ROLNE NIJE SPREMAN</translation>
+      <translation>SKLOPKA OLA UREDJAJA ZA PODMAZIVANJE</translation>
     </message>
     <message>
       <source>700025/PLC/PMC</source>
-      <translation>SKLOPKA VF VRETENA M3.2 45</translation>
+      <translation>HF SPINDLE SWITCH M3.2 45</translation>
     </message>
     <message>
       <source>700026/PLC/PMC</source>
-      <translation>SKLOPKA VF VRETENA M3.3 24</translation>
+      <translation>DIAMETER GAUGE (MARPOSS) NOT BACK</translation>
     </message>
     <message>
       <source>700027/PLC/PMC</source>
-      <translation>UKLJUCITI HIDRAULIKU ZA POKRETANJE SP1 OSE</translation>
+      <translation>TURN ON HYDRAULICS FOR SP-AXIS MOVEMENT</translation>
     </message>
     <message>
       <source>700028/PLC/PMC</source>
-      <translation>UKLJUCITI HIDRAULIKU ZA POKRETANJE B OSE          </translation>
+      <translation>TURN ON HYDRAULICS FOR B-AXIS MOVEMENT          </translation>
     </message>
     <message>
       <source>700029/PLC/PMC</source>
-      <translation>NIJE PRIKLJUCENO SELEKTOVANO VRETENO</translation>
+      <translation>SELECTED SPINDLE NOT CONNECTED</translation>
     </message>
     <message>
       <source>700030/PLC/PMC</source>
-      <translation>MW20 ( KAMEN ) NIJE U OPSEGU [0-3]</translation>
+      <translation>MW20 ( WHEEL ) IS NOT SELECTED [0-3]</translation>
     </message>
     <message>
       <source>700031/PLC/PMC</source>
@@ -132,67 +132,71 @@
     </message>
     <message>
       <source>700032/PLC/PMC</source>
-      <translation>REFERENCIRANJE                                    </translation>
+      <translation>REFERENCING                                    </translation>
     </message>
     <message>
       <source>700033/PLC/PMC</source>
-      <translation>REFERENCIRANJE X OSE                              </translation>
+      <translation>X-AXIS REFERENCING                              </translation>
     </message>
     <message>
       <source>700034/PLC/PMC</source>
-      <translation>REFERENCIRANJE C OSE                              </translation>
+      <translation>C-AXIS REFERENCING                              </translation>
     </message>
     <message>
       <source>700035/PLC/PMC</source>
-      <translation>REFERENCIRANJE Z OSE                              </translation>
+      <translation>Z-AXIS REFERENCING                              </translation>
     </message>
     <message>
       <source>700036/PLC/PMC</source>
-      <translation>RUCNI TOCAK AKTIVAN                               </translation>
+      <translation>HANDWHEEL ACTIVATED                               </translation>
     </message>
     <message>
       <source>700037/PLC/PMC</source>
-      <translation>RUCNI TOCAK NIJE PRIKLJUCEN                       </translation>
+      <translation>HANDWHEEL NOT CONNECTED                       </translation>
     </message>
     <message>
       <source>700038/PLC/PMC</source>
-      <translation>REFERENCIRANJE 5-TE OSE                           </translation>
+      <translation>REFERENCING OF 5TH AXIS                           </translation>
     </message>
     <message>
       <source>700039/PLC/PMC</source>
-      <translation>ABRIHTER NIJE DOLE                                </translation>
+      <translation>WHEELDRESSER NOT IN WORKING POSITION                                </translation>
     </message>
     <message>
       <source>700040/PLC/PMC</source>
-      <translation>MAX. BROJ OBRTAJA, PROVERITI UNOS, OBIMNU BRZINU I PRECNIK KAMENA</translation>
+      <translation>MAX. RPM, CHECK INPUT, PERIPHERAL SPEED AND WHEEL DIAMETER</translation>
     </message>
     <message>
       <source>700042/PLC/PMC</source>
-      <translation>MINIMALNI NIVO ULJA HIDRAULIKE  </translation>
+      <translation>HYDRAULICS MINIMUM OIL LEVEL</translation>
     </message>
     <message>
       <source>700043/PLC/PMC</source>
-      <translation>MAKSIMALNI NIVO ULJA HIDRAULIKE                   </translation>
+      <translation>HYDRAULICS MAXIMUM OIL LEVEL                   </translation>
     </message>
     <message>
       <source>700044/PLC/PMC</source>
-      <translation>PRITISAK HIDRAULIKE JE MAJNJI OD 5 BARA           </translation>
+      <translation>HYDRAULICS PRESSURE LOWER THAN 5 BAR           </translation>
     </message>
     <message>
       <source>700045/PLC/PMC</source>
-      <translation>NAPON VECI OD DEFINISANOG RADNOG NAPONA           </translation>
+      <translation>WORKING VOLTAGE HIGHER THAN DEFINED            </translation>
     </message>
     <message>
       <source>700046/PLC/PMC</source>
-      <translation>NAPON MANJI OD DEFINISANOG RADNOG NAPONA          </translation>
+      <translation>ORKING VOLTAGE LOWER THAN DEFINED          </translation>
     </message>
     <message>
       <source>700047/PLC/PMC</source>
-      <translation>OBRNUT REDOSLED FAZA ILI FAZA NEDOSTAJE           </translation>
+      <translation>REVERSE PHASES ORDER OR PHASE MISSING           </translation>
+    </message>
+    <message>
+      <source>700050/PLC/PMC</source>
+      <translation>SUITABLE WHEEL NOT SELECTED</translation>
     </message>
     <message>
       <source>700056/PLC/PMC</source>
-      <translation>KOSEMA NIJE SPREMNA - PROVERITI PECURKU           </translation>
+      <translation>KOSEMA NIJE SPREMNA ZA RAD</translation>
     </message>
     <message>
       <source>700057/PLC/PMC</source>
@@ -200,11 +204,7 @@
     </message>
     <message>
       <source>700058/PLC/PMC</source>
-      <translation>MINIMALNI NIVO RASHLADNE TECNOSTI</translation>
-    </message>
-    <message>
-      <source>700059/PLC/PMC</source>
-      <translation>CHILLER COSEME NIJE SPREMAN</translation>
+      <translation>MINIMALAN NIVO RASHLADNE TECNOSTI</translation>
     </message>
     <message>
       <source>700100/PLC/PMC</source>
@@ -220,7 +220,7 @@
     </message>
     <message>
       <source>700103/PLC/PMC</source>
-      <translation>FC18 FC112                                        </translation>
+      <translation>FB2 DB102                                         </translation>
     </message>
     <message>
       <source>700104/PLC/PMC</source>
@@ -272,11 +272,11 @@
     </message>
     <message>
       <source>700116/PLC/PMC</source>
-      <translation>FB5 DB88                                         </translation>
+      <translation>FB5 DB88                                        </translation>
     </message>
     <message>
       <source>700117/PLC/PMC</source>
-      <translation>FB5 DB91                                         </translation>
+      <translation>FB5 DB91                                        </translation>
     </message>
     <message>
       <source>700118/PLC/PMC</source>
@@ -308,163 +308,159 @@
     </message>
     <message>
       <source>700125/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA ROLNE                 </translation>
+      <translation>WHEELDRESSER NOT IN WORKING POSITION                                </translation>
     </message>
     <message>
       <source>700126/PLC/PMC</source>
-      <translation>MAGNET SONDE</translation>
+      <translation>Z&gt;=0                                              </translation>
     </message>
     <message>
       <source>700127/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA ASPIRATORA</translation>
+      <translation>OIL MIST EXTRACTOR MOTOR SWITCH</translation>
     </message>
     <message>
       <source>700128/PLC/PMC</source>
-      <translation>PROVERITI USLOVE -5&lt; Z &lt; 5 SONDA GORE </translation>
+      <translation>NO PROBE RETRACTION, CHECK AIR PRESSURE     </translation>
     </message>
     <message>
       <source>700129/PLC/PMC</source>
-      <translation>PROVERITI BEZBEDAN POLOZAJ ZA SPUSTANJE SONDE</translation>
+      <translation>X &lt; -10</translation>
     </message>
     <message>
       <source>700130/PLC/PMC</source>
-      <translation>SKLOPKA POVLACENJA PAPIRNE TRAKE                  </translation>
+      <translation>SWITCH FOR PAPER BAND FILTER DRAGGING                  </translation>
     </message>
     <message>
       <source>700131/PLC/PMC</source>
-      <translation>VRATA MASINE NISU ZATVORENA                       </translation>
+      <translation>MACHINE DOOR NOT CLOSED                       </translation>
+    </message>
+    <message>
+      <source>700140/PLC/PMC</source>
+      <translation>DIAMETER GAUGE (MARPOSS) MOVES FORWARD</translation>
+    </message>
+    <message>
+      <source>700141/PLC/PMC</source>
+      <translation>DIAMETER GAUGE (MARPOSS) MOVES BACK</translation>
+    </message>
+    <message>
+      <source>700142/PLC/PMC</source>
+      <translation>POSITIONING GAUGE (RENISHAW) MOVES DOWN                                </translation>
+    </message>
+    <message>
+      <source>700143/PLC/PMC</source>
+      <translation>POSITIONING GAUGE (RENISHAW) MOVES UP                                </translation>
     </message>
     <message>
       <source>700200/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA PUMPE VODE ZA SP1 </translation>
+      <translation>WATER PUMP MOTOR SWITCH 1</translation>
     </message>
     <message>
       <source>700201/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA PUMPE VODE ZA SP2 </translation>
+      <translation>WATER PUMP MOTOR SWITCH 2</translation>
     </message>
     <message>
       <source>700202/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA PUMPE VODE ZA ABRIHTOVANJE </translation>
+      <translation>WATER PUMP MOTOR SWITCH 3</translation>
     </message>
     <message>
       <source>700203/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA SINAMICSA</translation>
+      <translation>ZAKLJUCAVANJE VRATA</translation>
     </message>
     <message>
       <source>700204/PLC/PMC</source>
-      <translation>SKLOPKA PRELIVNE PUMPE VODE</translation>
+      <translation>OVERFLOW WATER PUMP SWITCH</translation>
     </message>
     <message>
       <source>700205/PLC/PMC</source>
-      <translation>SKLOPKA NAPAJANJA VISOKOFREKVENTNOG REGULATORA </translation>
+      <translation>HF SPINDLE VOLTAGE SWITCH</translation>
     </message>
     <message>
       <source>700206/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA KOCNIE B OSE</translation>
+      <translation>WHEELHEAD VOLTAGE SWITCH</translation>
     </message>
     <message>
       <source>700207/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA DODATE SILE B OSE</translation>
+      <translation>PUMP SWITCH FOR B-AXIS POSITIONING</translation>
     </message>
     <message>
       <source>700208/PLC/PMC</source>
-      <translation>SKLOPKA MAGNETNOG PRECISTACA</translation>
+      <translation>MAGNETIC CLARIFIER SWITCH</translation>
     </message>
     <message>
       <source>700209/PLC/PMC</source>
-      <translation>SKLOPKA PAPIRNOG PRECISTACA</translation>
+      <translation>PRITISAK OTPUSTANJA KOCNICE B OSE</translation>
     </message>
     <message>
       <source>700210/PLC/PMC</source>
-      <translation>SKLOPKA MOTORA HIDRAULIKE</translation>
+      <translation>PRITISAK DODATNE SILE KOCENJA B OSE</translation>
     </message>
     <message>
       <source>700211/PLC/PMC</source>
-      <translation>TEMPERATURA ORMANA VISOKA</translation>
+      <translation>HIGH ELECTRIC CABINET TEMPERATURE </translation>
     </message>
     <message>
       <source>700212/PLC/PMC</source>
-      <translation>TERMOZASTITA</translation>
+      <translation>THERMAL PROTECTION</translation>
     </message>
     <message>
       <source>700213/PLC/PMC</source>
-      <translation>SKLOPKA SISTEMA - OLA</translation>
+      <translation>HIGH TEMPERATURE OF HYDRAULIC ENGINE</translation>
     </message>
     <message>
       <source>700214/PLC/PMC</source>
-      <translation>PRECISTAC - NIZAK NIVO TECNOSTI</translation>
-    </message>
-    <message>
-      <source>700215/PLC/PMC</source>
-      <translation>SISTEM NIJE SPREMAN ZA RAD - O L A</translation>
+      <translation>SPINDLE SP AIR PRESSURE</translation>
     </message>
     <message>
       <source>700216/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA</translation>
+      <translation>AIR PRESSURE</translation>
     </message>
     <message>
       <source>700217/PLC/PMC</source>
-      <translation>PRITISAK ULJNE MAGLE - O L A</translation>
+      <translation>SPINDLE M3.1/M3.2 OIL PRESSURE - OLA</translation>
     </message>
     <message>
       <source>700218/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA - O L A</translation>
+      <translation>SPINDLE M3.1/M3.2 AIR PRESSURE - OLA</translation>
     </message>
     <message>
       <source>700219/PLC/PMC</source>
-      <translation>PROTOK RASHLADNE TECNOSTI SP1</translation>
+      <translation>SPINDLE M3 COOLANT FLOW</translation>
     </message>
     <message>
       <source>700220/PLC/PMC</source>
-      <translation>TEMPERATURA RASHLADNE TECNOSTI SP1</translation>
+      <translation>SPINDLE M3 COOLANT TEMPERATURE</translation>
     </message>
     <message>
       <source>700221/PLC/PMC</source>
-      <translation>PRITISAK ULJNE MAGLE VISOKOFREKVENTNOG VRETENA</translation>
+      <translation>B-AXIS COOLANT FLOW</translation>
     </message>
     <message>
       <source>700222/PLC/PMC</source>
-      <translation>PRITISAK VAZDUHA VISOKOFREKVENTNOG VRETENA</translation>
+      <translation>B-AXIS COOLANT TEMPERATURE</translation>
     </message>
     <message>
       <source>700223/PLC/PMC</source>
-      <translation>REGULATOR UNIDRIVE NIJE SPREMAN</translation>
+      <translation>SPINDLE M3.1 COOLANT FLOW</translation>
     </message>
     <message>
       <source>700224/PLC/PMC</source>
-      <translation>PROTOK RASHLADNE TECNOSTI B </translation>
+      <translation>SPINDLE M3.1 COOLANT TEMPERATURE</translation>
     </message>
     <message>
       <source>700225/PLC/PMC</source>
-      <translation>TEMPERATURA RASHLADNE TECNOSTI B </translation>
+      <translation>SPINDLE M3.2 COOLANT FLOW</translation>
     </message>
     <message>
       <source>700226/PLC/PMC</source>
-      <translation>PROTOK RASHLADNE TECNOSTI SP2 </translation>
+      <translation>SPINDLE M3.2 COOLANT TEMPERATURE</translation>
     </message>
     <message>
       <source>700227/PLC/PMC</source>
-      <translation>TEMPERATURA RASHLADNE TECNOSTI SP2 </translation>
-    </message>
-    <message>
-      <source>700228/PLC/PMC</source>
-      <translation>PROTOK RASHLADNE TECNOSTI SP3</translation>
-    </message>
-    <message>
-      <source>700229/PLC/PMC</source>
-      <translation>TEMPERATURA RASHLADNE TECNOSTI SP3</translation>
-    </message>
-    <message>
-      <source>700230/PLC/PMC</source>
-      <translation>PROTOK RASHLADNE TECNOSTI SP4</translation>
-    </message>
-    <message>
-      <source>700231/PLC/PMC</source>
-      <translation>TEMPERATURA RASHLADNE TECNOSTI SP4</translation>
+      <translation>OLA NIJE SPREMNA ZA RAD</translation>
     </message>
     <message>
       <source>700232/PLC/PMC</source>
-      <translation>IZ BEZBEDNOSNIH RAZLOGA ZATVORITE VRATA</translation>
+      <translation>DOOR OPEN - CLOSE THE DOOR</translation>
     </message>
   </context>
 </TS>

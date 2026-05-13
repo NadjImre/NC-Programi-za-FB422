@@ -78,25 +78,5 @@
       <source>65104/NCK</source>
       <translation>radijus xR mora biti veci od radijusa rolne</translation>
     </message>
-    <message>
-      <source>65105/NCK</source>
-      <translation>Tocilo %4 nije definisano</translation>
-    </message>
-    <message>
-      <source>65106/NCK</source>
-      <translation>Uredjaj za poravnavanje %4 nije definisan</translation>
-    </message>
-    <message>
-      <source>65107/NCK</source>
-      <translation>Precnik kamena %4 je nula</translation>
-    </message>
-    <message>
-      <source>65108/NCK</source>
-      <translation>Sirina kamena %4 je nula</translation>
-    </message>
-    <message>
-      <source>65109/NCK</source>
-      <translation>Nije definisano vreteno za kamen %4</translation>
-    </message>
   </context>
 </TS>

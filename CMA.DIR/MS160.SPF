@@ -79,18 +79,6 @@ g0 z=start_z
 ;podizanje sonde
 m=me_probeDown
 
-;korekcija koordinatnog sistema ako se trazi
-IF(KOREKCIJA==1)
-  $P_UIFR[me_frame,Z,FI]=-me_W_result
-  msg("$66023")
-ENDIF
-
-;rekalibracija ako se trazi
-IF(KOREKCIJA==3)
-  me_W_Position=me_W_result
-  msg("$66023")
-ENDIF
-
 m17
 
 greska:
