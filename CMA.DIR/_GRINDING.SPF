@@ -21,6 +21,10 @@ Gr_TypeOfRebound = NacinOdskoka
 Gr_EndCycleDiameter = PrecnikZavrsetka
 Gr_Marposs = MarpossGC
 
+T0D0G53G0X0
+G0G53B=gr_BAxis_Angle
+STOPRE
+
 If (Gr_Method==200)
 SH860
 GOTOF KRAJ
