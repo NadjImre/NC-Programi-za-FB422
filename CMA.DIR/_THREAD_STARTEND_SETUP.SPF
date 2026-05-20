@@ -2,7 +2,7 @@ PROC _THREAD_STARTEND_SETUP(Int Funkcija, Real UgaoPritupljenja, Real UgaoIzlask
 
 
 if (funkcija==0)
-   th_angle1 = UgaoPritupljena
+   th_angle1 = UgaoPritupljenJa
    th_angle2 = UgaoIzlaska
 else
    th_plunge_angle1 = UgaoUlaskaUsec

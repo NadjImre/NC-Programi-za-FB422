@@ -55,7 +55,7 @@ for brojacmerenja=1 to me_measurecount
   ;ako se komad moze okretati po c
   If(me_with_caxis<>0)
     ;zakreni komad na ugao
-    G0 C=ACP(me_caxis_position+(brojacmerenja-1)*ugaozaokreta) MEAS=me_probe_number
+    G0 C=ACP((me_caxis_position+(brojacmerenja-1)*ugaozaokreta) MOD 360) MEAS=me_probe_number
     ;ako je doslo do kontakta sa sondom - greska
     IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
   endif 
@@ -79,11 +79,11 @@ for brojacmerenja=1 to me_measurecount
 ;kraj petlje za merenje po uglu
 endfor
 ;da li se vracamo po x 
-if (( me_ReturnMode==0) or ( me_ReturnMode==8))
+if (( me_ReturnMode==0) or ( me_ReturnMode==32))
    g0 x=start_x
 endif
 ;da li se vracamo p Z
-if(( me_ReturnMode==0) or ( me_ReturnMode==12))
+if(( me_ReturnMode==0) or ( me_ReturnMode==48))
    g0 z=start_z
 endif
 
@@ -107,7 +107,7 @@ me_avg=me_avg/(me_measurecount*me_repetitioncount)
 me_span=abs(me_max-me_min)
 ;kraj proracuna
 
-IF (me_ProbeAutoUP<>2)
+IF (me_Probe_AutoUP<>64)
    m=me_probeDown
 ENDIF
 

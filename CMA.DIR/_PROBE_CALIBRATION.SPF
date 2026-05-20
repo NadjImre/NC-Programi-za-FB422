@@ -7,7 +7,7 @@ me_tool_number = gett(me_tool)
 me_feed = brz_mer
 me_distance = duz_mer
 me_probe_number = ((status b_and 4) /4)+1
-
+me_target = nom_poz
 if (me_tool_number <= 0)
    gotof nema_sonde
 endif

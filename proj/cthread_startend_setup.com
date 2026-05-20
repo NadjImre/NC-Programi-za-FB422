@@ -18,7 +18,7 @@ VS8=("OK",,SE1)
 VS7=($89842,,SE1)
 
 OUTPUT(NCCODE4)
-   "_THREAD_STARTEND(" Funkcija "," UgaoPritupljenja "," UgaoIzlaska "," UgaoUlazkaUsec "," UgaoBrusenjaUsec "," UgaoIzlaskaUsec "," BrojObrtaja "," BrzinaKamena ")" 
+   "_THREAD_STARTEND_SETUP(" Funkcija "," UgaoPritupljenja "," UgaoIzlaska "," UgaoUlazkaUsec "," UgaoBrusenjaUsec "," UgaoIzlaskaUsec "," BrojObrtaja "," BrzinaKamena ")" 
 END_OUTPUT
 
 PRESS(VS8)

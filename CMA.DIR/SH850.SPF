@@ -89,9 +89,9 @@ TB200(0)
 SETINT(8) PRIO=1 SH6201
 ;zauzimanje pozicije
 if (BrojOkretaja<0)
-   G0 Z=GR_POSITION1 C=IC(-360) A=SmerNavoja*UgaoAOse
+   G0 Z=GR_POSITION1 C=IC(-360) A=SmerNavoja*UgaoAOse s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
 else
-  G0 Z=GR_POSITION1 C=IC(+360) A=SmerNavoja*UgaoAOse
+  G0 Z=GR_POSITION1 C=IC(+360) A=SmerNavoja*UgaoAOse s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
 endif
 ;pocetak prolaza
 DOSKOK:

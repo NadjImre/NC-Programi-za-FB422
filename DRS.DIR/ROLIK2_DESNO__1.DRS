@@ -1,0 +1,41 @@
+
+
+
+
+E_LAB_A_ROLIK2_D: ;#SM Z:2
+;#7__DlgK contour definition begin - Don't change!;*GP*;*RO*;*HD*
+G18 G90 DIAM90;*GP*
+G0 Z-13 X0 ;*GP*
+G1 Z-7.3998 ;*GP*
+G3 Z-6.9628 X.432 K=AC(-7.3998) I=AC(1.1) ;*GP*
+G1 Z-6.8008 X.8239 ;*GP*
+Z-6.6595 X1.2212 ;*GP*
+Z-6.5068 X1.6237 ;*GP*
+Z-6.1385 X2.7468 ;*GP*
+Z-5.9159 X3.4774 ;*GP*
+Z-5.4694 X5.0198 ;*GP*
+G2 Z-5.3248 X5.354 K=AC(-4.3468) I=AC(3.3691) ;*GP*
+Z-4.96 X5.6 K=AC(-4.9285) I=AC(4.2084) ;*GP*
+G1 Z-3.97 ;*GP*
+;CON,V64,2,0.0000,0,0,MST:3,2,AX:Z,X,K,I,TRANS:0;*GP*;*RO*;*HD*
+;S,EX:-13,EY:0,ASE:90;*GP*;*RO*;*HD*
+;LR,EX:-7.3998;*GP*;*RO*;*HD*
+;ACCW,EX:-6.9628,EY:.432,CY:1.1;*GP*;*RO*;*HD*
+;LA,EX:-6.8008,EY:.8239;*GP*;*RO*;*HD*
+;LA,EX:-6.6595,EY:1.2212;*GP*;*RO*;*HD*
+;LA,EX:-6.5068,EY:1.6237;*GP*;*RO*;*HD*
+;LA,EX:-6.1385,EY:2.7468;*GP*;*RO*;*HD*
+;LA,EX:-5.9159,EY:3.4774;*GP*;*RO*;*HD*
+;LA,EX:-5.4694,EY:5.0198;*GP*;*RO*;*HD*
+;ACW,EX:-5.3248,EY:5.354,CX:-4.3468;*GP*;*RO*;*HD*
+;ACW,EX:-4.96,EY:5.6,CY:4.2084;*GP*;*RO*;*HD*
+;LR,EX:-3.97;*GP*;*RO*;*HD*
+;#End contour definition end - Don't change!;*GP*;*RO*;*HD*
+E_LAB_E_ROLIK2_D:
+
+M17
+
+
+
+
+

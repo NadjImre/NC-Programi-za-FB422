@@ -5,33 +5,32 @@ Def Int Izlazi
 Def Real KTAB[30,11]
 Def String[100] Program
 Def Int Brojac=1
-
+;*** ako je korisnicka kontura
 if (DefinicijaKonture==3)
    Th_Conture = NazivKonture
-else
+else ;ako je sistemska broj razlicit od tri ce se u buducnistui koristiti
    Th_Conture = "SysConture"
-   If (NacinUlaza<>0)
-      Gr_Diameter1 = Precnik + 2*DuzinaUlaza*Tan(UgaoUlaza)
-   Endif
 endif
-
+;*** promenljive konture
 Gr_Contur_Diam = Precnik
 Gr_Contur_Pos1 = Pocetak
 Gr_Contur_Pos2 = Kraj
+Gr_Taper_Correction1 = Korekcija1
+Gr_Taper_Correction2 = Korekcija2
+;*** promenljive se ne koriste - za buduca prosirenja i unapredjenja ***
 Gr_Contur_Start = NacinUlaza
 Gr_Contur_StartDist = DuzinaUlaza
 Gr_Contur_StartAngle = UgaoUlaza
 Gr_Contur_End = NacinIzlaza
 Gr_Contur_EndDist = DuzinaIzlaza
 Gr_Contur_EndAngle = UgaoIzlaza
-Gr_Taper_Correction1 = Korekcija1
-Gr_Taper_Correction2 = Korekcija2
 
+;*** promenljive od linete
 Gr_SteadyRest = Lineta
 Gr_UAxis_Position = PozUOse
 Gr_Steady_InPos = UlazLinete
 Gr_Steady_OutPos = IzlazLinete
-
+;analiza konture
 Program = TH_CONTURE<<"_SPF"
 DiamOn
 CONTPRON(KTAB,"L",Izlazi)
@@ -46,7 +45,7 @@ while (KTab[brojac,1]>0)
 endwhile
 
 Gr_Position2=KTab[brojac,5]
-
+M00 ; ZA PROVERU - SKINUTI
 Stopre
 
 M17

@@ -31,6 +31,8 @@ DEF INT SPINU
 DEF REAL UNUT   
 ;smer poravnavanja
 def int smer_por
+;brzina primicanja odmicanja
+def int ds_rabhod = 300
 ;preuzimanje T broja tocila - nedostaje provera
 BRTOC = DS_TOOL_NUM
 ;preuzimanje D brojeva za tocilo
@@ -158,8 +160,10 @@ FOR BROJAC=1 TO BrojProlaza
       STOPRE
 ;spanovanje stupa na snagu
       Trans X=$TC_DP3[BRTOC,DBRTOC1]/2 Z=$TC_DP4[BRTOC,DBRTOC1]+ds_poscorrection
+;Pocetna tacka i kompenzacija radijusa
+      G1 X0 Z=ds_podhodZL G42 F=DS_RABHOD 
 ;postavka brzine brusenja
-      G1 X0 Z=ds_podhodZL G42 F=BrzAbriht
+      F=BrzAbriht
 ;poziv programa za abriht
       CALL PROGRAM1
 ;povalcenje na visinu kamena
@@ -183,8 +187,10 @@ FOR BROJAC=1 TO BrojProlaza
       $TC_TPG5[BRTOC]=$TC_TPG5[BRTOC]-ABS(korakZ)
 ;spanovanje stupa na snagu
       Trans X=$TC_DP3[BRTOC,DBRTOC1]/2 Z=$TC_DP4[BRTOC,DBRTOC1]+ds_poscorrection
+;Pocetna tacka i kompenzacija radijusa
+      G1 X0 Z=ds_podhodZR G41 F=DS_RABHOD 
 ;postavka brzine brusenja za svaki slucaj
-      G1 F=BrzAbriht X0 Z=ds_podhodZR G41
+     F=BrzAbriht 
 ;poziv programa za abriht
       CALL PROGRAM2
 ;povalcenje na visinu kamena

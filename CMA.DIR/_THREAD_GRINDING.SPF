@@ -1,4 +1,4 @@
-PROC  _THREAD_GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Real Precnik, Real _ThD2, Real _ThPi, int _ThHa, int _ThSt,REAL POZZ1 ,REAL POZZ2 ,REAL VAR15 ,REAL VAR16,INT HLADJENJEVAR , Real PodHodVar, Int RabHodVar, STRING[100] KONTURA, STRING[100] KOMENT)
+PROC  _THREAD_GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Real NacinBrus, Real _ThD2, Real _ThPi, int _ThHa, int _ThSt,REAL POZZ1 ,REAL POZZ2 ,REAL VAR15 ,REAL VAR16,INT HLADJENJEVAR , Real PodHodVar, Int RabHodVar, STRING[100] KONTURA, STRING[100] KOMENT)
 
 gr_frame=kordsis
 gr_tool=ALAT
@@ -32,10 +32,22 @@ gr_rabhod=RabHodVar
 T0D0G53G0X0
 G0G53B=gr_BAxis_Angle
 STOPRE
-SH831
-M17
 
+if (NacinBrus==3)
+SH831
+Endif
+
+if (NacinBrus==1)
 SH850
+Endif
+
+if (NacinBrus==4)
+SH832
+Endif
+
+if (NacinBrus==2)
+SH811
+Endif
 
 M17
 
