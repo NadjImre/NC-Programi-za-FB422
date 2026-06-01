@@ -7,17 +7,16 @@ FOR BROJAC=0 TO 9
   ME_RUNOUT[BROJAC]=0
   ME_DIAM[BROJAC]=0
 ENDFOR
- 
-G500X0G0T0D0
-G0B178;A0
+
+PROBE_RECALIBRATION 
 
 ;naziv fajla za zspisivanje statusa
 fname="/_N_MPF_DIR/LOG_PROBE_DIAM"
 me_tool="zond"
 me_tool_number = gett("zond")
 me_tool_Dnumber = 1
-me_diameter = 31.69
-me_position = 502
+me_diameter = 19.67
+me_position = 450
 me_distance = 5
 me_feed = 60
 me_ProbeUp = 32
@@ -28,34 +27,17 @@ me_frame = 2
 me_tolerance = 0.1
 me_with_Caxis = 1
 me_Caxis_Position = 45
-me_RepetitionCount = 1
-me_MeasureCount = 1
+me_RepetitionCount = 2
+me_MeasureCount = 6
 me_ReturnMode = 16
 me_Probe_AutoUP =  64
+
 Write(errno,fname,"")
 Write(errno,fname,SPRINT("**** Merenje precnika 19.67 *****"))
 Write(errno,fname,"")
 STOPRE
-;merenje za rekalibraciju
-;Brojac pokusaja
-Brojac=0
-ponovo:
-;merenje
-MS140
-;rekalibracija
-$tc_dp4[me_tool_number,me_tool_dnumber]=$tc_dp4[me_tool_number,me_tool_dnumber]-0.5*me_avg
-Write(errno,fname,SPRINT("Kalibracija broj %d greska %7.4F",brojac+1,ME_AVG))
-;provera pokusaja
-if (brojac>5) gotof kraj
-;provera velicine ako je velika ponovo
-brojac=brojac+1
-if (ABS(me_avg)>0.002) gotob ponovo
 
 ;pocetak merenja
-me_diameter = 19.67
-me_position = 450
-me_RepetitionCount = 2
-me_MeasureCount = 6
 T=me_tool D=me_tool_Dnumber 
 G0 Z=me_position
 MS140

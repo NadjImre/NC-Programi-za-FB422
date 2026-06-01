@@ -6,27 +6,17 @@ PROC  MS160
 Def Real start_x,start_z
 ;mesto gde je pronađen ulaz u navoj
 Def Real ulaz_Z
-;brojac merenja
-Def Int Brojac=0, Brojac2=0
-;minimum kod kalibracijw
-Def Real me_th_min,ME_TH_AVG,KORAKZ=0.05
-DEF INT MINBROJAC=0
-Def Int FAJLGreska
-Def String[32] NazivFajla
-;srednji precnik nominalni
-def real me_th_nom_diameter=18.896
-;precnici za kalibraciju
-def real preck1=19.2,preck2=19.25
-;izmerene pozicije za z kod kalibracije
-def real merpoz11,merpoz12,merpoz21,merpoz22
+;brojac merenja - lokalna promenljiva
+Def Int Brojac=0
+;interno za pracenje greske prilikmo zapisivanja
+Def Int FajlGreska
+;naziv LOG fajla
+Def String[32] NazivFajla="/_N_MPF_DIR/LOG_MS160"
 ;izmerene sirine kod kalibracije
 def real sirk1=0.5909, sirk2=0.6548
-;korak navoja
-def real koraknav=1.2
-;broj pokusaja
+;broj pokusaja ulaska u nit navoja - pretvoriti u GUD
 def int makspokusaja=10
-;naziv fajla za ispivanje statu
-NazivFajla="/_N_MPF_DIR/LOG_MS160"
+
 ;ravan , koordinatni sistem i alat
 g18g500 t=me_tool d=me_tool_dnumber
 ;zapamti pocetnu poziciju
@@ -38,8 +28,9 @@ if (me_th_type==4) gotof Kalibracija
 msg("$66020")
 ;podizanje sonde
 m=me_ProbeUp
+;pocetna tacka merenja po C
+C=ACP(me_Caxis_Position) G0
 ;zaokret komada da bi se prislonio na povlakac
-C=ACP(0) G0
 C=IC(360) G0
 ;zauzimanje pozicije za merenje - ako ima kontakta to je greska
 G0 Z=me_th_position MEAS=me_probe_number
@@ -62,8 +53,8 @@ IF($AC_MEA[me_probe_number]==1)
   brojac = brojac + 1
   ;ako smo presli maks pokusaja greska
   if(brojac>makspokusaja) gotof greska
-  ;pomeri malo Z osu
-  Z=IC(BROJAC*KORAKNAV/MAKSPOKUSAJA)
+  ;pomeri malo Z osu - na jednom koraku moamo naci
+  Z=IC(BROJAC* me_th_pitch/MAKSPOKUSAJA)
   ;vrati se na pocetak
   GOTOB TRAZI_ZLJEB
 ENDIF
@@ -71,22 +62,22 @@ ENDIF
 ulaz_Z = $AA_IW[Z]
 ;trazimo kontakt po Z osi u plus smeru
 g1 Z=IC(me_th_pitch) F=me_feed MEAS=me_probe_number
-;ako nemamo kontak  - greska
+;na jednm koraku mora biti - ako nemamo kontakt greska
 IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA
 ;ako ima onda belezimo rezultat
 me_th_resultS[0]=$AA_MW[Z]
-;i vracamo se nazad
-G1 Z=IC(-me_th_pitch) F=me_feed MEAS=-me_probe_number ;Z=ulaz_Z
+;i vracamo se nazad dok ne izgubimo kontakt sonde
+G1 Z=IC(-me_th_pitch) F=me_feed MEAS=-me_probe_number 
 ;i merimo u suprotnom smeru
 G1 Z=IC(-me_th_pitch) F=me_feed MEAS=me_probe_number
 ;ako nemamo kontakt to je greska
 IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
 ;ako ima onda belezimo rezultat
 me_th_resultS[1]=$AA_MW[Z]
-;i vracamo se nazad
-G0 Z=IC(me_th_pitch) F=me_feed MEAS=-me_probe_number;ulaz_Z
+;i vracamo se nazad do gubitka kontakta sonde
+G0 Z=IC(me_th_pitch) F=me_feed MEAS=-me_probe_number
 ;proracun sredine
-me_th_Zerror = me_th_position - 0.5*(me_th_resultS[0] + me_th_resultS[1])
+me_th_Zerror = (me_th_nom_position - 0.5*(me_th_resultS[0] + me_th_resultS[1])) mod me_th_pitch
 ;proracun ugla korekcije
 me_th_Cerror = (me_th_Zerror*360/me_th_pitch) mod 360
 if (me_th_Cerror<0)
@@ -95,7 +86,7 @@ endif
 ;greska sirine zljeba
 me_th_Werror = abs(me_th_resultS[0] - me_th_resultS[1])-me_th_width[0]
 ;proracun greske precnika
-me_th_Xerror = -(PRECK2-PRECK1)*me_th_Werror/(me_th_width[1]-me_th_width[0])
+me_th_Xerror = -( me_th_CalDiam[1]- me_th_CalDiam[0])*me_th_Werror/(me_th_width[1]-me_th_width[0])
 ;Precnik navoja
 me_th_result = me_th_nom_diameter+me_th_xerror
 ;ispis poruke
@@ -126,9 +117,9 @@ Brojac=0
 PETLJA_KALIBRACIJE:
 STOPRE
 ;zauzimamo novi z
-G0 Z=Start_Z+BROJAC*KORAKNAV/MAKSPOKUSAJA
+G0 Z=Start_Z+BROJAC* me_th_pitch/MAKSPOKUSAJA
 ;trazimo kontakt po X osi u plus smeru
-g1 X=PRECK1 F=me_feed MEAS=me_probe_number
+g1 X= me_th_CalDiam[0] F=me_feed MEAS=me_probe_number
 ;ako nemamo kontak  - usli smo u zljeb
 IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF NASLI_ZLJEB
 ;u slucaju kontakta vracamo se nazad
@@ -144,50 +135,54 @@ NASLI_ZLJEB:
 ulaz_Z = $AA_IW[Z]
 FOR BROJAC=1 TO ME_REPETITIONCOUNT
   ;trazimo kontakt po Z osi u plus smeru
-  g1 Z=IC(KORAKNAV) F=me_feed MEAS=me_probe_number
+  g1 Z=IC( me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontak  - greska
   IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
   ;ako ima onda belezimo rezultat
-  merpoz11=$AA_MW[Z]
+   me_th_results[11]=$AA_MW[Z]
   ;i vracamo se nazad
-  G1 Z=IC(-koraknav) F=me_feed MEAS=-me_probe_number ;Z=ulaz_Z
+  G1 Z=IC(- me_th_pitch) F=me_feed MEAS=-me_probe_number ;Z=ulaz_Z
   ;i merimo u suprotnom smeru
-  G1 Z=IC(-koraknav) F=me_feed MEAS=me_probe_number
+  G1 Z=IC(- me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontakt to je greska
   IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_KALIBRACIJE
   ;ako ima onda belezimo rezultat
-  merpoz12=$AA_MW[Z]
+   me_th_results[12]=$AA_MW[Z]
   ;i vracamo se u sredinu
   z=ulaz_z
   ;racunamo sirinu i dodajemo u zbir
-  sirk1=sirk1+abs(merpoz11-merpoz12)
+  sirk1=sirk1+abs( me_th_results[11]- me_th_results[12])
 ENDFOR
 ;racunamo prosecnu sirinu
-sirk1=sirk1/me_repetitioncount
+me_th_width[0]=sirk1/me_repetitioncount
 ;zauzimamo poziciju po X osi 
-g1 X=PRECK2
+g1 X= me_th_CalDiam[1]
 for brojac=1 to me_repetitioncount
   ;merimo ponovo trazimo kontakt po Z osi u plus smeru
-  g1 Z=IC(KORAKNAV) F=me_feed MEAS=me_probe_number
+  g1 Z=IC( me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontak  - greska
   IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
   ;ako ima onda belezimo rezultat
-  merpoz21=$AA_MW[Z]
+   me_th_results[21]=$AA_MW[Z]
   ;i vracamo se nazad
-  G1 Z=IC(-koraknav) F=me_feed MEAS=-me_probe_number
+  G1 Z=IC(- me_th_pitch) F=me_feed MEAS=-me_probe_number
   ;i merimo u suprotnom smeru
-  G1 Z=IC(-koraknav) F=me_feed MEAS=me_probe_number
+  G1 Z=IC(- me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontakt to je greska
   IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
   ;ako ima onda belezimo rezultat
-  merpoz22=$AA_MW[Z]
+   me_th_results[22]=$AA_MW[Z]
   ;i vracamo se u sredinu
   Z=ULAZ_Z
   ;racunamo sirinu i dodajemo u zbir
-  sirk2=sirk2+abs(merpoz21-merpoz22)
+  sirk2=sirk2+abs( me_th_results[21]- me_th_results[22])
 endfor
 ;racunamo prosecnu sirinu
-sirk2=sirk2/me_repetitioncount
+me_th_width[1]=sirk2/me_repetitioncount
+;racunamo poziciju zljeba
+me_th_nom_position = 0.25*(me_th_results[11]+me_th_results[12]+me_th_results[21]+me_th_results[22])
+;pamtimo poziciju C ose
+me_Caxis_position=$AA_IW[C]
 ;vracamo se nazad
 G0 X=START_X
 STOPRE

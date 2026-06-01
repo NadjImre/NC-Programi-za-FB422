@@ -1,0 +1,7 @@
+
+;srednji precnik nominalni
+def chan real me_th_nom_diameter=18.896
+;nominalna posicija gde je obavljena kalibracija
+def chan real me_th_nom_position
+;precnici za kalibraciju
+def chan real me_th_CalDiam[2]=(19.2,19.25)
