@@ -13,7 +13,9 @@ Def Int FajlGreska
 ;naziv LOG fajla
 Def String[32] NazivFajla="/_N_MPF_DIR/LOG_MS160"
 ;izmerene sirine kod kalibracije
-def real sirk1=0.5909, sirk2=0.6548
+def real sirk1=0, sirk2=0
+;pomocna promenljiva za bezbedan proracun precnika
+def real razlika_sirine=0
 ;broj pokusaja ulaska u nit navoja - pretvoriti u GUD
 def int makspokusaja=10
 
@@ -34,13 +36,14 @@ C=ACP(me_Caxis_Position) G0
 C=IC(360) G0
 ;zauzimanje pozicije za merenje - ako ima kontakta to je greska
 G0 Z=me_th_position MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA_PRILAZ_Z_KONTAKT
 ;zauzimanje pocetne tacke merenja po X u - ako ima kontakta to je greska
 G0 X=me_th_startdia MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA_PRILAZ_X_KONTAKT
 STOPRE
 ;trazenje ulaza u navoj
 BROJAC=0
+IF(MAKSPOKUSAJA<=0) GOTOF GRESKA_PARAM_MAKSPOKUSAJA
 STOPRE
 TRAZI_ZLJEB:
 ;pokusamo odlazak na precnik za merenje
@@ -52,7 +55,7 @@ IF($AC_MEA[me_probe_number]==1)
   ;uvecavamo brojac
   brojac = brojac + 1
   ;ako smo presli maks pokusaja greska
-  if(brojac>makspokusaja) gotof greska
+  if(brojac>makspokusaja) gotof GRESKA_NIJE_NADJEN_ULAZ
   ;pomeri malo Z osu - na jednom koraku moamo naci
   Z=IC(BROJAC* me_th_pitch/MAKSPOKUSAJA)
   ;vrati se na pocetak
@@ -63,7 +66,7 @@ ulaz_Z = $AA_IW[Z]
 ;trazimo kontakt po Z osi u plus smeru
 g1 Z=IC(me_th_pitch) F=me_feed MEAS=me_probe_number
 ;na jednm koraku mora biti - ako nemamo kontakt greska
-IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA
+IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_MERENJE_Z_PLUS
 ;ako ima onda belezimo rezultat
 me_th_resultS[0]=$AA_MW[Z]
 ;i vracamo se nazad dok ne izgubimo kontakt sonde
@@ -71,12 +74,13 @@ G1 Z=IC(-me_th_pitch) F=me_feed MEAS=-me_probe_number
 ;i merimo u suprotnom smeru
 G1 Z=IC(-me_th_pitch) F=me_feed MEAS=me_probe_number
 ;ako nemamo kontakt to je greska
-IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_MERENJE_Z_MINUS
 ;ako ima onda belezimo rezultat
 me_th_resultS[1]=$AA_MW[Z]
 ;i vracamo se nazad do gubitka kontakta sonde
 G0 Z=IC(me_th_pitch) F=me_feed MEAS=-me_probe_number
 ;proracun sredine
+IF(ABS(me_th_pitch)<=0.000001) GOTOF GRESKA_PARAM_PITCH
 me_th_Zerror = (me_th_nom_position - 0.5*(me_th_resultS[0] + me_th_resultS[1])) mod me_th_pitch
 ;proracun ugla korekcije
 me_th_Cerror = (me_th_Zerror*360/me_th_pitch) mod 360
@@ -86,13 +90,16 @@ endif
 ;greska sirine zljeba
 me_th_Werror = abs(me_th_resultS[0] - me_th_resultS[1])-me_th_width[0]
 ;proracun greske precnika
-me_th_Xerror = -( me_th_CalDiam[1]- me_th_CalDiam[0])*me_th_Werror/(me_th_width[1]-me_th_width[0])
+razlika_sirine = me_th_width[1]-me_th_width[0]
+IF(ABS(razlika_sirine)<=0.000001) GOTOF GRESKA_KALIBRACIJA_SIRINA
+me_th_Xerror = -( me_th_CalDiam[1]- me_th_CalDiam[0])*me_th_Werror/razlika_sirine
 ;Precnik navoja
 me_th_result = me_th_nom_diameter+me_th_xerror
 ;ispis poruke
 msg("$66021 "<<me_th_result << " greska " << me_th_xerror << " ; korekcija za ulazak u nit " << me_th_Cerror)
 ;zapis poruke u fajl
 Write(FAJLGreska,NazivFajla,SPRINT("Srednji precnik %8.4f, greska %8.4f, korekcija ugla %6.1f",me_th_result, me_th_xerror, me_th_Cerror))
+IF(FAJLGreska<>0) GOTOF GRESKA_UPIS_FAJL
 ;vracanje na pocetnu tacku
 g0 x=start_x
 g0 z=start_z
@@ -112,6 +119,11 @@ m17
 ;pocetak kalibracije
 KALIBRACIJA:
 ;sonda mora biti rucno podignuta i dovedena u  žljeb navoja
+IF(ME_REPETITIONCOUNT<=0) GOTOF GRESKA_K_PARAM_REPETITION
+IF(MAKSPOKUSAJA<=0) GOTOF GRESKA_K_PARAM_MAKSPOKUSAJA
+IF(ABS(me_th_pitch)<=0.000001) GOTOF GRESKA_K_PARAM_PITCH
+sirk1=0
+sirk2=0
 ;prva petlja
 Brojac=0
 PETLJA_KALIBRACIJE:
@@ -129,7 +141,7 @@ Brojac=Brojac+1
 ;ako je manji od broha pojusaja nastavljamo
 if (brojac<MAKSPOKUSAJA) GOTOB PETLJA_KALIBRACIJE
 ;inace prijavljujemo gresku
-gotof greska_kalibracije
+gotof GRESKA_K_NIJE_NADJEN_ULAZ
 NASLI_ZLJEB:
 ;ako dodjemo dovde nasli smo ulaz, pamtimo polozaj po Z
 ulaz_Z = $AA_IW[Z]
@@ -137,7 +149,7 @@ FOR BROJAC=1 TO ME_REPETITIONCOUNT
   ;trazimo kontakt po Z osi u plus smeru
   g1 Z=IC( me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontak  - greska
-  IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
+  IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_K_MERENJE1_Z_PLUS
   ;ako ima onda belezimo rezultat
    me_th_results[11]=$AA_MW[Z]
   ;i vracamo se nazad
@@ -145,7 +157,7 @@ FOR BROJAC=1 TO ME_REPETITIONCOUNT
   ;i merimo u suprotnom smeru
   G1 Z=IC(- me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontakt to je greska
-  IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_KALIBRACIJE
+  IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_K_MERENJE1_Z_MINUS
   ;ako ima onda belezimo rezultat
    me_th_results[12]=$AA_MW[Z]
   ;i vracamo se u sredinu
@@ -161,7 +173,7 @@ for brojac=1 to me_repetitioncount
   ;merimo ponovo trazimo kontakt po Z osi u plus smeru
   g1 Z=IC( me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontak  - greska
-  IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
+  IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_K_MERENJE2_Z_PLUS
   ;ako ima onda belezimo rezultat
    me_th_results[21]=$AA_MW[Z]
   ;i vracamo se nazad
@@ -169,7 +181,7 @@ for brojac=1 to me_repetitioncount
   ;i merimo u suprotnom smeru
   G1 Z=IC(- me_th_pitch) F=me_feed MEAS=me_probe_number
   ;ako nemamo kontakt to je greska
-  IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+  IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_K_MERENJE2_Z_MINUS
   ;ako ima onda belezimo rezultat
    me_th_results[22]=$AA_MW[Z]
   ;i vracamo se u sredinu
@@ -192,8 +204,68 @@ stopre
 
 M17
 
+GRESKA_PRILAZ_Z_KONTAKT:
+  SETAL(66101)
+  GOTOF STOP_GRESKA
+GRESKA_PRILAZ_X_KONTAKT:
+  SETAL(66102)
+  GOTOF STOP_GRESKA
+GRESKA_PARAM_MAKSPOKUSAJA:
+  SETAL(66103)
+  GOTOF STOP_GRESKA
+GRESKA_NIJE_NADJEN_ULAZ:
+  SETAL(66104)
+  GOTOF STOP_GRESKA
+GRESKA_MERENJE_Z_PLUS:
+  SETAL(66105)
+  GOTOF STOP_GRESKA
+GRESKA_MERENJE_Z_MINUS:
+  SETAL(66106)
+  GOTOF STOP_GRESKA
+GRESKA_PARAM_PITCH:
+  SETAL(66107)
+  GOTOF STOP_GRESKA
+GRESKA_KALIBRACIJA_SIRINA:
+  SETAL(66108)
+  GOTOF STOP_GRESKA
+GRESKA_UPIS_FAJL:
+  SETAL(66109)
+  GOTOF STOP_GRESKA
+
+GRESKA_K_PARAM_REPETITION:
+  SETAL(66201)
+  GOTOF STOP_GRESKA
+GRESKA_K_PARAM_MAKSPOKUSAJA:
+  SETAL(66202)
+  GOTOF STOP_GRESKA
+GRESKA_K_PARAM_PITCH:
+  SETAL(66203)
+  GOTOF STOP_GRESKA
+GRESKA_K_NIJE_NADJEN_ULAZ:
+  SETAL(66204)
+  GOTOF STOP_GRESKA
+GRESKA_K_MERENJE1_Z_PLUS:
+  SETAL(66205)
+  GOTOF STOP_GRESKA
+GRESKA_K_MERENJE1_Z_MINUS:
+  SETAL(66206)
+  GOTOF STOP_GRESKA
+GRESKA_K_MERENJE2_Z_PLUS:
+  SETAL(66207)
+  GOTOF STOP_GRESKA
+GRESKA_K_MERENJE2_Z_MINUS:
+  SETAL(66208)
+  GOTOF STOP_GRESKA
+
+GRESKA:
+  SETAL(65002)
+  GOTOF STOP_GRESKA
+
 GRESKA_KALIBRACIJE:
   SETAL(66028)
-   M00
-   M96
+  GOTOF STOP_GRESKA
+
+STOP_GRESKA:
+  M00
+  M96
 M17

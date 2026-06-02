@@ -86,5 +86,73 @@
       <source>65106/NCK</source>
       <translation>Z-axis calibration error %4</translation>
     </message>
+    <message>
+      <source>66101/NCK</source>
+      <translation>Probe contact detected during Z approach</translation>
+    </message>
+    <message>
+      <source>66102/NCK</source>
+      <translation>Probe contact detected during X approach</translation>
+    </message>
+    <message>
+      <source>66103/NCK</source>
+      <translation>Invalid MAX ATTEMPTS parameter</translation>
+    </message>
+    <message>
+      <source>66104/NCK</source>
+      <translation>Thread entry not found</translation>
+    </message>
+    <message>
+      <source>66105/NCK</source>
+      <translation>Z+ measurement without probe contact</translation>
+    </message>
+    <message>
+      <source>66106/NCK</source>
+      <translation>Z- measurement without probe contact</translation>
+    </message>
+    <message>
+      <source>66107/NCK</source>
+      <translation>Invalid thread pitch parameter</translation>
+    </message>
+    <message>
+      <source>66108/NCK</source>
+      <translation>Invalid width calibration data</translation>
+    </message>
+    <message>
+      <source>66109/NCK</source>
+      <translation>Error writing measurement log file</translation>
+    </message>
+    <message>
+      <source>66201/NCK</source>
+      <translation>Calibration: invalid repetition count</translation>
+    </message>
+    <message>
+      <source>66202/NCK</source>
+      <translation>Calibration: invalid MAX ATTEMPTS parameter</translation>
+    </message>
+    <message>
+      <source>66203/NCK</source>
+      <translation>Calibration: invalid thread pitch parameter</translation>
+    </message>
+    <message>
+      <source>66204/NCK</source>
+      <translation>Calibration: thread entry not found</translation>
+    </message>
+    <message>
+      <source>66205/NCK</source>
+      <translation>Calibration pass 1: Z+ without probe contact</translation>
+    </message>
+    <message>
+      <source>66206/NCK</source>
+      <translation>Calibration pass 1: Z- without probe contact</translation>
+    </message>
+    <message>
+      <source>66207/NCK</source>
+      <translation>Calibration pass 2: Z+ without probe contact</translation>
+    </message>
+    <message>
+      <source>66208/NCK</source>
+      <translation>Calibration pass 2: Z- without probe contact</translation>
+    </message>
   </context>
 </TS>
