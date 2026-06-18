@@ -42,11 +42,11 @@ For Brojac=1 to MaxFaza
     Endif
     BrojObrtajaTocila[Brojac-1]=19098*GR_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,GR_DNUMBER ])
 EndFor
-XVKoord = UkupniDodatak IndeksProlaza=0
+XVKoord = UkupniDodatak IndeksProlaza=0 IndeksFaze=indeksfaze
 Write(Greska,NazivFajla,SPRINT("Grinding allowance %7.4f, passes %d",UkupniDodatak, UkupnoProlaza)) 
 STOPRE
 ;if (GR_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
-Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
+Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",IndeksFaze+1)) 
 VELIKI_DOSKOK:
 ;reset marpos zvucne sonde
 M80
@@ -103,24 +103,24 @@ JEDAN_PROLAZ:
 if ( (strana==0) and (Gr_Position_Strokes[IndeksFaze]<=0) )
    ;dubina brusenja
    XVKoord = XVKoord - Gr_Steps[IndeksFaze]
-   ;broj prolaza
    IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
    ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
+   IndeksProlaza=IndeksProlaza+1
+   poruka = SPRINT("%s:Ukupno prolaza %d/%d Faza %d (%dx%7.4f) Prolaz %d Z1->Z2", Gr_Comment, IndeksUkupnogProlaza, UkupnoProlaza, IndeksFaze+1, Gr_Strokes[IndeksFaze], Gr_Steps[IndeksFaze], IndeksProlaza)
+   MSG(poruka)
+   Write(Greska, NazivFajla, poruka)
 endif
 ;ako smo u drugoj tacki i spanujemo u njoj
 if ( (strana==1) and (Gr_Position_Strokes[IndeksFaze]>=0) )
    ;dubina brusenja
    XVKoord = XVKoord - Gr_Steps[IndeksFaze]
-   ;broj prolaza
    IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
    ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
+   IndeksProlaza=IndeksProlaza+1
+   poruka = SPRINT("%s:Ukupno prolaza %d/%d Faza %d (%dx%7.4f) Prolaz %d Z2->Z1", Gr_Comment, IndeksUkupnogProlaza, UkupnoProlaza, IndeksFaze+1, Gr_Strokes[IndeksFaze], Gr_Steps[IndeksFaze], IndeksProlaza)
+   MSG(poruka)
+   Write(Greska, NazivFajla, poruka)
 endif
-;poruka
-poruka = GR_COMMENT <<":Prolaz "<<(IndeksUkupnogProlaza)<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
-poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
-msg(Poruka)
-;zapis poruke u fajl
-Write(Greska,NazivFajla,SPRINT("   - Pass number %d",indeksprolaza+1))
 ;span
 G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speeds[IndeksFaze]
 ;da li je hod tamo ili nazad
@@ -139,16 +139,6 @@ else
 endif
 ;analiza stanja
 PRORACUN:
-;ako smo na strani na kojoj se spanuje povecaj broj prolaza
-if (strana==0)
-   if (Gr_Position_Strokes[IndeksFaze]<=0)
-      IndeksProlaza=IndeksProlaza+1
-   endif
-else
-   if (Gr_Position_Strokes[IndeksFaze]>=0)
-      IndeksProlaza=IndeksProlaza+1
-   endif
-endif
 ;promenimo stranu
 strana = (strana+1) mod 2
 ;provera da li je kraj faze
@@ -167,11 +157,11 @@ if (GR_Strokes[IndeksFaze]<=0)
 ;proverimo jesmo li dosli do zadnje
    gotob provera
 ELSE
-  Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
+  Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",IndeksFaze+1)) 
 endif
 ;da li treba abriht
 If (GR_StrokesToDress[IndeksFaze]<>0)
-  ;if (((indeksprolaza*TH_Starts+indekshoda) mod GR_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
+  ;if ((indeksprolaza mod GR_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
 ENDIF
 stopre
 gotob Jedan_prolaz
@@ -204,10 +194,10 @@ LEADOF(X,Z)
 TRANS
 G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
-Write(Greska, NazivFajla, SPrint("Dressing %dx%6.4fmm with %d mm/min",ds_strokes[indeksfaze],ds_steps[indeksfaze],ds_feeds[indeksfaze])) 
+Write(Greska, NazivFajla, SPrint("Dressing %dx%6.4fmm with %d mm/min",ds_strokes[IndeksFaze],ds_steps[IndeksFaze],ds_feeds[IndeksFaze])) 
 STOPRE
 msg("Abrihtovanje")
-_DRESSING(ds_wheel_speeds[indeksfaze],ds_strokes[indeksfaze],ds_steps[indeksfaze],0,ds_feeds[indeksfaze],ds_roll_speeds[indeksfaze])
+_DRESSING(ds_wheel_speeds[IndeksFaze],ds_strokes[IndeksFaze],ds_steps[IndeksFaze],0,ds_feeds[IndeksFaze],ds_roll_speeds[IndeksFaze])
 STOPRE
 GotoB Veliki_Doskok
 
