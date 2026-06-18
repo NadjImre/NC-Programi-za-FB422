@@ -40,6 +40,16 @@ SH150
 GOTOF KRAJ
 Endif
 
+If (Gr_Method==300)
+SH160
+GOTOF KRAJ
+Endif
+
+If (Gr_Method==304)
+SH170
+GOTOF KRAJ
+Endif
+
 IF (GR_method==204)
 msg("Kombinovano brušenje još ne radi")
 M00
@@ -50,20 +60,6 @@ msg("Kombinovano brušenje još ne radi")
 M00
 endif
 
-IF (GR_method==300)
-msg("Brušenje čela još ne radi")
-M00
-endif
-
-IF (GR_method==304)
-msg("Koso usecanje još ne radi")
-M00
-endif
-
-IF (GR_method==304)
-msg("Brušenje dugih čela još ne radi")
-M00
-endif
 KRAJ:
 M17
 

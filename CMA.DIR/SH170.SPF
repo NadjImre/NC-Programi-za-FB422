@@ -66,7 +66,7 @@ IF (TEST<>0)
    M=gr_coolant
 ENDIF
 ;prilaz komadu sporo
-G1 G90 X=Gr_Diameter+PrecPrilaza Z=Gr_Position1+Gr_Direction*PrecPrilaz XV=Gr_Direction*PrecPrilaz F=Gr_Rabhod 
+G1 G90 X=Gr_Diameter1+PrecPrilaz Z=Gr_Position1+Gr_Direction*PrecPrilaz XV=Gr_Direction*PrecPrilaz F=Gr_Rabhod 
 ; nastavka brušenja po zavrsetku faze bez abrihtovanja
 DOSKOK: 
 ;ako je broj prolaza nula treba preći na sledeću fazu
@@ -91,7 +91,7 @@ if ( (gr_interrupts[IndeksFaze]>0) and (gr_interrupts[IndeksFaze]<8) )
    setint(gr_interrupts[IndeksFaze]) prio=1 Sh6202
 endif
 ;brusenje
-G1 G90 X=Gr_Diameter+XVKoord Z=Gr_Position1+Gr_Direction*XVKoord XV=Gr_Direction*XVKoord F=Gr_PlungeCut_Feeds[IndeksFaze] S=gr_speeds[IndeksFaze]
+G1 G90 X=Gr_Diameter1+XVKoord Z=Gr_Position1+Gr_Direction*XVKoord XV=Gr_Direction*XVKoord F=Gr_PlungeCut_Feeds[IndeksFaze] S=gr_speeds[IndeksFaze]
 ;izbrusavanje
 G4 F=Gr_DWELLTIME[indeksfaze]
 ;isklucivanje prekida
