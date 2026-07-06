@@ -79,72 +79,24 @@
       <translation>radijus xR mora biti veci od radijusa rolne</translation>
     </message>
     <message>
-      <source>66101/NCK</source>
-      <translation>KONTAKT SONDE PRI PRILAZU PO Z OSI</translation>
+      <source>65105/NCK</source>
+      <translation>Tocilo %4 nije definisano</translation>
     </message>
     <message>
-      <source>66102/NCK</source>
-      <translation>KONTAKT SONDE PRI PRILAZU PO X OSI</translation>
+      <source>65106/NCK</source>
+      <translation>Uredjaj za poravnavanje %4 nije definisan</translation>
     </message>
     <message>
-      <source>66103/NCK</source>
-      <translation>NEISPRAVAN PARAMETAR MAKSPOKUSAJA</translation>
+      <source>65107/NCK</source>
+      <translation>Precnik kamena %4 je nula</translation>
     </message>
     <message>
-      <source>66104/NCK</source>
-      <translation>NIJE NADJEN ULAZ U NAVOJ</translation>
+      <source>65108/NCK</source>
+      <translation>Sirina kamena %4 je nula</translation>
     </message>
     <message>
-      <source>66105/NCK</source>
-      <translation>MERENJE Z PLUS BEZ KONTAKTA SONDE</translation>
-    </message>
-    <message>
-      <source>66106/NCK</source>
-      <translation>MERENJE Z MINUS BEZ KONTAKTA SONDE</translation>
-    </message>
-    <message>
-      <source>66107/NCK</source>
-      <translation>NEISPRAVAN PARAMETAR KORAKA NAVOJA</translation>
-    </message>
-    <message>
-      <source>66108/NCK</source>
-      <translation>KALIBRACIJA SIRINE NAVOJA NIJE VALIDNA</translation>
-    </message>
-    <message>
-      <source>66109/NCK</source>
-      <translation>GRESKA PRI UPISU REZULTATA U LOG FAJL</translation>
-    </message>
-    <message>
-      <source>66201/NCK</source>
-      <translation>KALIBRACIJA: NEISPRAVAN BROJ PONAVLJANJA</translation>
-    </message>
-    <message>
-      <source>66202/NCK</source>
-      <translation>KALIBRACIJA: NEISPRAVAN MAKSPOKUSAJA</translation>
-    </message>
-    <message>
-      <source>66203/NCK</source>
-      <translation>KALIBRACIJA: NEISPRAVAN KORAK NAVOJA</translation>
-    </message>
-    <message>
-      <source>66204/NCK</source>
-      <translation>KALIBRACIJA: NIJE NADJEN ULAZ U NAVOJ</translation>
-    </message>
-    <message>
-      <source>66205/NCK</source>
-      <translation>KALIBRACIJA 1: Z PLUS BEZ KONTAKTA SONDE</translation>
-    </message>
-    <message>
-      <source>66206/NCK</source>
-      <translation>KALIBRACIJA 1: Z MINUS BEZ KONTAKTA SONDE</translation>
-    </message>
-    <message>
-      <source>66207/NCK</source>
-      <translation>KALIBRACIJA 2: Z PLUS BEZ KONTAKTA SONDE</translation>
-    </message>
-    <message>
-      <source>66208/NCK</source>
-      <translation>KALIBRACIJA 2: Z MINUS BEZ KONTAKTA SONDE</translation>
+      <source>65109/NCK</source>
+      <translation>Nije definisano vreteno za kamen %4</translation>
     </message>
   </context>
 </TS>

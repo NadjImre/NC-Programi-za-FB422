@@ -202,7 +202,7 @@
       <source>700058/PLC/PMC</source>
       <translation>МИНИМАЛЬНЫЙ УРОВЕНЬ ОХЛАЖДАЮЩЕЙ ЖИДКОСТИ</translation>
     </message>
-    <message>
+	 <message>
       <source>700059/PLC/PMC</source>
       <translation>Chiller COSEMA не готов</translation>
     </message>
@@ -320,11 +320,11 @@
     </message>
     <message>
       <source>700128/PLC/PMC</source>
-      <translation>ПРОВЕРЬТЕ БЕЗОПАСНОЕ ПОЛОЖЕНИЕ ОСИ Z И ЩУПА   </translation>
+      <translation>НEТ OTКЛOНЕНИЯ ЩУПA, ПPOВEРИТЬ ДАВЛЕНИЕ ВОЗДУХА    </translation>
     </message>
     <message>
       <source>700129/PLC/PMC</source>
-      <translation>ПРОВЕРЬТЕ БЕЗОПАСНОЕ ПОЛОЖЕНИЕ ДЛЯ ОПУСКАНИЯ УСТРОЙСТВА ПРАВКИ / ЩУПА</translation>
+      <translation>ПРОВЕРЬТЕ БЕЗОПАСНОЕ ПОЛОЖЕНИЕ ДЛЯ ОПУСКАНИЯ УСТРОЙСТВА ПРАВКИ</translation>
     </message>
     <message>
       <source>700130/PLC/PMC</source>
@@ -456,11 +456,11 @@
     </message>
     <message>
       <source>700230/PLC/PMC</source>
-      <translation>ДВЕРИ СТАНКА ЗАКРЫЛАСЬ ЗА 10 СЕКУНД </translation>
+      <translation>PАСХОД ОХЛАЖДАЮЩЕЙ ЖИДКОСТИ SP4 (M3.3)</translation>
     </message>
     <message>
       <source>700231/PLC/PMC</source>
-      <translation>РЕГУЛЯТОР ДВЕРИ НЕ ГОТОВ</translation>
+      <translation>TEMПEРATУРA ОХЛАЖДАЮЩЕЙ ЖИДКОСТИ SP4 (M3.3)</translation>
     </message>
     <message>
       <source>700232/PLC/PMC</source>

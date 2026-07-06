@@ -62,6 +62,9 @@ Def Chan Real Gr_Contur_StartAngle
 Def Chan Int Gr_Contur_End
 Def Chan Real Gr_Contur_EndDist
 Def Chan Real Gr_Contur_EndAngle
+def chan int gr_measuring_head
+def chan int gr_measuring_head_in
+def chan int gr_measuring_head_out
 ;parametri porvanavanja
 Def Chan Int Ds_Strokes[6]
 Def Chan Int Ds_Feeds[6]
@@ -135,6 +138,8 @@ def chan int me_probeDown ; M funkcija za spuštanje sonde
 def chan int me_status ; Status - bit kodirano
 def chan int me_frame ; koord. system koji se koriguje sa rezultatima merenja
 def chan real me_tolerance ; tolerancija odstupanja od nominalne mere
+def chan real me_runout_tolerance ; tolerancija udara
+def chan real me_offset; korekcija merenja precnika
 def chan int me_with_Caxis ; <>0 treba okrenuti C osu po zadati ugao za merenje
 def chan real me_Caxis_Position ; ugao na koji treba okrenuti C osu za merenje
 def chan int me_RepetitionCount ; broj ponavljanja merenja u istoj tački
@@ -162,13 +167,18 @@ def chan real me_th_startdia ; startni precnik merenja navoja
 def chan real me_th_result ; rezultat merenja, izmerena pozicija sredine žljeba
 def chan real me_th_pitch ; korak navoja koji se meri
 def chan real me_th_step ; korak sa kojim se traži ulazak u navoj
-def chan real me_th_results[10,10] ; rezulatati merenja , tačke dodira levo ili desno
+def chan real me_th_results[100] ; rezulatati merenja , tačke dodira levo ili desno
 def chan real me_th_Zerror ; greška odstupanja sredine žljeba navoja po Z osi
 def chan real me_th_Cerror ; vrednost za koju treba korigovati C osu da bi pogodili ulazak u nit
 def chan real me_th_Werror ; greska sirine zljeban navoja na visini merenja
 def chan real me_th_Xerror ; greska srednjeg prečnika navoja (racunska)
 def chan real me_th_width[10] ; izmerena širina žljeba navoja 
-
+def chan real me_runout[10] ; udar kod merenja
+def chan real me_diam[10] ; izmereni precnik
+def chan real me_th_nom_diameter=18.896 ;srednji precnik nominalni
+def chan real me_th_nom_position ;nominalna posicija gde je obavljena kalibracija
+def chan real me_th_CalDiam[2]=(19.2,19.25) ;precnici za kalibraciju
+def chan string[32] me_report_file
 ;*******************************************************
 ;Parametri profila navoja za fabricki definisane profile
 ;*******************************************************

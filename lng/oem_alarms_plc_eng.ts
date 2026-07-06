@@ -320,11 +320,11 @@
     </message>
     <message>
       <source>700128/PLC/PMC</source>
-      <translation>PROVERITI USLOVE -5&lt; Z &lt; 5 SONDA GORE </translation>
+      <translation>NEMA OTKLONA PIPKA, PROVERITI PRITISAK VAZDUHA    </translation>
     </message>
     <message>
       <source>700129/PLC/PMC</source>
-      <translation>PROVERITI BEZBEDAN POLOZAJ ZA SPUSTANJE SONDE</translation>
+      <translation>PROVERITI BEZBEDAN POLOZAJ ZA SPUSTANJE ABRIHTERA</translation>
     </message>
     <message>
       <source>700130/PLC/PMC</source>
@@ -333,6 +333,22 @@
     <message>
       <source>700131/PLC/PMC</source>
       <translation>VRATA MASINE NISU ZATVORENA                       </translation>
+    </message>
+    <message>
+      <source>700132/PLC/PMC</source>
+      <translation>MAGNET LINETE ZATVARANJA</translation>
+    </message>
+    <message>
+      <source>700133/PLC/PMC</source>
+      <translation>MAGNET LINETE OTVARANJA</translation>
+    </message>
+    <message>
+      <source>700134/PLC/PMC</source>
+      <translation>HIDRAULIKA LINETE</translation>
+    </message>
+    <message>
+      <source>700135/PLC/PMC</source>
+      <translation>PRECISTAC NIJE U RADU</translation>
     </message>
     <message>
       <source>700200/PLC/PMC</source>

@@ -45,7 +45,6 @@ while (KTab[brojac,1]>0)
 endwhile
 
 Gr_Position2=KTab[brojac,5]
-M00 ; ZA PROVERU - SKINUTI
 Stopre
 
 M17

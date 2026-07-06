@@ -43,7 +43,7 @@ VELIKI_DOSKOK:
 ;reset marpos zvucne sonde
 M80
 ;pocetak za brušenje
-G0X0G53T0D0
+G0X0G53T0D0U0
 T=Gr_Tool D=Gr_DNumber 
 G[8]=Kord
 DIAMON
@@ -56,15 +56,24 @@ G0 Z=Gr_Position1+Gr_Direction*Gr_Podhod A=UgaoAOse XV=Gr_Direction*Gr_Podhod
 ;start kamena
 IF (TEST<>0)
     m[BrojVretena]=3 s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
-    M81 ; zvucna sonda ukljucena
+    M82; zvucna sonda ukljucena
 ENDIF
-;prilaz komadu brzo
-G0 X=gr_diameter1+gr_podhod M3 S=gr_speeds[IndeksFaze]
+;prilaz komadu brzo ako nema merne glave
+if (gr_measuring_head==0)
+   G0 X=gr_diameter1+gr_podhod M3 S=gr_speeds[IndeksFaze]
+;ako ima merne glave ide i u osa
+else
+   G0 X=gr_diameter1+gr_podhod M3 S=gr_speeds[IndeksFaze] U=gr_UAxis_Position
+endif
 ;start vode
 IF (TEST<>0)
    waits(BrojVretena)
    M=gr_coolant
 ENDIF
+;ako ima merne glave napred
+if (gr_measuring_head<>0)
+   M=gr_measuring_head_IN
+endif
 ;prilaz komadu sporo
 G1 G90 X=Gr_Diameter1+PrecPrilaz Z=Gr_Position1+Gr_Direction*PrecPrilaz XV=Gr_Direction*PrecPrilaz F=Gr_Rabhod 
 ; nastavka brušenja po zavrsetku faze bez abrihtovanja
@@ -122,9 +131,10 @@ endif
 
 KRAJ:
 G1 X=gr_diameter1+gr_podhod Z=gr_position1+gr_direction*gr_podhod XV=gr_direction*gr_podhod F=Gr_Rabhod 
+M=GR_measuring_head_OUT
 msg("Kraj")
 TRANS
-G90G53X0G0T0D0M11M5
+G90G53X0G0T0D0M11M5U0
 STOPRE
 
 M17
@@ -132,6 +142,7 @@ M17
 TREBAABRIHT:
 msg("Abrihtovanje")
 G1 X=gr_diameter1+gr_podhod Z=gr_position1+gr_direction*gr_podhod XV=gr_direction*gr_podhod F=Gr_Rabhod
+M=GR_measuring_head_OUT
 G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
 

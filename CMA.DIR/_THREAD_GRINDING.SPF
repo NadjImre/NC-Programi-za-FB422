@@ -19,6 +19,7 @@ endif
 ;gr_position2=pozz2
 gr_DiamCorrection=var15
 gr_PosCorrection=var16
+Gr_CAngleCorrection=15
 
 gr_Coolant=hladjenjevar
 

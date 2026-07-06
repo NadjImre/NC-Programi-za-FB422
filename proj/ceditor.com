@@ -123,6 +123,11 @@ PRESS(VS1)
   LM("MeasurinHead","csonda.com",1)
 END_PRESS
 
+;rekalibracija
+VS2=("Diameter%nrecalibration",,se1)
+Press(Vs2)
+    LM("probe_recalibration","cprobe_recalibration.com",1) 
+End_Press
 
 ;aksialno pozicioniranje
 VS3=("Measuring%nwith probe",,se1)

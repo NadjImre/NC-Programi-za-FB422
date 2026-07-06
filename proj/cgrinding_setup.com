@@ -18,7 +18,7 @@ BRZKAMBRUS0 = (s//"Brz.Kam.Brus."/$89212,,,/wr1////525,10,44//"pomoc.html","9218
 
 DEF RB1 = (I//1/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB1 = (R4/0,10/0.5/"Dubina brusenja po jednom prolazu"/////30,,44//"pomoc.html","9218"),
-PROL1 = (I/0,100/1/"Broj prolaza brusenja za ovu fazu"/////75,,44//"pomoc.html","9218"),
+PROL1 = (I/0,100/100/"Broj prolaza brusenja za ovu fazu"/////75,,44//"pomoc.html","9218"),
 ZBIR1 = (R4//0/"Kolicina materijala koji se skida u ovoj fazi",,,/wr1////120,,44//"pomoc.html","9218"),
 PAUSA1 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
 PROLDOABR1 = (I//0/"Broj prolaza posle kojeg se radi abrihtovanje",,,/////210,,44//"pomoc.html","9218"),

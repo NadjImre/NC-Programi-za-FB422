@@ -17,48 +17,43 @@ if (me_W_type==4) gotof Kalibracija
 ;poruka
 msg("$66020")
 ;podizanje sonde
-m=me_ProbeUp
+;m=me_ProbeUp
 
 ;zauzimanje pozicije za merenje - ako ima kontakta to je greska
 G0 Z=me_W_position MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
-;zauzimanje pocetne tacke merenja po X - ako ima kontakta to je greska
+IF(($AC_MEA[me_probe_number]==1) AND (TEST>0)) GOTOF GRESKA
+;zauzimanje pocetne tacke merenja po X u - ako ima kontakta to je greska
 G0 X=me_W_diameter MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
+IF(($AC_MEA[me_probe_number]==1) AND (TEST>0)) GOTOF GRESKA
 STOPRE
 ;merenje zljeba
 MERENJE_ZLJEBA:
 ;merimo u plus
 G1 Z=IC(me_W_width) F=me_feed MEAS=me_probe_number
-;ako nema kontakta greska
-IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+;ako ako nema kontakta greska
+IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA
 ;ako ima onda belezimo rezultat
 me_W_results[0,0,0]=$AA_MW[Z]
 ;i vracamo se nazad
-G1 Z=me_W_position F=me_feed
+G0 Z=me_W_position
 ;i merimo u suprotnom smeru
 G1 Z=IC(-me_W_width) F=me_feed MEAS=me_probe_number
 ;ako nemamo kontakt to je greska
-IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+IF(($AC_MEA[me_probe_number]==0) AND (TEST>0) ) GOTOF GRESKA
 ;ako ima onda belezimo rezultat
 me_W_results[0,0,1]=$AA_MW[Z]
 ;i vracamo se nazad
-G1 Z=me_W_position F=me_feed
+G0 Z=me_W_position
 ;proracun sredine
 me_W_result = me_W_position - 0.5*(me_W_results[0,0,0] + me_W_results[0,0,1])
 ;ispis poruke
 msg("$66021 "<<me_W_result)
 ;vracanje na pocetnu tacku
-if (( me_ReturnMode==0) or ( me_ReturnMode==32))
-   g0 x=start_x
-endif
-if(( me_ReturnMode==0) or ( me_ReturnMode==48))
-   g0 z=start_z
-endif
+g0 x=start_x
+;g0 z=start_z
+;podizanje sonde
+;m=me_probeDown
 
-IF (me_Probe_AutoUP<>64)
-   m=me_probeDown
-ENDIF
 
 m17
 
@@ -80,7 +75,7 @@ IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_KALIBRACIJE
 ;u slucaju kontakta prepsujemo belezimo rezulztat
 Me_W_Results[0,0,0]=$AA_MW[Z]
 ;varcamo se nazad
-G1 Z=Start_Z F=me_feed
+G0 Z=Start_Z
 ;i merimo u suprotnu stranu
 g1 Z=start_z-me_w_width F=me_feed MEAS=me_probe_number
 ;ako nemamo kontak  - greska

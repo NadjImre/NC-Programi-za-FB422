@@ -13,7 +13,7 @@ def int brojacpon ; brojac za broj ponavljanja
 def real ugaozaokreta ; ugao zaokreta izmedju dva merenja
 
 ;naziv fajla za zspisivanje statusa
-fname="/_N_MPF_DIR/LOG_MS120"
+fname=me_report_file
 
 ;ravan , koordinatni sistem i alat
 g18g500 t= me_tool d= me_tool_Dnumber

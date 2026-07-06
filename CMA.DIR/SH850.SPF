@@ -21,7 +21,6 @@ Def String [200] Rez
 Def Int Greska
 Def String[32] NazivFajla
 Def Int DaLiJeBioOdskok=0
-
 ;naziv fajla za zspisivanje statusa
 NazivFajla="/_N_MPF_DIR/LOG_SH850"
 ;obrisem stari ako ga ima
@@ -80,7 +79,7 @@ G0X0G53T0D0U0
 T=GR_TOOL D=GR_DNUMBER 
 G[8]=Kord Diamon
 ;aktiviranje korekcija
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection
+TRANS X=gr_diamcorrection/2 Z=gr_poscorrection C=Gr_CAngleCorrection
 ;sinhrona akcija za spanovanje sa osom XV
 ID=1 DO $$SA_LEAD_OFFSET_OUT_POS[X]=$AA_IM[XV]
 ;ucitavanje tabele
@@ -124,7 +123,7 @@ Write(Greska,NazivFajla,SPRINT("   - Pass number %d start number %d",indeksprola
 ;selekcija alata i koordinatnog sistema 
 T=gr_tool D=gr_dnumber G[8]=KORD M70
 ;aktiviranje korekcija
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection; C=KORC[0]
+TRANS X=gr_diamcorrection/2 Z=gr_poscorrection C=Gr_CAngleCorrection
 ;i pozicioniranje na pocetnu tačku
 if (BrojOkretaja<0)
    G0 Z=gr_position1 C=ACN(CKoord*IndeksHoda)

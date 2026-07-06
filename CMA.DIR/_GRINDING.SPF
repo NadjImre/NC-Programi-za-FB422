@@ -5,7 +5,11 @@ gr_tool=ALAT
 gr_dnumber=dbroj
 Gr_Method = NacinBrusenja
 Gr_Type = TipBrusenja
-Gr_Direction = Smer
+If (smer==0)
+   Gr_Direction = 1
+else
+   Gr_Direction = -1
+endif
 gr_DiamCorrection = korekcijaX
 gr_PosCorrection = korekcijaZ
 Gr_CAngleCorrection=KorekcijaC

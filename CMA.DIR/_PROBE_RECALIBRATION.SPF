@@ -1,6 +1,11 @@
 PROC _PROBE_RECALIBRATION(String[32] Sonda,int DBrojSonde ,real Xnom ,real Znom ,real DuzMer, real BrzMer ,int MSonde ,int BrojSonde ,int Status ,int kordsys ,real DOZRAZ ,int TrebaC ,real Cnom)
 DEF INT BROJAC
 Def int me_CalibRepetition
+def int errno;broj greske koja se vraca prilikom snimanja
+def string[32] fname;naziv fajla za snimanje
+def string[128] poruka ; pomocna promenljiva za ispis poruke
+;naziv fajla za zspisivanje statusa
+fname=me_report_file
 ;G500X0G0T0D0
 ;G0B0A0
 ME_CalibRepetition=(STATUS B_AND 15)
@@ -29,6 +34,8 @@ me_MeasureCount = 1
 me_ReturnMode = 16 ; bez vracanja nazad, 32-vracanje po X, 48-vracanje po Z, 0 - vracanje X+Z
 me_Probe_AutoUP =  64; bez podizanja sonde na kraju, 0 - sa podizanjem 
 ME_CalibRepetition=(STATUS B_AND 15)
+poruka = SPRINT("Probe recalibration on diameter %8.3f and position Z=%8.3f",me_diameter,me_position)
+Write(errno,fname,poruka)
 STOPRE
 ;merenje za rekalibraciju
 ;Brojac pokusaja
