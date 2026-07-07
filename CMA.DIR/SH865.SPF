@@ -72,19 +72,19 @@ DELETE(Greska,NazivFajla)
 
 ;pocetna poruka
 
-WRITE(GReska,NazivFajla,"Start " << GR_COMMENT)
+WRITE(GReska,NazivFajla,"Start " << Gr_Comment)
 
 ;prethodni proracun
 
 ;broj tocila i vretena
 
-BrojTocila=GETT(GR_TOOL)
+BrojTocila=GETT(Gr_Tool)
 
 BrojVretena=$TC_TPG1[BrojTocila]
 
 ;dodela vrednosti za koord system jer se clan niza ne moze dodeliti g funkciji
 
-Kord=GR_FRAME
+Kord=Gr_Frame
 
 ;ugao A ose je nula
 
@@ -114,7 +114,7 @@ For Brojac=1 to MaxFaza
 
     Endif
 
-    BrojObrtajaTocila[Brojac-1]=19098*GR_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,GR_DNUMBER ])
+    BrojObrtajaTocila[Brojac-1]=19098*Gr_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,Gr_DNumber ])
 
 EndFor
 
@@ -126,7 +126,7 @@ Write(Greska,NazivFajla,SPRINT("Grinding allowance %7.4f, est. passes %d",Ukupni
 
 STOPRE
 
-;if (GR_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
+;if (Gr_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
 
 Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",IndeksFaze+1)) 
 
@@ -140,13 +140,13 @@ M80
 
 G0X0G53T0D0U0
 
-T=GR_TOOL D=GR_DNUMBER 
+T=Gr_Tool D=Gr_DNumber 
 
 G[8]=Kord Diamon
 
 ;aktiviranje korekcija
 
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection
+TRANS X=Gr_DiamCorrection/2 Z=Gr_PosCorrection
 
 ;sinhrona akcija za spanovanje sa osom XV
 
@@ -162,7 +162,7 @@ SETINT(8) PRIO=1 SH6201
 
 ;zauzimanje pozicije
 
-G0 Z=GR_POSITION1 A=UgaoAOse
+G0 Z=Gr_Position1 A=UgaoAOse
 
 ;pocetak prolaza
 
@@ -202,15 +202,15 @@ if (PreostaloFaze<=0) gotof PRORACUN
 
 ;selekcija alata i koordinatnog sistema 
 
-T=gr_tool D=gr_dnumber G[8]=KORD
+T=Gr_Tool D=Gr_DNumber G[8]=KORD
 
 ;aktiviranje korekcija
 
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection;
+TRANS X=Gr_DiamCorrection/2 Z=Gr_PosCorrection;
 
 ;i pozicioniranje na pocetnu tačku
 
-G0 Z=gr_position1 
+G0 Z=Gr_Position1 
 
 ;start vode
 
@@ -218,7 +218,7 @@ IF (TEST<>0)
 
    waits(BrojVretena)
 
-   M=gr_coolant
+   M=Gr_Coolant
 
 ENDIF
 
@@ -226,11 +226,11 @@ ENDIF
 
 If (Gr_SteadyRest==0)
 
-   G0 X=gr_diameter1+gr_podhod XV=gr_podhod U=0 M3 S=gr_speeds[IndeksFaze]
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod U=0 M3 S=Gr_Speeds[IndeksFaze]
 
 else
 
-   G0 X=gr_diameter1+gr_podhod XV=gr_podhod U=Gr_Uaxis_Position M3 S=gr_speeds[IndeksFaze]
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod U=Gr_UAxis_Position M3 S=Gr_Speeds[IndeksFaze]
 
    G4F1
 
@@ -310,7 +310,7 @@ endif
 
 ;span
 
-G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speeds[IndeksFaze]
+G1 G90 XV=XVKoord F=Gr_RabHod S=Gr_Speeds[IndeksFaze]
 
 ;da li je hod tamo ili nazad
 
@@ -318,7 +318,7 @@ if(strana==0)
 
   ;idemo tamo
 
-  G1 G90 Z=Gr_position2 F=GR_Oscilacion_Feeds[IndeksFaze]
+  G1 G90 Z=Gr_Position2 F=Gr_Oscilacion_Feeds[IndeksFaze]
 
   if (Gr_HoldZ2[IndeksFaze]>0) 
 
@@ -330,7 +330,7 @@ else
 
   ;idemo nazad
 
-  G1 G90 Z=Gr_position1 F=GR_Oscilacion_Feeds[IndeksFaze]
+  G1 G90 Z=Gr_Position1 F=Gr_Oscilacion_Feeds[IndeksFaze]
 
   if (Gr_HoldZ1[IndeksFaze]>0) 
 
@@ -372,9 +372,9 @@ if (PreostaloFaze<=0.00001)
 
             Write(Greska, NazivFajla, poruka)
 
-            G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speeds[IndeksFaze]
+            G1 G90 XV=XVKoord F=Gr_RabHod S=Gr_Speeds[IndeksFaze]
 
-            G1 G90 Z=Gr_position2 F=GR_Oscilacion_Feeds[IndeksFaze]
+            G1 G90 Z=Gr_Position2 F=Gr_Oscilacion_Feeds[IndeksFaze]
 
             if (Gr_HoldZ2[IndeksFaze]>0)
 
@@ -382,7 +382,7 @@ if (PreostaloFaze<=0.00001)
 
             endif
 
-            G1 G90 Z=Gr_position1 F=GR_Oscilacion_Feeds[IndeksFaze]
+            G1 G90 Z=Gr_Position1 F=Gr_Oscilacion_Feeds[IndeksFaze]
 
             if (Gr_HoldZ1[IndeksFaze]>0)
 
@@ -412,7 +412,7 @@ if (PreostaloFaze<=0.00001)
 
       Write(Greska, NazivFajla, poruka)
 
-      G1 G90 XV=XVKoord F=GR_RABHOD
+      G1 G90 XV=XVKoord F=Gr_RabHod
 
    endif
 
@@ -456,9 +456,9 @@ endif
 
 ;da li treba abriht
 
-If (GR_StrokesToDress[IndeksFaze]<>0)
+If (Gr_StrokesToDress[IndeksFaze]<>0)
 
-  ;if ((indeksprolaza mod GR_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
+  ;if ((indeksprolaza mod Gr_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
 
 ENDIF
 

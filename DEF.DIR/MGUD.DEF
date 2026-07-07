@@ -43,7 +43,7 @@ Def chan Int Gr_Type ; Tip brusenja ( spolja ili unutra)
 Def Chan Int Gr_TypeOfRebound
 Def chan Real Gr_EndCycleDiameter ;precnik odskoka za zavrsetak ciklusa
 Def Chan Int Gr_Marposs; broj marpos ciklusa koji je aktivan za Brusenje moze biti od 80 do 89
-DEF CHAN INT gr_interrupts[6]
+DEF CHAN INT Gr_interrupts[6]
 Def Chan Int Gr_Start = 0
 Def Chan Int Gr_All_Starts=1
 Def Chan Int Gr_SteadyRest ; da li se koristi lineta 0 - NE , 1 - DA
@@ -62,9 +62,9 @@ Def Chan Real Gr_Contur_StartAngle
 Def Chan Int Gr_Contur_End
 Def Chan Real Gr_Contur_EndDist
 Def Chan Real Gr_Contur_EndAngle
-def chan int gr_measuring_head
-def chan int gr_measuring_head_in
-def chan int gr_measuring_head_out
+def chan int Gr_measuring_head
+def chan int Gr_measuring_head_in
+def chan int Gr_measuring_head_out
 ;parametri porvanavanja
 Def Chan Int Ds_Strokes[6]
 Def Chan Int Ds_Feeds[6]

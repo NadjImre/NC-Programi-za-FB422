@@ -1,9 +1,9 @@
 PROC  _THREAD_GRINDING(STRING[32] alat ,INT dbroj, Real UgaoBose, Int Kordsis,Real NacinBrus, Real _ThD2, Real _ThPi, int _ThHa, int _ThSt,REAL POZZ1 ,REAL POZZ2 ,REAL VAR15 ,REAL VAR16,INT HLADJENJEVAR , Real PodHodVar, Int RabHodVar, STRING[100] KONTURA, STRING[100] KOMENT)
 
-gr_frame=kordsis
-gr_tool=ALAT
-gr_dnumber=dbroj
-gr_BAxis_Angle=UgaoBose
+Gr_Frame=kordsis
+Gr_Tool=ALAT
+Gr_DNumber=dbroj
+Gr_BAxis_angle=UgaoBose
 Th_D2 = _ThD2
 Th_Pitch = _ThPi
 Th_Hand = _ThHa
@@ -15,23 +15,23 @@ else
    Gr_All_Starts=0
 endif
 
-;gr_position1=pozz1
-;gr_position2=pozz2
-gr_DiamCorrection=var15
-gr_PosCorrection=var16
+;Gr_Position1=pozz1
+;Gr_Position2=pozz2
+Gr_DiamCorrection=var15
+Gr_PosCorrection=var16
 Gr_CAngleCorrection=15
 
-gr_Coolant=hladjenjevar
+Gr_Coolant=hladjenjevar
 
-gr_Comment=koment
+Gr_Comment=koment
 
-;gr_Diameter1=Precnik
-gr_podhod=PodHodVar
-gr_rabhod=RabHodVar
+;Gr_Diameter1=Precnik
+Gr_Podhod=PodHodVar
+Gr_RabHod=RabHodVar
 ;TH_conture=KONTURA
 
 T0D0G53G0X0
-G0G53B=gr_BAxis_Angle
+G0G53B=Gr_BAxis_angle
 STOPRE
 
 if (NacinBrus==3)

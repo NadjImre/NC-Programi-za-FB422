@@ -23,13 +23,13 @@ NazivFajla="/_N_MPF_DIR/LOG_SH860"
 ;obrisem stari ako ga ima
 DELETE(Greska,NazivFajla)
 ;pocetna poruka
-WRITE(GReska,NazivFajla,"Start " << GR_COMMENT)
+WRITE(GReska,NazivFajla,"Start " << Gr_Comment)
 ;prethodni proracun
 ;broj tocila i vretena
-BrojTocila=GETT(GR_TOOL)
+BrojTocila=GETT(Gr_Tool)
 BrojVretena=$TC_TPG1[BrojTocila]
 ;dodela vrednosti za koord system jer se clan niza ne moze dodeliti g funkciji
-Kord=GR_FRAME
+Kord=Gr_Frame
 ;ugao A ose je nula
 UgaoAOse = 0
 ;priprema
@@ -37,25 +37,25 @@ For Brojac=1 to MaxFaza
     Indeks = MaxFaza - Brojac
     UkupniDodatak=UkupniDodatak+Gr_Steps[Indeks]*Gr_Strokes[Indeks]
     UkupnoProlaza=UkupnoProlaza+Gr_Strokes[Indeks]
-    If (gr_strokes[indeks]>0) 
+    If (Gr_Strokes[indeks]>0) 
        indeksfaze=indeks
     Endif
-    BrojObrtajaTocila[Brojac-1]=19098*GR_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,GR_DNUMBER ])
+    BrojObrtajaTocila[Brojac-1]=19098*Gr_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,Gr_DNumber ])
 EndFor
 XVKoord = UkupniDodatak IndeksProlaza=0
 Write(Greska,NazivFajla,SPRINT("Grinding allowance %7.4f, passes %d",UkupniDodatak, UkupnoProlaza)) 
 STOPRE
-;if (GR_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
+;if (Gr_StrokesToDress[IndeksFaze]>0) gotof TrebaAbriht
 Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
 VELIKI_DOSKOK:
 ;reset marpos zvucne sonde
 M80
 ;pocetak za brušenje
 G0X0G53T0D0U0
-T=GR_TOOL D=GR_DNUMBER 
+T=Gr_Tool D=Gr_DNumber 
 G[8]=Kord Diamon
 ;aktiviranje korekcija
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection
+TRANS X=Gr_DiamCorrection/2 Z=Gr_PosCorrection
 ;sinhrona akcija za spanovanje sa osom XV
 ID=1 DO $$SA_LEAD_OFFSET_OUT_POS[X]=$AA_IM[XV]
 ;ucitavanje tabele
@@ -63,7 +63,7 @@ TB200(0)
 ;odskok - prekida sve i skace na labelu kraj 
 SETINT(8) PRIO=1 SH6201
 ;zauzimanje pozicije
-G0 Z=GR_POSITION1 A=UgaoAOse
+G0 Z=Gr_Position1 A=UgaoAOse
 ;pocetak prolaza
 DOSKOK:
 ;start kamena
@@ -76,21 +76,21 @@ STOPRE
 ;ako je broj prolaza nula treba preći na sledeću fazu
 if (Gr_Strokes[IndeksFaze]==0) gotoF Proracun
 ;selekcija alata i koordinatnog sistema 
-T=gr_tool D=gr_dnumber G[8]=KORD
+T=Gr_Tool D=Gr_DNumber G[8]=KORD
 ;aktiviranje korekcija
-TRANS X=gr_diamcorrection/2 Z=gr_poscorrection;
+TRANS X=Gr_DiamCorrection/2 Z=Gr_PosCorrection;
 ;i pozicioniranje na pocetnu tačku
-G0 Z=gr_position1 
+G0 Z=Gr_Position1 
 ;start vode
 IF (TEST<>0)
    waits(BrojVretena)
-   M=gr_coolant
+   M=Gr_Coolant
 ENDIF
 ;prilaz komadu
 If (Gr_SteadyRest==0)
-   G0 X=gr_diameter1+gr_podhod XV=gr_podhod U=0 M3 S=gr_speeds[indeksfaze]
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod U=0 M3 S=Gr_Speeds[indeksfaze]
 else
-   G0 X=gr_diameter1+gr_podhod XV=gr_podhod U=Gr_Uaxis_Position M3 S=gr_speeds[indeksfaze]
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod U=Gr_UAxis_Position M3 S=Gr_Speeds[indeksfaze]
    G4F1
    M37
 Endif
@@ -116,23 +116,23 @@ if ( (strana==1) and (Gr_Position_Strokes[IndeksFaze]>=0) )
    ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
 endif
 ;poruka
-poruka = GR_COMMENT <<":Prolaz "<<(IndeksUkupnogProlaza)<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
+poruka = Gr_Comment <<":Prolaz "<<(IndeksUkupnogProlaza)<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
 poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
 msg(Poruka)
 ;zapis poruke u fajl
 Write(Greska,NazivFajla,SPRINT("   - Pass number %d",indeksprolaza+1))
 ;span
-G1 G90 XV=XVKoord F=GR_RABHOD S=Gr_speeds[IndeksFaze]
+G1 G90 XV=XVKoord F=Gr_RabHod S=Gr_Speeds[IndeksFaze]
 ;da li je hod tamo ili nazad
 if(strana==0)
   ;idemo tamo
-  G1 G90 Z=Gr_position2 F=GR_Oscilacion_Feeds[IndeksFaze]
+  G1 G90 Z=Gr_Position2 F=Gr_Oscilacion_Feeds[IndeksFaze]
   if (Gr_HoldZ2[IndeksFaze]>0) 
      G4 F=Gr_HoldZ2[IndeksFaze]
   endif
 else
   ;idemo nazad
-  G1 G90 Z=Gr_position1 F=GR_Oscilacion_Feeds[IndeksFaze]
+  G1 G90 Z=Gr_Position1 F=Gr_Oscilacion_Feeds[IndeksFaze]
   if (Gr_HoldZ1[IndeksFaze]>0) 
      G4 F=Gr_HoldZ1[IndeksFaze]
   endif
@@ -152,7 +152,7 @@ endif
 ;promenimo stranu
 strana = (strana+1) mod 2
 ;provera da li je kraj faze
-if (IndeksProlaza>=GR_Strokes[IndeksFaze])
+if (IndeksProlaza>=Gr_Strokes[IndeksFaze])
 ;ako jeste prelazimo na sledeću
    IndeksFaze=IndeksFaze+1
 ;resetujemo broj prolaza
@@ -161,7 +161,7 @@ endif
 ;da li smo dosli do zadnje faze
 Provera: if (IndeksFaze>=MaxFaza) gotof Kraj_Bez_Odskoka
 ;proveri  da je faza prazna
-if (GR_Strokes[IndeksFaze]<=0)
+if (Gr_Strokes[IndeksFaze]<=0)
 ;ako jeste prelazimo na sledeću
    IndeksFaze=IndeksFaze+1
 ;proverimo jesmo li dosli do zadnje
@@ -170,8 +170,8 @@ ELSE
   Write(Greska,NazivFajla,SPRINT("***** Phase %d *****",indeksfaze+1)) 
 endif
 ;da li treba abriht
-If (GR_StrokesToDress[IndeksFaze]<>0)
-  ;if (((indeksprolaza*TH_Starts+indekshoda) mod GR_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
+If (Gr_StrokesToDress[IndeksFaze]<>0)
+  ;if (((indeksprolaza*TH_Starts+indekshoda) mod Gr_StrokesToDress[IndeksFaze])==0) GOTOF TREBAABRIHT
 ENDIF
 stopre
 gotob Jedan_prolaz

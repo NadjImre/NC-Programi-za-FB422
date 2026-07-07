@@ -16,25 +16,25 @@ Def String[100] Poruka
 Def Real UgaoAOse=0
 ;Prethodni proracun
 ;broj tocila i vretena
-BrojTocila=GETT(GR_Tool)
+BrojTocila=GETT(Gr_Tool)
 BrojVretena=$TC_TPG1[BrojTocila]
 ;dodela vrednosti za koord system jer se clan niza ne moze dodeliti g funkciji
-Kord=gr_frame
+Kord=Gr_Frame
 ;ugao A ose je nula
 UgaoAOse = 0
 For Brojac=1 to MaxFaza
     Indeks = MaxFaza - Brojac
-    If (gr_strokes[indeks]>0)
-       UkupniDodatak=UkupniDodatak+gr_steps[Indeks]
+    If (Gr_Strokes[indeks]>0)
+       UkupniDodatak=UkupniDodatak+Gr_Steps[Indeks]
        indeksfaze=indeks
     endif
     UkupnoProlaza=UkupnoProlaza+Gr_StrokesToDress[Indeks]
-    BrojObrtajaTocila[Brojac-1]=19098*gr_wheel_speeds[Brojac-1]/abs($TC_DP3[BrojTocila,gr_DNumber ])
+    BrojObrtajaTocila[Brojac-1]=19098*Gr_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,Gr_DNumber ])
 EndFor
 PrecPrilaz = UkupniDodatak ; za prvi put prilaz i dodatak su isti
 XVKoord = UkupniDodatak
 IndeksProlaza=0 ; koje je aktuelno abrihtovanje u fazi 
-if (gr_strokesToDress[IndeksFaze]>0 ) gotoF TrebaAbriht
+if (Gr_StrokesToDress[IndeksFaze]>0 ) gotoF TrebaAbriht
 STOPRE
 ;prvi prilaz i povratak posle abrihtovanja
 VELIKI_DOSKOK:
@@ -49,7 +49,7 @@ OSCTRL[Z]=(1+2,16+32+64)
 ;reset marpos zvucne sonde
 M80
 ;pocetak za brušenje
-G0X0G53T0D0
+G0X0G53T0D0U0
 T=Gr_Tool D=Gr_DNumber 
 G[8]=Kord
 DIAMON
@@ -62,39 +62,48 @@ G0 Z=Gr_Position1 A=UgaoAOse
 ;start kamena
 IF (TEST<>0)
     m[BrojVretena]=3 s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
-    M81 ; zvucna sonda ukljucena
+    M82; zvucna sonda ukljucena
 ENDIF
-;prilaz komadu brzo
-G0 X=gr_diameter1+gr_podhod XV=gr_podhod M3 S=gr_speeds[IndeksFaze]
+;prilaz komadu brzo ako nema merne glave
+if (Gr_measuring_head==0)
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod M3 S=Gr_Speeds[IndeksFaze]
+;ako ima merne glave ide i u osa
+else
+   G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod M3 S=Gr_Speeds[IndeksFaze] U=Gr_UAxis_Position
+endif
 ;start vode
 IF (TEST<>0)
    waits(BrojVretena)
-   M=gr_coolant
+   M=Gr_Coolant
 ENDIF
+;ako ima merne glave napred
+if (Gr_measuring_head<>0)
+   M=Gr_measuring_head_in
+endif
 ;prilaz komadu sporo
-G1 G90 X=gr_Diameter1+PrecPrilaz XV=PrecPrilaz F=Gr_Rabhod 
+G1 G90 X=Gr_Diameter1+PrecPrilaz XV=PrecPrilaz F=Gr_Rabhod 
 ; nastavka brušenja po zavrsetku faze bez abrihtovanja
 DOSKOK: 
 ;ako je broj prolaza nula treba preći na sledeću fazu
 if (Gr_Strokes[IndeksFaze]==0) gotoF Proracun
 ;dubina brusenja
-if (gr_StrokesToDress[IndeksFaze]>0)
-   XVKoord = UkupniDodatak - gr_steps[IndeksFaze]/gr_strokesToDress[IndeksFaze]
+if (Gr_StrokesToDress[IndeksFaze]>0)
+   XVKoord = UkupniDodatak - Gr_Steps[IndeksFaze]/Gr_StrokesToDress[IndeksFaze]
 Else
-   XVKoord = UkupniDodatak - gr_steps[IndeksFaze]
+   XVKoord = UkupniDodatak - Gr_Steps[IndeksFaze]
 EndIf   
 ;broj prolaza
 IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
 ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
 ;poruka
-poruka = GR_Comment <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
+poruka = Gr_Comment <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
 poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
 msg(Poruka)
 ;brusenje
 JEDAN_PROLAZ:
 ;podesavanje prekida
-if ( (gr_interrupts[IndeksFaze]>0) and (gr_interrupts[IndeksFaze]<8) )
-   setint(gr_interrupts[IndeksFaze]) prio=1 Sh6202
+if ( (Gr_interrupts[IndeksFaze]>0) and (Gr_interrupts[IndeksFaze]<8) )
+   setint(Gr_interrupts[IndeksFaze]) prio=1 Sh6202
 endif
 ;podesavanje druge tacke oscilovanja
 OSP2[Z]=Gr_Position1+Gr_PlungeCut_Oscilation[IndeksFaze]
@@ -109,12 +118,12 @@ else
    Os[Z]=0
 endif
 ;brusenje
-G1 G90 X=gr_Diameter1+XVKoord XV=XVKoord F=Gr_PlungeCut_Feeds[IndeksFaze] S=gr_speeds[IndeksFaze]
+G1 G90 X=Gr_Diameter1+XVKoord XV=XVKoord F=Gr_PlungeCut_Feeds[IndeksFaze] S=Gr_Speeds[IndeksFaze]
 ;izbrusavanje
-G4 F=Gr_DWELLTIME[indeksfaze]
+G4 F=Gr_DwellTime[indeksfaze]
 ;isklucivanje prekida
-if ( (gr_interrupts[IndeksFaze]>0) and (gr_interrupts[IndeksFaze]<8) )
-   clrint(gr_interrupts[IndeksFaze])
+if ( (Gr_interrupts[IndeksFaze]>0) and (Gr_interrupts[IndeksFaze]<8) )
+   clrint(Gr_interrupts[IndeksFaze])
 endif
 PRORACUN:
 ;povecaj proj prolaza
@@ -133,19 +142,18 @@ if (IndeksFaze<MaxFaza)
 ;ako nismo proverimo jel treba abriht
    if((Gr_StrokesToDress[IndeksFaze]>0) and (Gr_Strokes[IndeksFaze]>0)) GotoF TrebaAbriht
 ;ako ne treba odmaknemo se ako je programirano
-   X=IC(gr_ReturnDistance[IndeksFaze]) F=Gr_RabHod
+   X=IC(Gr_ReturnDistance[IndeksFaze]) F=Gr_RabHod
 ;sledeće brusenje
    gotoB Doskok
 endif
 
 KRAJ:
 OS[Z]=0
-if ($AA_IW[X]<(gr_diameter1+gr_podhod))
-   G1 X=gr_diameter1+gr_podhod XV=gr_podhod F=Gr_Rabhod 
-endif
+G1 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod F=Gr_Rabhod 
+M=Gr_measuring_head_out
 msg("Kraj")
 TRANS
-G90G53X0G0T0D0M11M5
+G90G53X0G0T0D0M11M5U0
 WaitP(Z)
 STOPRE
 
@@ -154,7 +162,8 @@ M17
 TREBAABRIHT:
 Os[Z]=0
 msg("Abrihtovanje")
-;G1 X=gr_diameter1+gr_podhod XV=gr_podhod F=Gr_Rabhod
+G1 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod F=Gr_Rabhod
+M=Gr_measuring_head_out
 G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
 WaitP(Z)
