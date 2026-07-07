@@ -108,11 +108,14 @@ if ( (Gr_interrupts[IndeksFaze]>0) and (Gr_interrupts[IndeksFaze]<8) )
    setint(Gr_interrupts[IndeksFaze]) prio=1 Sh6202
 endif
 ;podesavanje druge tacke oscilovanja
+OSP1[X]=Gr_Diameter1
 OSP2[X]=Gr_Diameter1+Gr_PlungeCut_Oscilation[IndeksFaze]
 ;brzina oscilovanja
 FA[X]=Gr_Oscilacion_Feeds[IndeksFaze]
 ;ako je duzina oscilovanja razlicita od nule
 if( Gr_PlungeCut_Oscilation[IndeksFaze]<>0 )
+;uvek vrati X na start oscilacije (bitno posle abrihtovanja)
+   G1 G90 X=Gr_Diameter1 F=Gr_Oscilacion_Feeds[IndeksFaze]
 ;ukljuci oscilacije
    OS[X]=1
 else
