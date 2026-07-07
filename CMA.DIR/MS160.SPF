@@ -21,7 +21,7 @@ def int me_rabhod = 300
 ;sredina zljeba
 def real zsredina,xsredina
 ;NOMINALNA VREDNOST ZA srednji precnik
-def real nomsredina=18.695
+def real nomsredina=14.71
 ;ravan , koordinatni sistem i alat
 g18g500 t=me_tool d=me_tool_dnumber
 ;zapamti pocetnu poziciju
@@ -41,10 +41,10 @@ C=ACP(me_Caxis_Position) G0
 C=IC(360) G0
 ;zauzimanje pozicije za merenje - ako ima kontakta to je greska
 G0 Z=me_th_position MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA_PRILAZ_Z
 ;zauzimanje pocetne tacke merenja po X u - ako ima kontakta to je greska
 G0 X=me_th_startdia MEAS=me_probe_number
-IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==1) GOTOF GRESKA_PRILAZ_X
 STOPRE
 ;trazenje ulaza u navoj
 BROJAC=0
@@ -90,7 +90,7 @@ Write(Fajlgreska,me_report_file,poruka)
 ;trazimo kontakt po Z osi u plus smeru
 g1 Z=IC(me_th_pitch) F=me_feed MEAS=me_probe_number
 ;na jednm koraku mora biti - ako nemamo kontakt greska
-IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA
+IF(($AC_MEA[me_probe_number]==0) AND (TEST>0)) GOTOF GRESKA_PLUS_SMER
 ;ako ima onda belezimo rezultat
 me_th_resultS[0]=$AA_MW[Z]
 ;ispis poruke zapis poruke u fajl
@@ -101,7 +101,7 @@ G1 Z=IC(-me_th_pitch) F=me_feed MEAS=-me_probe_number
 ;i merimo u suprotnom smeru
 G1 Z=IC(-me_th_pitch) F=me_feed MEAS=me_probe_number
 ;ako nemamo kontakt to je greska
-IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_MINUS_SMER
 ;ako ima onda belezimo rezultat
 me_th_resultS[1]=$AA_MW[Z]
 ;ispis poruke zapis poruke u fajl
@@ -116,7 +116,7 @@ g0 z=zsredina
 ;i merimo precnik
 G1 x=IC(-me_th_pitch) F=me_feed MEAS=me_probe_number
 ;ako nemamo kontakt to je greska
-IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA
+IF($AC_MEA[me_probe_number]==0) GOTOF GRESKA_SREDINA
 ;ako ima onda belezimo rezultat
 XSREDINA=$AA_MW[X]
 ;proracun sredine
@@ -158,12 +158,35 @@ g0 x=start_x
 m17
 
 greska:
-
 SETAL(65002)
 M00
 M96
 
 m17
+
+greska_PRILAZ_X:
+SETAL(65002)
+M00
+M96
+
+m17
+
+greska_PRILAZ_Z:
+SETAL(65002)
+M00
+M96
+
+greska_PLUS_SMER:
+SETAL(65002)
+M00
+M96
+
+m17
+
+greska_MINUS_SMER:
+SETAL(65002)
+M00
+M96
 
 ;pocetak kalibracije
 KALIBRACIJA:
