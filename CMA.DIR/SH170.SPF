@@ -28,9 +28,9 @@ For Brojac=1 to MaxFaza
     Indeks = MaxFaza - Brojac
     If (Gr_Strokes[indeks]>0)
        UkupniDodatak=UkupniDodatak+Gr_Steps[Indeks]
+       UkupnoProlaza=UkupnoProlaza+Gr_StrokesToDress[Indeks]
        indeksfaze=indeks
     endif
-    UkupnoProlaza=UkupnoProlaza+Gr_StrokesToDress[Indeks]
     BrojObrtajaTocila[Brojac-1]=19098*Gr_Wheel_Speeds[Brojac-1]/abs($TC_DP3[BrojTocila,Gr_DNumber ])
 EndFor
 PrecPrilaz = UkupniDodatak ; za prvi put prilaz i dodatak su isti
@@ -90,8 +90,7 @@ EndIf
 IndeksUkupnogProlaza=IndeksUkupnogProlaza+1
 ProlazaOdAbrihtovanja=ProlazaODAbrihtovanja+1
 ;poruka
-poruka = Gr_Comment <<":Prolaz "<<IndeksUkupnogProlaza<<"/"<<(UkupnoProlaza)<<", Faza " << (IndeksFaze+1)
-poruka = poruka<<" (prolaz "<<(IndeksProlaza+1)<<"/"<<Gr_Strokes[IndeksFaze]<<")"
+poruka = SPRINT("%s: Faza %d (%5.3fx%5.3f) Prolaz %d/%d Ukupno prolaza %d/%d",Gr_Comment,IndeksFaze+1,Gr_Steps[IndeksFaze],Gr_PlungeCut_Feeds[IndeksFaze],IndeksProlaza+1,Gr_StrokesToDress[IndeksFaze],IndeksUkupnogProlaza,UkupnoProlaza)
 msg(Poruka)
 ;brusenje
 JEDAN_PROLAZ:
@@ -141,7 +140,10 @@ M17
 
 TREBAABRIHT:
 msg("Abrihtovanje")
-G1 X=Gr_Diameter1+Gr_Podhod Z=Gr_Position1+Gr_Direction*Gr_Podhod XV=Gr_Direction*Gr_Podhod F=Gr_Rabhod
+;povlacenje samo posle brusenja — pri prvom ulasku (linija 39) nema aktivnog G-frame/alata
+if (IndeksUkupnogProlaza>0)
+   G1 X=Gr_Diameter1+Gr_Podhod Z=Gr_Position1+Gr_Direction*Gr_Podhod XV=Gr_Direction*Gr_Podhod F=Gr_Rabhod
+endif
 M=Gr_measuring_head_out
 G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
