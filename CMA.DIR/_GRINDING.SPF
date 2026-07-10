@@ -23,7 +23,7 @@ Gr_Measure_NumX = BrojMer
 Gr_Measure_NumZ = BrojMerZ
 Gr_TypeOfRebound = NacinOdskoka
 Gr_EndCycleDiameter = PrecnikZavrsetka
-Gr_Marposs = MarpossGC
+Gr_Marposs = MarpossGC+80
 
 T0D0G53G0X0
 G0G53B=Gr_BAxis_angle

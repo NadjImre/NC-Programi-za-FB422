@@ -1,4 +1,4 @@
-PROC _GRINDING_SETUP(Int RB ,Real DubProlaza ,Int ProlazaBrus ,Int Pauza ,Int ProlazaDOAbriht  ,Int ProlazaAbriht ,Real DubAbriht ,Int BrzAbriht, Real BrzKamAbriht ,Real BrzRolne ,Real BrojObrtaKomada ,Real BrzKamBrus)
+PROC _GRINDING_SETUP(Int RB ,Real DubProlaza ,Int ProlazaBrus ,Real DubAbrihtCelo ,Int ProlazaDOAbriht  ,Int ProlazaAbriht ,Real DubAbriht ,Int BrzAbriht, Real BrzKamAbriht ,Real BrzRolne ,Real BrojObrtaKomada ,Real BrzKamBrus)
 
 Def int ii
 ii=rb-1
@@ -13,6 +13,6 @@ Ds_Wheel_Speeds[ii]=BrzKamAbriht
 Ds_Roll_Speeds[ii]=BrzRolne
 Gr_Speeds[ii]=BrojObrtaKomada
 Gr_Wheel_Speeds[ii]=BrzKamBrus
-Gr_Pause[ii]=Pauza
+Ds_Steps_Face[ii]=DubAbrihtCelo
 
 M17

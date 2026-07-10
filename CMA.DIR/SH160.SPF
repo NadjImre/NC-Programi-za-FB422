@@ -64,7 +64,7 @@ G0 Z=Gr_Position1+Gr_Direction*Gr_Podhod A=UgaoAOse XV=Gr_Direction*Gr_Podhod
 ;start kamena
 IF (TEST<>0)
     m[BrojVretena]=3 s[BrojVretena]=BrojObrtajaTocila[IndeksFaze]
-    M82; zvucna sonda ukljucena
+    M=Gr_Marposs; zvucna sonda ukljucena
 ENDIF
 ;prilaz komadu brzo ako nema merne glave
 if (Gr_measuring_head==0)
@@ -173,7 +173,7 @@ G53X0G0T0D0M11M5
 ProlazaOdAbrihtovanja=0
 
 STOPRE
-_DRESSING(ds_wheel_speeds[indeksfaze],ds_strokes[indeksfaze],ds_steps[indeksfaze],0,ds_feeds[indeksfaze],ds_roll_speeds[indeksfaze])
+_DRESSING(ds_wheel_speeds[indeksfaze],ds_strokes[indeksfaze],ds_steps[indeksfaze],ds_steps_face[indeksfaze],ds_feeds[indeksfaze],ds_roll_speeds[indeksfaze])
 
 ;M00
 ;spustamo ukupni dodatak

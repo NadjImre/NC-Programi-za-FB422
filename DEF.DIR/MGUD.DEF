@@ -69,6 +69,7 @@ def chan int Gr_measuring_head_out
 Def Chan Int Ds_Strokes[6]
 Def Chan Int Ds_Feeds[6]
 Def Chan Real Ds_Steps[6]
+Def Chan Real Ds_Steps_Face[6]
 Def Chan Int Ds_Wheel_Speeds[6]
 Def Chan Real Ds_Roll_Speeds[6]
 Def Chan String[32] Ds_Tool

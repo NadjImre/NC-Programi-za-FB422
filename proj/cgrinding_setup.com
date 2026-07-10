@@ -4,12 +4,12 @@
 
 DEF RB0= (S//"RB"/,,,,/WR1///15,,140/6,10,23//"pomoc.html","9218"),
 DUB0 = (S//"Dubina"/$89210/wr1////30,10,44//"pomoc.html","9218"),
-PROL0 = (s//"Prol.Brus."/$89212/wr1////60,10,44//"pomoc.html","9218"),
-ZBIR0 = (s//"Zbir"/$89212,,,/wr1////120,10,44//"pomoc.html","9218"),
-PAUSA0 = (s//"Pausa"/$89212,,,/wr1////165,10,44//"pomoc.html","9218"),
-PROLDOABR0 = (s//"Prol.do"/$89212,,,/wr1////210,10,44//"pomoc.html","9218"),
-PROLABR0=(s//"Prol.Abriht."/$89212,,,/wr1////255,10,44//"pomoc.html","9218"),
-DUBABR0 = (s//"Dub.Abrihr."/$89212,,,/wr1////300,10,44//"pomoc.html","9218"),
+PROL0 = (s//"Prol.Brus."/$89212/wr1////75,10,44//"pomoc.html","9218"),
+ZBIR0 = (s//"Zbir3"/$89212,,,/wr1////120,10,44//"pomoc.html","9218"),
+PROLDOABR0 = (s//"Prol.do"/$89212,,,/wr1////165,10,44//"pomoc.html","9218"),
+PROLABR0=(s//"Prol.Abriht."/$89212,,,/wr1////210,10,44//"pomoc.html","9218"),
+DUBABR0 = (s//"Dub.Abrihr."/$89212,,,/wr1////255,10,44//"pomoc.html","9218"),
+PAUSA0 = (s//"Pausa5"/$89212,,,/wr1////300,10,44//"pomoc.html","9218"),
 BRZABR0 = (s//"Brz.Abriht."/$89212,,,/wr1////345,10,44//"pomoc.html","9218"),
 BRZKAMABR0 = (s//"Brz.kam.abr."/$89212,,,/wr1////390,10,44//"pomoc.html","9218"),
 BRZROL0 = (s//"Brz.rolna"/$89212,,,/wr1////435,10,44//"pomoc.html","9218"),
@@ -18,12 +18,12 @@ BRZKAMBRUS0 = (s//"Brz.Kam.Brus."/$89212,,,/wr1////525,10,44//"pomoc.html","9218
 
 DEF RB1 = (I//1/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB1 = (R4/0,10/0.5/"Dubina brusenja po jednom prolazu"/////30,,44//"pomoc.html","9218"),
-PROL1 = (I/0,100/100/"Broj prolaza brusenja za ovu fazu"/////75,,44//"pomoc.html","9218"),
+PROL1 = (I/0,1/100/"Broj prolaza brusenja za ovu fazu"/////75,,44//"pomoc.html","9218"),
 ZBIR1 = (R4//0/"Kolicina materijala koji se skida u ovoj fazi",,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA1 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR1 = (I//0/"Broj prolaza posle kojeg se radi abrihtovanje",,,/////210,,44//"pomoc.html","9218"),
-PROLABR1=(I//0/"Broj prolaza poravnavanja za svako abrihtovanje",,,/////255,,44//"pomoc.html","9218"),
-DUBABR1 = (R3//0/"Dubina za jedan prolaz abrihtovanja",,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR1 = (I//0/"Broj prolaza posle kojeg se radi abrihtovanje",,,/////164,,44//"pomoc.html","9218"),
+PROLABR1=(I//0/"Broj prolaza poravnavanja za svako abrihtovanje",,,/////210,,44//"pomoc.html","9218"),
+DUBABR1 = (R3//0/"Dubina za jedan prolaz abrihtovanja",,,/////255,,44//"pomoc.html","9218"),
+PAUSA1 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR1 = (I//100/"Brzina abrihtovanja",,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR1 = (R1//10/"Obimna brzina kamena kod abrihtovanja",,,/////390,,44//"pomoc.html","9218"),
 BRZROL1 = (R1//-0.5/"Faktor brzine rolne (obimna brzina rolne/obimna brzina kamena)",,,/////435,,44//"pomoc.html","9218"),
@@ -32,12 +32,12 @@ BRZKAMBRUS1 = (R1//10/"Obimna brzina kamena kod brusenje",,,/////525,,44//"pomoc
 
 DEF RB2 = (I//2/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB2 = (R4/0,10/0.5/$89210/////30,,44//"pomoc.html","9218"),
-PROL2 = (I/0,100/1/$89212/////75,,44//"pomoc.html","9218"),
+PROL2 = (I/0,1/1/$89212/////75,,44//"pomoc.html","9218"),
 ZBIR2 = (R4//0/$89212,,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA2 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR2 = (I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
-PROLABR2=(I//0/$89212,,,/////255,,44//"pomoc.html","9218"),
-DUBABR2 = (R3//0/$89212,,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR2 = (I//0/$89212,,,/////165,,44//"pomoc.html","9218"),
+PROLABR2=(I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
+DUBABR2 = (R3//0/$89212,,,/////255,,44//"pomoc.html","9218"),
+PAUSA2 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR2 = (I//100/$89212,,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR2 = (R1//10/$89212,,,/////390,,44//"pomoc.html","9218"),
 BRZROL2 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
@@ -46,12 +46,12 @@ BRZKAMBRUS2 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
 DEF RB3 = (I//3/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB3 = (R4/0,10/0.5/$89210/////30,,44//"pomoc.html","9218"),
-PROL3 = (I/0,100/1/$89212/////75,,44//"pomoc.html","9218"),
+PROL3 = (I/0,1/1/$89212/////75,,44//"pomoc.html","9218"),
 ZBIR3 = (R4//0/$89212,,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA3 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR3 = (I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
-PROLABR3=(I//0/$89212,,,/////255,,44//"pomoc.html","9218"),
-DUBABR3 = (R3//0/$89212,,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR3 = (I//0/$89212,,,/////165,,44//"pomoc.html","9218"),
+PROLABR3=(I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
+DUBABR3 = (R3//0/$89212,,,/////255,,44//"pomoc.html","9218"),
+PAUSA3 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR3 = (I//100/$89212,,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR3 = (R1//10/$89212,,,/////390,,44//"pomoc.html","9218"),
 BRZROL3 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
@@ -60,12 +60,12 @@ BRZKAMBRUS3 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
 DEF RB4 = (I//4/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB4 = (R4/0,10/0.5/$89210/////30,,44//"pomoc.html","9218"),
-PROL4 = (I/0,100/1/$89212/////75,,44//"pomoc.html","9218"),
+PROL4 = (I/0,1/1/$89212/////75,,44//"pomoc.html","9218"),
 ZBIR4 = (R4//0/$89212,,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA4 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR4 = (I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
-PROLABR4=(I//0/$89212,,,/////255,,44//"pomoc.html","9218"),
-DUBABR4 = (R3//0/$89212,,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR4 = (I//0/$89212,,,/////165,,44//"pomoc.html","9218"),
+PROLABR4=(I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
+DUBABR4 = (R3//0/$89212,,,/////255,,44//"pomoc.html","9218"),
+PAUSA4 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR4 = (I//100/$89212,,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR4 = (R1//10/$89212,,,/////390,,44//"pomoc.html","9218"),
 BRZROL4 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
@@ -74,12 +74,12 @@ BRZKAMBRUS4 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
 DEF RB5 = (I//5/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB5 = (R4/0,10/0.5/$89210/////30,,44//"pomoc.html","9218"),
-PROL5 = (I/0,100/1/$89212/////75,,44//"pomoc.html","9218"),
+PROL5 = (I/0,1/1/$89212/////75,,44//"pomoc.html","9218"),
 ZBIR5 = (R4//0/$89212,,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA5 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR5 = (I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
-PROLABR5=(I//0/$89212,,,/////255,,44//"pomoc.html","9218"),
-DUBABR5 = (R3//0/$89212,,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR5 = (I//0/$89212,,,/////165,,44//"pomoc.html","9218"),
+PROLABR5=(I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
+DUBABR5 = (R3//0/$89212,,,/////255,,44//"pomoc.html","9218"),
+PAUSA5 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR5 = (I//100/$89212,,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR5 = (R1//10/$89212,,,/////390,,44//"pomoc.html","9218"),
 BRZROL5 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
@@ -88,12 +88,12 @@ BRZKAMBRUS5 = (R1//10/$89212,,,/////525,,44//"pomoc.html","9218")
 
 DEF RB6 = (I//6/,,,,/wr1///15,,140/6,,23//"pomoc.html","9218"),
 DUB6 = (R4/0,10/0.5/$89210/////30,,44//"pomoc.html","9218"),
-PROL6 = (I/0,100/1/$89212/////75,,44//"pomoc.html","9218"),
+PROL6 = (I/0,1/1/$89212/////75,,44//"pomoc.html","9218"),
 ZBIR6 = (R4//0/$89212,,,/wr1////120,,44//"pomoc.html","9218"),
-PAUSA6 = (I//0/$89212,,,/wr2////165,,44//"pomoc.html","9218"),
-PROLDOABR6 = (I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
-PROLABR6=(I//0/$89212,,,/////255,,44//"pomoc.html","9218"),
-DUBABR6 = (R3//0/$89212,,,/////300,,44//"pomoc.html","9218"),
+PROLDOABR6 = (I//0/$89212,,,/////165,,44//"pomoc.html","9218"),
+PROLABR6=(I//0/$89212,,,/////210,,44//"pomoc.html","9218"),
+DUBABR6 = (R3//0/$89212,,,/////255,,44//"pomoc.html","9218"),
+PAUSA6 = (R3//0/$89212,,,/wr2////300,,44//"pomoc.html","9218"),
 BRZABR6 = (I//100/$89212,,,/////345,,44//"pomoc.html","9218"),
 BRZKAMABR6 = (R1//10/$89212,,,/////390,,44//"pomoc.html","9218"),
 BRZROL6 = (R1//-0.5/$89212,,,/////435,,44//"pomoc.html","9218"),
@@ -276,7 +276,8 @@ end_change
 
 LOAD
    LA("OffOnNiz","cnizovi.com")
-   RECT(5,8,565,150,133,130,1)
+   RECT(5,8,565,150,133,127,1)
+  RECT(5,200,565,150,133,132,1)
   ; line(5,10,570,10,7,1)  
    ;line(5,30,570,30,7,1)  
    ;line(5,365,570,365,7,1)  
@@ -286,6 +287,18 @@ RB3 = 3
 RB4 = 4
 RB5 = 5
 RB6 = 6
+DUB0 = "Dodatak"
+PROL0 = "On/Off"
+ZBIR0 = "Zbir"
+PAUSA0 = "Dub. Z"
+PROLDOABR0 = "Prol.do"
+PROLABR0="Prol.Abriht."
+DUBABR0 = "Dub.Abrihr."
+BRZABR0 = "Brz.Abriht."
+BRZKAMABR0 = "Brz.kam.abr."
+BRZROL0 = "Brz.rolna"
+BROBRTKOM0 = "BrObrt.Kom."
+BRZKAMBRUS0 = "Brz.Kam.Brus."
    zbir6=dub6*prol6
    zbir5=dub5*prol5
    zbir4=dub4*prol4
