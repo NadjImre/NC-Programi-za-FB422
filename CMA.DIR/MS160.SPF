@@ -188,11 +188,6 @@ SETAL(65002)
 M00
 M96
 
-GRESKA_SREDINA:
-SETAL(65002)
-M00
-M96
-
 ;pocetak kalibracije
 KALIBRACIJA:
 ;sonda mora biti rucno podignuta i dovedena u  žljeb navoja

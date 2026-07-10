@@ -66,7 +66,7 @@ IF (TEST<>0)
     M82; zvucna sonda ukljucena
 ENDIF
 ;prilaz komadu brzo ako nema merne glave ili linete
-if ((Gr_measuring_head==0) Or (Gr_SteadyRest==0))
+if ((Gr_measuring_head==0) And (Gr_SteadyRest==0))
    G0 X=Gr_Diameter1+Gr_Podhod XV=Gr_Podhod M3 S=Gr_Speeds[IndeksFaze]
 ;ako ima merne glave ili linete ide i u osa
 else

@@ -7,7 +7,7 @@ if (Gr_Contur_Pos2<Gr_Contur_Pos1)
 endif
 
 Z=Gr_Contur_Pos1 X=Gr_Contur_Diam
-Z=Gr_Contur_Pos1-110 X=Gr_Contur_Diam+Gr_Taper_Correction1
+Z=0.5*(Gr_Contur_Pos1+Gr_Contur_Pos2) X=Gr_Contur_Diam+Gr_Taper_Correction1
 Z=Gr_Contur_Pos2 X=Gr_Contur_Diam+Gr_Taper_Correction2
 
 M17

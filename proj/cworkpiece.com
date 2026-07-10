@@ -5,8 +5,8 @@ DEF DefinicijaKonture = (I/* 0="Ravno", 3="Korisnicka kontura"/0/,"Definicija","
 DEF Precnik = (R4/0,450/100/,"Precnik konture","D",$89068/WR2///235,,185/395,,160)
 DEF Pocetak = (R4/-1000,1000/0/,"Pocetak konture","Z1",$89068/WR2///235,,185/395,,160)
 DEF Kraj = (R4/-1000,1000/0/,"Kraj konture","Z2",$89068/WR2///235,,185/395,,160)
-DEF Korekcija1 = (R4/-1,1/0/,"Korekcija na kraju","K1",$89068/WR2///235,,185/395,,160)
-DEF Korekcija2 = (R4/-1,1/0/,"Korekcija u sredini","K2",$89068/WR2///235,,185/395,,160)
+DEF Korekcija1 = (R4/-1,1/0/,"Korekcija u sredini","K1",$89068/WR2///235,,185/395,,160)
+DEF Korekcija2 = (R4/-1,1/0/,"Korekcija na kraju","K2",$89068/WR2///235,,185/395,,160)
 DEF NazivKonture = (S///,"Naziv konture","",".spf"/WR2///235,,185/395,,160)
 ;NE KORISTE SE - ZA BUDUCA PROSIRENJA
 Def NacinUlaza = (I/*0="Bez ulaza",1="Konusno"/0/,"Nacin ulaza u konturu",,"."/wr4///235,,185/395,,160)

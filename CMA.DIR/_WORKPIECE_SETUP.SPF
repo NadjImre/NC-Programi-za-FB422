@@ -45,6 +45,7 @@ while (KTab[brojac,1]>0)
 endwhile
 
 Gr_Position2=KTab[brojac,5]
+Gr_Diameter2 = 2*KTab[brojac,6]
 Stopre
 
 M17
